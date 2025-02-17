@@ -2855,6 +2855,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registro: {fileID: 900382395}
   Login: {fileID: 1348382642}
+  user: usuarioprueba1
+  password: 1812
+  email: correoprueba@cev.com
 --- !u!4 &1340024380
 Transform:
   m_ObjectHideFlags: 0
@@ -3766,7 +3769,7 @@ GameObject:
   - component: {fileID: 1706313614}
   - component: {fileID: 1706313613}
   m_Layer: 5
-  m_Name: ButtonLogin
+  m_Name: ButtonRegister
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3838,7 +3841,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1340024379}
         m_TargetAssemblyTypeName: botones, Assembly-CSharp
-        m_MethodName: esPulsado
+        m_MethodName: Registrando
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
