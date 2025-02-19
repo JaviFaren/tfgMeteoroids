@@ -49,17 +49,17 @@ public class botones : MonoBehaviour
 
     public void Registrando()
     {
-        StartCoroutine(llamadaTest());
+        StartCoroutine(addRegistro());
     }
 
-    public IEnumerator llamadaTest()
+    public IEnumerator addRegistro()
     {
         UnityWebRequest C = new UnityWebRequest();
         WWWForm form = new WWWForm();
         form.AddField("usuario", user);
         form.AddField("password", password);
         form.AddField("correo", email);
-        C = UnityWebRequest.Post("http://tfgmeteoroids.mygamesonline.org/test.php", form);
+        C = UnityWebRequest.Post("http://tfgmeteoroids.mygamesonline.org/registroDB.php", form);
         Debug.Log("lanzadito");
         yield return C.SendWebRequest();
         Debug.Log("lanzadito2");

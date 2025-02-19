@@ -2855,9 +2855,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registro: {fileID: 900382395}
   Login: {fileID: 1348382642}
-  user: usuarioprueba1
-  password: 1812
-  email: correoprueba@cev.com
+  user: prueba2
+  password: udashdfua
+  email: correoprueba2@cev.com
 --- !u!4 &1340024380
 Transform:
   m_ObjectHideFlags: 0
