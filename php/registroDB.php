@@ -33,13 +33,13 @@
                 echo "Connection failed" . $mysql_connect_error();
                 exit();
             }
-            echo "success";
+            echo "$result";
         }
         else{
-            echo "correo existente";
+            echo "ErrorCorreo";
         }
     }
     else{
-        echo "usuario existente";
+        echo "ErrorUsuario";
     }
 ?>

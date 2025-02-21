@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using static UnityEditor.ShaderData;
 
 public class botones : MonoBehaviour
 {
     public GameObject registro;
     public GameObject Login;
 
+    public TextMeshProUGUI LogintextFieldUser, LogintextFieldPassword, RegistertextFieldUser, RegistertextFieldPassword, RegistertextFieldPasswordConfirm, RegistertextFieldEmail;
     public string user, password, email;
 
     // Start is called before the first frame update
@@ -23,16 +26,24 @@ public class botones : MonoBehaviour
         
     }
 
-    
-
-    public void conexionDB()
+    public void actualizarVariables(int login0Registro1)
     {
-        
-    }
+        if (RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) && login0Registro1 == 0)
+        {
+            user = LogintextFieldUser.text;
+            password = LogintextFieldPassword.text;
 
-    public void esPulsado()
-    {
-        print("pulsado");
+            //Llamar a corrutina de login
+        }
+        else if (login0Registro1 == 1)
+        {
+            user = RegistertextFieldUser.text;
+            password = RegistertextFieldPassword.text;
+            email = RegistertextFieldEmail.text;
+
+            Registrando();
+            //Redireccionar a login tras el registro
+        }
     }
 
     public void IrARegistro()

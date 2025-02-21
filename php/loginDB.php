@@ -4,7 +4,7 @@
     $user = $_POST["usuario"];
     $password = $_POST["password"];
 
-    $sql = "SELECT ID_user,Nickname,Password,email FROM usuario WHERE Nickname = '$user';";
+    $sql = "SELECT ID_user,Nickname,Password FROM usuario WHERE Nickname = '$user' and Password = '$password';";
     $result = mysqli_query($con, $sql);
 
     if(mysqli_connect_errno()){
@@ -13,32 +13,12 @@
     }
     $total = mysqli_num_rows($result);
 
-    if($total == 0){
-        $sql = "SELECT ID_user,Nickname,Password,email FROM usuario WHERE email = '$email';";
-        $result = mysqli_query($con, $sql);
-
-        if(mysqli_connect_errno()){
-            echo "Connection failed" . $mysql_connect_error();
-            exit();
-        }
-        $total = mysqli_num_rows($result);
-
-        if($total == 0){
-            $sql = "INSERT INTO `usuario` (`Nickname`, `Password`, `email`) VALUES ('$user', '$password', '$email');";
-
-            $result = mysqli_query($con, $sql);
-
-            if(mysqli_connect_errno()){
-                echo "Connection failed" . $mysql_connect_error();
-                exit();
-            }
-            echo "success";
-        }
-        else{
-            echo "correo existente";
-        }
+    if($total == 1){
+        
+        echo "exito";
     }
     else{
-        echo "usuario existente";
+        $sql = "SELECT ID_user,Nickname FROM usuario WHERE Nickname = '$user';";
+        echo "usuario o contraseña erronea";
     }
 ?>
