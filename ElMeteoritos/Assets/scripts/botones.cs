@@ -10,40 +10,120 @@ public class botones : MonoBehaviour
     public GameObject registro;
     public GameObject Login;
 
-    public TextMeshProUGUI LogintextFieldUser, LogintextFieldPassword, RegistertextFieldUser, RegistertextFieldPassword, RegistertextFieldPasswordConfirm, RegistertextFieldEmail;
+    public TextMeshProUGUI LogintextFieldUser, LogintextFieldPassword, RegistertextFieldUser, RegistertextFieldPassword, RegistertextFieldPasswordConfirm, RegistertextFieldEmail,
+        errorUser, errorEmail, errorPassword, errorPasswordConf, errorUserLogin, errorPasswordLogin;
     public string user, password, email;
+    string codigoDevuelto;
 
     // Start is called before the first frame update
     void Start()
     {
         registro.SetActive(false);
         Login.SetActive(true);
+        codigoDevuelto = "";
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text))
+        {
+            errorPasswordConf.gameObject.SetActive(false);
+        }
+        else
+        {
+            errorPasswordConf.gameObject.SetActive(true);
+        }
+
+        if (!codigoDevuelto.Equals(""))
+        {
+            if (codigoDevuelto.Equals("exitoRegistro"))
+            {
+                codigoDevuelto = "";
+                errorUser.gameObject.SetActive(false);
+                errorEmail.gameObject.SetActive(false);
+                errorPassword.gameObject.SetActive(false);
+                errorPasswordConf.gameObject.SetActive(false);
+                VolverLogin();
+            }
+            else if (codigoDevuelto.Equals("errorCorreo"))
+            {
+                errorEmail.gameObject.SetActive(true);
+                RegistertextFieldEmail.text = "";
+            }
+            else if (codigoDevuelto.Equals("errorUsuario"))
+            {
+                errorUser.gameObject.SetActive(true);
+                RegistertextFieldUser.text = "";
+            }
+            else if (codigoDevuelto.Equals("errorPasswordConf"))
+            {
+                errorPasswordConf.gameObject.SetActive(true);
+            }
+            else if (codigoDevuelto.Equals("errorPassword"))
+            {
+                errorPassword.gameObject.SetActive(true);
+            }
+        }
     }
 
     public void actualizarVariables(int login0Registro1)
     {
-        if (RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) && login0Registro1 == 0)
+        if (RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) && comprobarpassword(RegistertextFieldPassword.text) && login0Registro1 == 1)
         {
-            user = LogintextFieldUser.text;
-            password = LogintextFieldPassword.text;
-
-            //Llamar a corrutina de login
-        }
-        else if (login0Registro1 == 1)
-        {
+            codigoDevuelto = "";
             user = RegistertextFieldUser.text;
             password = RegistertextFieldPassword.text;
             email = RegistertextFieldEmail.text;
 
             Registrando();
-            //Redireccionar a login tras el registro
         }
+        else if (!RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) || !comprobarpassword(RegistertextFieldPassword.text))
+        {
+            if (!RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text))
+            {
+                codigoDevuelto = "errorPasswordConf";
+            }
+        }
+        if (login0Registro1 == 0)
+        {
+            user = LogintextFieldUser.text;
+            password = LogintextFieldPassword.text;
+
+            //Llamar a corrutina de login
+
+        }
+    }
+
+    public bool comprobarpassword(string password)
+    {
+        if(password.Contains("@") ||  password.Contains("*") || password.Contains("-") || password.Contains("_") || password.Contains("%") || password.Contains("#")){
+            for (int i = 0; i < password.Length; i++)
+            {
+                if (!char.IsUpper(password[i]))
+                {
+                    for (int j = 0; j < password.Length; j++)
+                    {
+                        if (char.IsUpper(password[j])){
+                            for (int u = 0; u < password.Length; u++)
+                            {
+                                if (char.IsDigit(password[i]))
+                                {
+                                    return true;
+                                }
+                            }
+                            codigoDevuelto = "errorPassword";
+                            return false;
+                        }
+                    }
+                    codigoDevuelto = "errorPassword";
+                    return false;
+                }
+            }
+            codigoDevuelto = "errorPassword";
+            return false;
+        }
+        return false;
     }
 
     public void IrARegistro()
@@ -79,6 +159,6 @@ public class botones : MonoBehaviour
             Debug.Log("esperando...");
             yield return null;
         }
-        Debug.Log("mensaje: " + C.downloadHandler.text);
+        codigoDevuelto = C.downloadHandler.text;
     }
 }

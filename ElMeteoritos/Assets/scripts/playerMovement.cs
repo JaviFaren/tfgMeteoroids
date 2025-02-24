@@ -18,6 +18,7 @@ public class playerMovement : MonoBehaviour
     public float MaxRotationSpeed;
     public float acceleration;
     public float currentSpeed;
+    public Slider sliderVelocity;
 
     public float currentAngle;
 
@@ -71,6 +72,7 @@ public class playerMovement : MonoBehaviour
         PCMovement();
 
         mobileMovement();
+        propulsion();
     }
 
     public void PCMovement()
@@ -104,6 +106,10 @@ public class playerMovement : MonoBehaviour
             }
             rb.AddTorque(this.transform.forward * rotationStep, ForceMode.Acceleration);
         }
+    }
+    public void propulsion()
+    {
+        rb.AddForce(player.transform.up * sliderVelocity.value, ForceMode.Acceleration);
     }
 
     //NO FUNCIONA EL ADDFORCE

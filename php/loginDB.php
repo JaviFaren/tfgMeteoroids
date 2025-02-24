@@ -19,6 +19,19 @@
     }
     else{
         $sql = "SELECT ID_user,Nickname FROM usuario WHERE Nickname = '$user';";
-        echo "usuario o contraseña erronea";
+        $result = mysqli_query($con, $sql);
+        if(mysqli_connect_errno()){
+            echo "Connection failed" . $mysql_connect_error();
+            exit();
+    	}
+        $total = mysqli_num_rows($result);
+
+        if($total == 0){
+            echo "usuario incorrecto"
+        }
+        else{
+            echo "contraseña incorrecta";
+        }
+        
     }
 ?>
