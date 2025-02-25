@@ -1,8 +1,7 @@
 <?php
     $con = mysqli_connect('fdb1028.awardspace.net', '4591675_tfgdb','tfg_Placeholder741' , '4591675_tfgdb');
 
-    $user = $_POST["usuario"];
-    $password = $_POST["password"];
+    $user = $_POST["pokeball"];
 
     $sql = "SELECT ID_user,Nickname,Password FROM usuario WHERE Nickname = '$user' and Password = '$password';";
     $result = mysqli_query($con, $sql);
