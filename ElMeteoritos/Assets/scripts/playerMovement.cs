@@ -12,7 +12,6 @@ public class playerMovement : MonoBehaviour
     public VirtualJoystick joystick;
     public Vector2 axis;
     public float angle;
-    public Collider2D bodyCollider;
 
     public float propulsionSpeed;
     public float MaxRotationSpeed;

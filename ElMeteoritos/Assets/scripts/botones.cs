@@ -97,33 +97,37 @@ public class botones : MonoBehaviour
 
     public bool comprobarpassword(string password)
     {
-        if(password.Contains("@") ||  password.Contains("*") || password.Contains("-") || password.Contains("_") || password.Contains("%") || password.Contains("#")){
-            for (int i = 0; i < password.Length; i++)
+        bool tieneCaracter = false;
+        bool tieneMayus = false;
+        bool tieneMinus = false;
+        bool tieneNum = false;
+        for (int i = 0; i < password.Length; i++)
+        {
+            if (!char.IsUpper(password[i]) && !tieneMayus)
             {
-                if (!char.IsUpper(password[i]))
-                {
-                    for (int j = 0; j < password.Length; j++)
-                    {
-                        if (char.IsUpper(password[j])){
-                            for (int u = 0; u < password.Length; u++)
-                            {
-                                if (char.IsDigit(password[i]))
-                                {
-                                    return true;
-                                }
-                            }
-                            codigoDevuelto = "errorPassword";
-                            return false;
-                        }
-                    }
-                    codigoDevuelto = "errorPassword";
-                    return false;
-                }
+                tieneMayus = true;
             }
+            if (char.IsLower(password[i]) && !tieneMinus)
+            {
+                tieneMinus = true;
+            }
+            if (char.IsDigit(password[i]) && !tieneNum)
+            {
+                tieneNum = true;
+            }
+            if ((password[i] == '@' || password[i] == '*' || password[i] == '-' || password[i] == '_' || password[i] == '%' || password[i] == '#') && !tieneCaracter)
+            {
+                tieneCaracter = true;
+            }
+        }
+        if (tieneCaracter && tieneMayus && tieneMinus && tieneNum){
+            return true;
+        }
+        else
+        {
             codigoDevuelto = "errorPassword";
             return false;
         }
-        return false;
     }
 
     public void IrARegistro()
@@ -151,6 +155,25 @@ public class botones : MonoBehaviour
         form.AddField("password", password);
         form.AddField("correo", email);
         C = UnityWebRequest.Post("http://tfgmeteoroids.mygamesonline.org/registroDB.php", form);
+        Debug.Log("lanzadito");
+        yield return C.SendWebRequest();
+        Debug.Log("lanzadito2");
+        while (!C.isDone)
+        {
+            Debug.Log("esperando...");
+            yield return null;
+        }
+        codigoDevuelto = C.downloadHandler.text;
+    }
+
+    public IEnumerator loginRequest()
+    {
+        UnityWebRequest C = new UnityWebRequest();
+        WWWForm form = new WWWForm();
+        form.AddField("usuario", user);
+        form.AddField("password", password);
+        form.AddField("correo", email);
+        C = UnityWebRequest.Post("http://tfgmeteoroids.mygamesonline.org/loginDB.php", form);
         Debug.Log("lanzadito");
         yield return C.SendWebRequest();
         Debug.Log("lanzadito2");
