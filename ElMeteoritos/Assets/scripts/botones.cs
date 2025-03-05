@@ -13,7 +13,10 @@ public class botones : MonoBehaviour
     public TextMeshProUGUI LogintextFieldUser, LogintextFieldPassword, RegistertextFieldUser, RegistertextFieldPassword, RegistertextFieldPasswordConfirm, RegistertextFieldEmail,
         errorUser, errorEmail, errorPassword, errorPasswordConf, errorUserLogin, errorPasswordLogin;
     public string user, password, email;
+    string errorUserMSG1 = "Este usuario ya existe, elige otro.", errorUserMSG2 = "Este nombre es demasiado largo (Max. 16 caracteres) o demasiado corto.",
+        errorEmailMSG1 = "Este correo ya esta en uso.", errorEmailMSG2 = "Correo inválido.";
     string codigoDevuelto;
+    private int passwordMinLength = 12, userMaxLength = 16;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +24,7 @@ public class botones : MonoBehaviour
         registro.SetActive(false);
         Login.SetActive(true);
         codigoDevuelto = "";
+
     }
 
     // Update is called once per frame
@@ -48,11 +52,25 @@ public class botones : MonoBehaviour
             }
             else if (codigoDevuelto.Equals("errorCorreo"))
             {
+                errorEmail.text = errorEmailMSG1;
+                errorEmail.gameObject.SetActive(true);
+                RegistertextFieldEmail.text = "";
+            }
+            else if (codigoDevuelto.Equals("errorEmail@"))
+            {
+                errorEmail.text = errorEmailMSG2;
                 errorEmail.gameObject.SetActive(true);
                 RegistertextFieldEmail.text = "";
             }
             else if (codigoDevuelto.Equals("errorUsuario"))
             {
+                errorUser.text = errorUserMSG1;
+                errorUser.gameObject.SetActive(true);
+                RegistertextFieldUser.text = "";
+            }
+            else if (codigoDevuelto.Equals("errorUserLong"))
+            {
+                errorUser.text = errorUserMSG2;
                 errorUser.gameObject.SetActive(true);
                 RegistertextFieldUser.text = "";
             }
@@ -69,7 +87,7 @@ public class botones : MonoBehaviour
 
     public void actualizarVariables(int login0Registro1)
     {
-        if (RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) && comprobarpassword(RegistertextFieldPassword.text) && login0Registro1 == 1)
+        if (RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) && comprobarpassword(RegistertextFieldPassword.text) && comprobarUser() && comprobarCorreo() && login0Registro1 == 1)
         {
             codigoDevuelto = "";
             user = RegistertextFieldUser.text;
@@ -78,12 +96,21 @@ public class botones : MonoBehaviour
 
             Registrando();
         }
-        else if (!RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) || !comprobarpassword(RegistertextFieldPassword.text))
+        else if (!RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text) && login0Registro1 == 1)
         {
-            if (!RegistertextFieldPassword.text.Equals(RegistertextFieldPasswordConfirm.text))
-            {
-                codigoDevuelto = "errorPasswordConf";
-            }
+            codigoDevuelto = "errorPasswordConf";
+        }
+        else if (!comprobarpassword(RegistertextFieldPassword.text) && login0Registro1 == 1)
+        {
+            codigoDevuelto = "errorPassword";
+        }
+        else if (!comprobarUser())
+        {
+            codigoDevuelto = "errorUserLong";
+        }
+        else if (!comprobarCorreo())
+        {
+            codigoDevuelto = "errorEmail@";
         }
         if (login0Registro1 == 0)
         {
@@ -92,6 +119,30 @@ public class botones : MonoBehaviour
 
             //Llamar a corrutina de login
 
+        }
+    }
+
+    public bool comprobarCorreo()
+    {
+        if (RegistertextFieldEmail.text.Contains("@") && RegistertextFieldEmail.text.Length > 3)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool comprobarUser()
+    {
+        if(RegistertextFieldUser.text.Length <= userMaxLength && RegistertextFieldUser.text.Length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -120,12 +171,11 @@ public class botones : MonoBehaviour
                 tieneCaracter = true;
             }
         }
-        if (tieneCaracter && tieneMayus && tieneMinus && tieneNum){
+        if (tieneCaracter && tieneMayus && tieneMinus && tieneNum && password.Length >= passwordMinLength){
             return true;
         }
         else
         {
-            codigoDevuelto = "errorPassword";
             return false;
         }
     }

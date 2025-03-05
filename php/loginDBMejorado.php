@@ -18,7 +18,7 @@
     	$continuar = 1;
     }
 	else{
-     	$sql2 = "SELECT ID_user,Nickname,Password FROM usuario WHERE email = '$email';";
+     	$sql2 = "SELECT ID_user,Nickname,Password FROM usuario WHERE email = '$user';";
         $result = mysqli_query($con, $sql2);
 
         if(mysqli_connect_errno()){
@@ -43,7 +43,7 @@
             $sql = $sql + "Nickname = '$user';";
         }
         else{
-            $sql = $sql + "email = '$email';";
+            $sql = $sql + "email = '$user';";
         }
 
 
@@ -60,18 +60,7 @@
                 echo "exito";
             }
             else{
-                $sql = "SELECT ID_user,Nickname FROM usuario WHERE Nickname = '$user';";
-                $result = mysqli_query($con, $sql);
-                if(mysqli_connect_errno()){
-                    echo "Connection failed" . $mysql_connect_error();
-                    exit();
-                }
-                $total = mysqli_num_rows($result);
-
-                if($total == 0){
-                    echo "contraseña incorrecta";
-                }
-                
+                echo "contraseña incorrecta";
             }
     }
     else{
