@@ -352,7 +352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &430909368
 Transform:
   m_ObjectHideFlags: 0
@@ -367,6 +367,56 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 772245783}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &439612597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 439612599}
+  - component: {fileID: 439612598}
+  m_Layer: 0
+  m_Name: Game Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &439612598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439612597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d8bd81f28d28a4aa99f2b18fa27934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bSpawnM: 0
+  cam: {fileID: 0}
+  bottomLeft: {x: 0, y: 0, z: 0}
+  topRight: {x: 0, y: 0, z: 0}
+  distance: 0
+  meteoroidPrefab: {fileID: 1713334987228781919, guid: 2dc814a4fbbc4b548b4e705c7ed526c4, type: 3}
+--- !u!4 &439612599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439612597}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
@@ -584,6 +634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256c0a40c884fc14c88ec4def3678c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3
+  targetPosition: {x: 0, y: 0, z: 0}
+  rb: {fileID: 0}
 --- !u!212 &772245786
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -791,7 +844,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 130.38
   m_Depth: -1
@@ -818,7 +871,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -61.6}
+  m_LocalPosition: {x: 0, y: 1, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1508,3 +1561,4 @@ SceneRoots:
   - {fileID: 2126575565}
   - {fileID: 1624802767}
   - {fileID: 430909368}
+  - {fileID: 439612599}
