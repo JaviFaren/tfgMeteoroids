@@ -30,10 +30,12 @@ public class playerMovement : MonoBehaviour
     public GameObject shotSpawn;
     public GameObject shotStorage;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = player.GetComponent<Rigidbody>();
+    }
+    void Start()
+    {
         propulsionSpeed = 25;
         MaxRotationSpeed = 8;
         acceleration = 4;
@@ -43,7 +45,6 @@ public class playerMovement : MonoBehaviour
         shotCooldown = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         axis = joystick.GetAxis();
@@ -56,7 +57,10 @@ public class playerMovement : MonoBehaviour
             angle = 360 - Vector2.Angle(Vector2.up, axis);
         }
 
-        disparo();
+        //disparo();
+        SobrecalentamientoDisparo();
+
+        TransportarJugador();
     }
 
     private void FixedUpdate()
@@ -64,7 +68,7 @@ public class playerMovement : MonoBehaviour
         movement();
     }
 
-    
+
 
     public void movement()
     {
@@ -111,10 +115,54 @@ public class playerMovement : MonoBehaviour
         rb.AddForce(player.transform.up * sliderVelocity.value, ForceMode.Acceleration);
     }
 
+    // ---> Límites de pantalla
+    void TransportarJugador()
+    {
+        switch (ComprobarPosicion())
+        {
+            case "arriba":
+                player.transform.position = new Vector3(player.transform.position.x, controlPartida.instance.bottomLeft.y, player.transform.position.z);
+                break;
+            case "abajo":
+                player.transform.position = new Vector3(player.transform.position.x, controlPartida.instance.topRight.y, player.transform.position.z);
+                break;
+            case "derecha":
+                player.transform.position = new Vector3(controlPartida.instance.bottomLeft.x, player.transform.position.y, player.transform.position.z);
+                break;
+            case "izquierda":
+                player.transform.position = new Vector3(controlPartida.instance.topRight.x, player.transform.position.y, player.transform.position.z);
+                break;
+            default:
+                break;
+        }
+    }
+    string ComprobarPosicion ()
+    {
+        float margin = 5;
+
+        if (player.transform.position.y > controlPartida.instance.topRight.y + margin)
+        {
+            return ("arriba");
+        }
+        else if (player.transform.position.y < controlPartida.instance.bottomLeft.y - margin)
+        {
+            return ("abajo");
+        }
+        else if (player.transform.position.x > controlPartida.instance.topRight.x + margin)
+        {
+            return ("derecha");
+        }
+        else if (player.transform.position.x < controlPartida.instance.bottomLeft.x - margin)
+        {
+            return ("izquierda");
+        }
+        else { return null; }
+    }
+
     //NO FUNCIONA EL ADDFORCE
     public void disparo()
     {
-        if (Input.GetKey(KeyCode.Space) && !shotCooldown)
+        if (!shotCooldown)
         {
             GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity);
             tempShot.transform.rotation = this.transform.rotation;
@@ -122,6 +170,10 @@ public class playerMovement : MonoBehaviour
             shotHeat += 25;
             StartCoroutine(shotCD());
         }
+    }
+
+    void SobrecalentamientoDisparo()
+    {
         shotHeat -= 33 * Time.deltaTime;
         heatBar.fillAmount = shotHeat / 100f;
 

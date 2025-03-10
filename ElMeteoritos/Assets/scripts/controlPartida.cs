@@ -4,17 +4,35 @@ using UnityEngine;
 
 public class controlPartida : MonoBehaviour
 {
+    public static controlPartida instance;
+
     [Header("Debug")]
     public bool bSpawnM = false;
+    public GameObject player;
+
+    [Header("Spawn Meteoritos")]
     public Camera cam;
     public Vector3 bottomLeft;
     public Vector3 topRight;
     public float distance;
     public GameObject meteoroidPrefab;
 
+    private void Awake()
+    {
+        if (instance == null) 
+        { 
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+        cam = Camera.main;
+    }
+
     void Start()
     {
-        cam = Camera.main;
         distance = Mathf.Abs(cam.transform.position.z);
 
         bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, distance));
