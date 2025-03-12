@@ -22,6 +22,13 @@ public class controlPartida : MonoBehaviour
     public TextMeshProUGUI oleadaText;
     public int playerCount;
 
+    public GameObject[] PlayerBoxes = new GameObject[4];
+    public string[] nombres = new string[4];
+    public int[] puntuaciones = new int[4];
+    [Range(0, 5)]
+    public int[] vidas;
+    public GameObject[] contenedoresVidas = new GameObject[4];
+
     private void Awake()
     {
         if (instance == null) 
@@ -47,7 +54,10 @@ public class controlPartida : MonoBehaviour
         playerCount = 4;
         nuevaOleada = true;
 
+        asignacionPlayers();
+
         //StartCoroutine(prueba());
+        StartCoroutine(waveStarterText());
     }
 
     void Update()
@@ -59,6 +69,21 @@ public class controlPartida : MonoBehaviour
         }
 
         //oleadaController();
+    }
+
+    public void asignacionPlayers()
+    {
+        for (int i = 0; i < playerCount; i++)
+        {
+            Transform Hijo1 = PlayerBoxes[i].transform.GetChild(0);
+            Transform Hijo2 = PlayerBoxes[i].transform.GetChild(1);
+            contenedoresVidas[i] = PlayerBoxes[i].transform.GetChild(2).gameObject;
+            //asignar numero de hijos activos en funcion de las vidas restantes de cada jugador
+
+            Hijo1.gameObject.GetComponent<TextMeshProUGUI>().text = nombres[i];
+            Hijo2.gameObject.GetComponent<TextMeshProUGUI>().text = "" + puntuaciones[i];
+            PlayerBoxes[i].SetActive(true);
+        }
     }
 
     void SpawnMeteoroid()
@@ -106,12 +131,13 @@ public class controlPartida : MonoBehaviour
     {
         if (nuevaOleada)
         {
-            StartCoroutine(waveStarter());
+            StartCoroutine(waveStarterText());
         }
     }
 
-    public IEnumerator waveStarter()
+    public IEnumerator waveStarterText()
     {
+        oleadaText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0.7f);
         oleadaText.gameObject.SetActive(true);
         nuevaOleada = false;
         string oleadaNum = "OLEADA " + oleada;
@@ -121,10 +147,26 @@ public class controlPartida : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
         yield return new WaitForSeconds(1);
-        oleadaText.text = "";
-        oleadaText.gameObject.SetActive(false);
 
-        startWave();
+        
+        for (int i = oleadaNum.Length - 1; i >= 0; i--)
+        {
+            if(oleadaText.text.Length == 1)
+            {
+                oleadaText.text = "";
+            }
+            else
+            {
+                oleadaText.text = oleadaText.text.Substring(0, oleadaText.text.Length - 1);
+            }
+            
+            yield return new WaitForSeconds(0.1f);
+        }
+        //oleadaText.text = "";
+        //oleadaText.gameObject.SetActive(false);
+        oleadaText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0);
+
+        //startWave();
     }
     public int enemiesNum = 0;
 

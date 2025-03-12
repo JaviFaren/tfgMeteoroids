@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class menuController : MonoBehaviour
 {
@@ -19,11 +20,13 @@ public class menuController : MonoBehaviour
     public TextMeshProUGUI tituloTaquilla;
     private string titulo1 = "COLOR", titulo2 = "PROPULSOR", titulo3 = "ESTELA";
     private string[] titulos = new string[3];
-    
-    
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        tituloTaquilla.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0);
         titulos[0] = titulo1;
         titulos[1] = titulo2;
         titulos[2] = titulo3;

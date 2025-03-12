@@ -164,7 +164,8 @@ public class playerMovement : MonoBehaviour
     {
         if (!shotCooldown)
         {
-            GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity);
+            GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
+            tempShot.GetComponent<shotOwner>().Ownername = this.gameObject.GetComponent<playerInfoManager>().username;
             tempShot.transform.rotation = this.transform.rotation;
             tempShot.GetComponent<Rigidbody>().AddForce(tempShot.gameObject.transform.up*80, ForceMode.Impulse);
             shotHeat += 25;
