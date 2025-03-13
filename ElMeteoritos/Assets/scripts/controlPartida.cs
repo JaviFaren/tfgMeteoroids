@@ -22,6 +22,7 @@ public class controlPartida : MonoBehaviour
     public TextMeshProUGUI oleadaText;
     public int playerCount;
 
+    public playerInfoManager[] playerInfo = new playerInfoManager[4];
     public GameObject[] PlayerBoxes = new GameObject[4];
     public string[] nombres = new string[4];
     public int[] puntuaciones = new int[4];
@@ -67,6 +68,9 @@ public class controlPartida : MonoBehaviour
             SpawnMeteoroid();
             bSpawnM = false;
         }
+        nombres[0] = playerInfo[0].username;
+        puntuaciones[0] = playerInfo[0].puntuacion;
+        vidas[0] = playerInfo[0].vidas;
 
         //oleadaController();
     }
@@ -92,7 +96,8 @@ public class controlPartida : MonoBehaviour
         Vector3 spawnPosition = ChooseEnemySpawnPoint();
         Debug.Log(spawnPosition);
         GameObject meteoroid = Instantiate(meteoroidPrefab, spawnPosition, Quaternion.identity);
-        meteoroid.GetComponent<detectarMeteorito>().SetTarget(Vector3.zero);
+        //meteoroid.transform.GetChild(0).GetComponent<detectarMeteorito>().SetTarget(Vector3.zero);
+        meteoroid.GetComponent<detectarMeteorito>().SetTarget(playerInfo[0].gameObject.transform.position);
     }
 
     Vector3 ChooseEnemySpawnPoint()

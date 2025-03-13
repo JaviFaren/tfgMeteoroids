@@ -5,20 +5,23 @@ using UnityEngine.Video;
 
 public class detectarMeteorito : MonoBehaviour
 {
-    public float speed = 3;
+    public float speed = 15;
     public Vector3 targetPosition;
-    public menuController menuController;
 
     public enum Enemytype { normal, divisiblex2, divisiblex5, explosivo, blindado, curativo};
     public Enemytype enemytype;
     [SerializeField] Rigidbody rb;
     private GameObject player;
+    public GameObject contenedorPadre;
     private int Vida;
     private GameObject colision;
+    private Animator animator;
 
     private void Start()
     {
-        //rb2d =  GetComponent<Rigidbody>();
+        
+        animator = this.GetComponent<Animator>();
+        rb = this.GetComponent<Rigidbody>();
         if(enemytype == Enemytype.blindado) { Vida = 3; }
         else { Vida = 1; }
     }
@@ -27,8 +30,6 @@ public class detectarMeteorito : MonoBehaviour
     {
         if (other.tag == "disparo")
         {
-            
-            //other.gameObject.GetComponent<shotOwner>().Ownername
             Debug.Log("heh, me mato");
             funcionalidad();
         }
@@ -43,7 +44,8 @@ public class detectarMeteorito : MonoBehaviour
     private void MoveTowardsTarget()
     {
         Vector2 direction = (targetPosition - transform.position).normalized;
-        rb.velocity = direction * speed;
+        rb.AddForce(direction*speed, ForceMode.VelocityChange);
+        //rb.velocity = direction * speed;
     }
 
     public void funcionalidad()
@@ -63,7 +65,8 @@ public class detectarMeteorito : MonoBehaviour
         else if (enemytype == Enemytype.explosivo)
         {
             Debug.Log("exploto");
-
+            animator.SetBool("enterExplosion", true);
+            rb.velocity = Vector3.zero;
         }
         else if (enemytype == Enemytype.blindado)
         {
@@ -73,5 +76,11 @@ public class detectarMeteorito : MonoBehaviour
         {
 
         }
+    }
+
+    public void muerteOBJ()
+    {
+        this.gameObject.SetActive(false);
+        transform.position = contenedorPadre.transform.position;
     }
 }

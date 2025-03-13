@@ -149,4 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   targetPosition: {x: 0, y: 0, z: 0}
+  enemytype: 0
   rb: {fileID: 401671602938206689}
+  contenedorPadre: {fileID: 0}
+  OBJPadre: {fileID: 0}
