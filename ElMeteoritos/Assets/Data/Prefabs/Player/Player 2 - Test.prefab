@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b884be276728fc94e8f7b4b00858e58d, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.9215687, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   playerManager: {fileID: 0}
   spriteRenderer: {fileID: 0}
   spaceshipSprite: {fileID: 21300000, guid: b884be276728fc94e8f7b4b00858e58d, type: 3}
-  spaceshipColor: {r: 1, g: 0, b: 0, a: 1}
+  spaceshipColor: {r: 1, g: 0, b: 0.92144823, a: 1}
   spaceshipTrail: {fileID: 0}
   propulsorColor: {r: 0, g: 0, b: 0, a: 0}
   propulsorSprite: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 3846363682642957151}
   - component: {fileID: 4954050296376752447}
   m_Layer: 3
-  m_Name: PlayerTest
+  m_Name: Player 2 - Test
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -212,8 +212,10 @@ MonoBehaviour:
   setNewLifes: 0
   setNewScore: 0
   username: Mierdon
-  userID: 10
+  userID: 13
   canMove: 0
+  canShoot: 0
+  initialized: 0
 --- !u!114 &3846363682642957151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,15 +255,17 @@ MonoBehaviour:
   currentRotationSpeed: 0
   propulsionSpeed: 25
   acceleration: 4
+  shotForce: 80
+  shotCooldown: 0.5
   shotHeat: 0
   isOverheat: 0
-  shotCooldown: 0
   shotOBJ: {fileID: 5852269099349950948, guid: 689604b615b59e54ea4cfe92ace7c264, type: 3}
   shotSpawn: {fileID: 4744750438247052054}
   shotStorage: {fileID: 4828147338612809113}
   rotationJoystick: {fileID: 0}
   velocitySlider: {fileID: 0}
   heatBar: {fileID: 0}
+  shootButton: {fileID: 0}
 --- !u!1 &4744750438247052054
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1506270752313606213}
   m_Layer: 3
-  m_Name: disparo_spawner
+  m_Name: Spawner Disparos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3404960517302210697}
   m_Layer: 3
-  m_Name: poolDisparos
+  m_Name: Contenedor Disparos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

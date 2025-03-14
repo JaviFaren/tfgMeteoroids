@@ -23,6 +23,9 @@ public class PlayerActions : MonoBehaviour
     public float acceleration;
 
     [Header("Disparo")]
+    public float shotForce;  // Fuerza del disparo
+    public float shotCooldown;
+    private float lastShotTime;
     [Range(0f, 100f)]
     public float shotHeat;
     public bool isOverheat = false; // ---> De momento no se usa.
@@ -163,27 +166,34 @@ public class PlayerActions : MonoBehaviour
         else { return null; }
     }
 
-    // ---> Disparo (NO FUNCIONA EL ADDFORCE)
-    public void Disparar()
+    // ---> Disparo 
+    public void Fire() // ---> Se asigna al botón de disparar por código en el PlayerManager
     {
-        if (playerManager.canShoot)
+        if (playerManager.canShoot && Time.time >= lastShotTime + shotCooldown)
         {
-            //GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
-            //Quaternion tempRotation = this.transform.rotation;
-            //tempRotation.x = tempRotation.x + 90;
-            //tempShot.transform.rotation = Quaternion.LookRotation(this.transform.up, this.transform.forward * -1);
-            //tempShot.GetComponent<Rigidbody>().AddForce(tempShot.gameObject.transform.forward * 80, ForceMode.Impulse);
-            //shotHeat += 25;
-            //StartCoroutine(EnfriamientoDisparo());
-
-            // ---> Este es el código antiguo, sale el disparo mirando a la derecha
-            GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
-            tempShot.GetComponent<shotOwner>().Ownername = playerManager.username;
-            tempShot.transform.rotation = transform.rotation;
-            tempShot.GetComponent<Rigidbody>().AddForce(tempShot.transform.up * 80, ForceMode.Impulse);
-            shotHeat += 25;
-            StartCoroutine(EnfriamientoDisparo());
+            Shoot();  // Se llama al método Shoot para crear el disparo
+            playerManager.canShoot = false;  // Se bloquea el disparo hasta que pase el cooldown
+            lastShotTime = Time.time;  // Se guarda el tiempo del disparo
+            StartCoroutine(ResetShootCooldown());
         }
+    }
+    public void Shoot()
+    {
+        GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
+        tempShot.GetComponent<PlayerShoot>().Ownername = playerManager.username;
+        Rigidbody rb = tempShot.GetComponent<Rigidbody>();
+        tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        rb.AddForce(transform.up * shotForce, ForceMode.Impulse);
+
+        shotHeat += 25;
+
+        Destroy(tempShot, 5f);
+    }
+    IEnumerator ResetShootCooldown()
+    {
+        yield return new WaitForSeconds(shotCooldown);
+        playerManager.canShoot = true;
     }
     public void SobrecalentamientoDisparo()
     {
@@ -196,10 +206,34 @@ public class PlayerActions : MonoBehaviour
         //    shotHeat = 0;
         //}
     }
-    public IEnumerator EnfriamientoDisparo()
-    {
-        playerManager.canShoot = false;
-        yield return new WaitForSeconds(0.5f);
-        playerManager.canShoot = true;
-    }
+
+    // Código de disparo antiguo
+    //public void Disparar()
+    //{
+    //    if (playerManager.canShoot)
+    //    {
+    //        //GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
+    //        //Quaternion tempRotation = this.transform.rotation;
+    //        //tempRotation.x = tempRotation.x + 90;
+    //        //tempShot.transform.rotation = Quaternion.LookRotation(this.transform.up, this.transform.forward * -1);
+    //        //tempShot.GetComponent<Rigidbody>().AddForce(tempShot.gameObject.transform.forward * 80, ForceMode.Impulse);
+    //        //shotHeat += 25;
+    //        //StartCoroutine(EnfriamientoDisparo());
+
+    //        GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
+    //        tempShot.GetComponent<PlayerShoot>().Ownername = playerManager.username;
+    //        Rigidbody rb = tempShot.GetComponent<Rigidbody>();
+    //        tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
+    //        rb.constraints = RigidbodyConstraints.FreezeRotation;
+    //        rb.AddForce(transform.up * 80, ForceMode.Impulse);
+    //        shotHeat += 25;
+    //        StartCoroutine(EnfriamientoDisparo());
+    //    }
+    //}
+    //public IEnumerator EnfriamientoDisparo()
+    //{
+    //    playerManager.canShoot = false;
+    //    yield return new WaitForSeconds(0.5f);
+    //    playerManager.canShoot = true;
+    //}
 }

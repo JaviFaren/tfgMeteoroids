@@ -214,6 +214,8 @@ MonoBehaviour:
   username: Makelele
   userID: 25
   canMove: 0
+  canShoot: 0
+  initialized: 0
 --- !u!114 &3846363682642957151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,9 +255,10 @@ MonoBehaviour:
   currentRotationSpeed: 0
   propulsionSpeed: 25
   acceleration: 4
+  shotForce: 80
+  shotCooldown: 0.5
   shotHeat: 0
   isOverheat: 0
-  shotCooldown: 0
   shotOBJ: {fileID: 5852269099349950948, guid: 689604b615b59e54ea4cfe92ace7c264, type: 3}
   shotSpawn: {fileID: 4744750438247052054}
   shotStorage: {fileID: 4828147338612809113}
@@ -273,7 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1506270752313606213}
   m_Layer: 3
-  m_Name: disparo_spawner
+  m_Name: Spawner Disparos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3404960517302210697}
   m_Layer: 3
-  m_Name: poolDisparos
+  m_Name: Contenedor Disparos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

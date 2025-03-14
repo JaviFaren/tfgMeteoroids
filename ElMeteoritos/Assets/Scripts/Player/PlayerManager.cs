@@ -62,7 +62,7 @@ public class PlayerManager : MonoBehaviour
         playerActions.velocitySlider = PlayerUIManager.instance.speedSlider;
         playerActions.heatBar = PlayerUIManager.instance.heatBar;
         playerActions.shootButton = PlayerUIManager.instance.shootButton;
-        playerActions.shootButton.onClick.AddListener(delegate { playerActions.Disparar(); });
+        playerActions.shootButton.onClick.AddListener(delegate { playerActions.Fire(); });
 
         // ---> Se añade el jugador a la lista de jugadores del GameController
         GameController.instance.AddPlayerToPlayersList(this);

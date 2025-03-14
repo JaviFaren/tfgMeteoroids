@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8200915415765042084}
   - component: {fileID: 5231359513135201695}
   m_Layer: 0
-  m_Name: DisparoNave
+  m_Name: Disparo Jugador
   m_TagString: disparo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -172,3 +172,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ownername: 
+  player: {fileID: 0}
+  speed: 10
