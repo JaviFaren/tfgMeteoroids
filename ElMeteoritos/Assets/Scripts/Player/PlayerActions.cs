@@ -180,7 +180,6 @@ public class PlayerActions : MonoBehaviour
     public void Shoot()
     {
         GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
-        tempShot.GetComponent<PlayerShoot>().Ownername = playerManager.username;
         Rigidbody rb = tempShot.GetComponent<Rigidbody>();
         tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         rb.constraints = RigidbodyConstraints.FreezeRotation;

@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
@@ -9,6 +12,8 @@ public class GameController : MonoBehaviour
 
     [Header("Debug")]
     public bool bSpawnM = false;
+    [Tooltip("Comunes:0, Divx2:1, Divx5:2, Blindados:3, Curativos:4, Expl:5")]
+    public int meteoroidType = 0;
     public List<GameObject> playersListsDebug; // ---> Añadir en el inspector de Unity prefabs de jugadores con distinto ID para hacer pruebas.
     public GameObject meteoroidPrefab; // ---> Añadir en el inspector de Unity un prefab de cualquier enemigo para hacer pruebas.
 
@@ -20,6 +25,15 @@ public class GameController : MonoBehaviour
     public int oleada;
     public bool nuevaOleada;
     public int enemiesNum = 0;
+    public int enemies_Spawned = 0;
+    public int normalesMax = 0;
+    public int especialesMax = 0;
+    public float baseEnemiesPercentage = 0;
+    public int derrotados = 0;
+    public int maxEnPantalla = 6;
+    public bool canSpawn;
+    [Tooltip("Comunes:0, Divx2:1, Divx5:2, Blindados:3, Curativos:4, Expl:5")]
+    public GameObject[] contenedores_Enemigos;
 
     [Header("Cámara")]
     public Camera mainCamera;
@@ -54,21 +68,22 @@ public class GameController : MonoBehaviour
         SetCameraBorders();
 
         oleada = 1;
+        baseEnemiesPercentage = 0.15f;
         //playerCount = 4;
         nuevaOleada = true;
+        canSpawn = false;
 
         //asignacionPlayers();
         //StartCoroutine(prueba());
 
         StartCoroutine(SpawnPlayers());
-        StartCoroutine(PlayerUIManager.instance.WaveStarterText(oleada));
     }
     private void Update()
     {
         // ---> Debug
         if (bSpawnM == true)
         {
-            SpawnMeteoroid();
+            SpawnMeteoroid(meteoroidType);
             bSpawnM = false;
         }
 
@@ -77,7 +92,13 @@ public class GameController : MonoBehaviour
         //puntuaciones[0] = playerInfo[0].puntuacion;
         //vidas[0] = playerInfo[0].vidas;
 
-        //oleadaController();
+        WaveController();
+
+        if (canSpawn)
+        {
+            EnemiesSpawner();
+        }
+        
     }
 
     // ---> Cámara
@@ -133,13 +154,27 @@ public class GameController : MonoBehaviour
     }
 
     // ---> Gestión de enemigos
-    public void SpawnMeteoroid()
+    public void SpawnMeteoroid(int IDType)
     {
+        //Comprueba el contenedor correspondiente en base al enemigo que tiene que mover, lo activa y lo lanza hacia un jugador aleatorio (Sin testear)
         Vector3 spawnPosition = ChooseEnemySpawnPoint();
-        GameObject meteoroid = Instantiate(meteoroidPrefab, spawnPosition, Quaternion.identity);
+        for(int i = 0; i < contenedores_Enemigos[IDType].transform.childCount; i++)
+        {
+            if (!contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.transform.position = spawnPosition;
+                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.SetActive(true);
+
+                int randomPlayer = Random.Range(0, playersList.Count);
+                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>().SetTarget(playersList[randomPlayer].transform.position);
+            }
+        }
+        //GameObject meteoroid = Instantiate(meteoroidPrefab, spawnPosition, Quaternion.identity);
         //meteoroid.GetComponent<detectarMeteorito>().SetTarget(Vector3.zero);
-        meteoroid.GetComponent<Enemy>().SetTarget(Vector3.zero);
+        //meteoroid.GetComponent<Enemy>().SetTarget(Vector3.zero);
     }
+
+
     public Vector3 ChooseEnemySpawnPoint()
     {
         float margin = 10f;
@@ -213,26 +248,62 @@ public class GameController : MonoBehaviour
 
     //    //startWave();
     //}
-    public void StartWave()
+    public void EnemiesCalculation()
     {
+        //Calcula el numero de enemigos normales y especiales va a haber en la ronda que toque
         int FactorJugadores = Mathf.RoundToInt(1 + (playersList.Count - 1) * 0.25f);
-        enemiesNum = Mathf.RoundToInt((3 + Mathf.Pow(oleada, 1.5f)) * FactorJugadores);
-        if (oleada == 1)
+        normalesMax = Mathf.CeilToInt((3 + Mathf.Pow(oleada, 1.5f)) * FactorJugadores);
+        especialesMax = Mathf.CeilToInt(enemiesNum * baseEnemiesPercentage);
+        normalesMax = normalesMax - especialesMax;
+        enemiesNum = normalesMax + especialesMax;
+        if (oleada <= 3)
         {
-            enemiesNum = 4 * playersList.Count;
+            //No hay enemigos especiales en las 3 primeras oleadas
+            normalesMax = normalesMax + especialesMax;
+            especialesMax = 0;
         }
         else
         {
-            enemiesNum = (Mathf.RoundToInt(oleada / 2) + 4) * playersList.Count;
+            //Aumento de porcentaje de enemigos especiales para la proxima oleada hasta un maximo del 80%
+            baseEnemiesPercentage = baseEnemiesPercentage + 0.01f;
+            if (baseEnemiesPercentage > 0.8f)
+            {
+                baseEnemiesPercentage = 0.8f;
+            }
         }
-
-        //Debug.Log(enemiesNum);
     }
-    //public IEnumerator prueba()
-    //{
-    //    startWave();
-    //    yield return new WaitForSeconds(3);
-    //    oleada++;
-    //    StartCoroutine(prueba());
-    //}
+
+    public void EnemiesSpawner()
+    {
+        //Hay que equilibrar el tipo de especiales que salen en cada ronda de cara a la entrega final del TFG
+        if (enemies_Spawned <= enemiesNum)
+        {
+            int eligeEnemigo = Random.Range(1, enemiesNum + 1);
+            if (eligeEnemigo > normalesMax)
+            {
+                //spawnea especial
+                especialesMax--;
+                SpawnMeteoroid(5);
+            }
+            else
+            {
+                //spawnea normal
+                normalesMax--;
+                SpawnMeteoroid(0);
+            }
+            StartCoroutine(meteoritoCD());
+            //Necesita restarse al morir un meteorito
+            enemies_Spawned++;
+        }
+    }
+
+    public IEnumerator meteoritoCD()
+    {
+        canSpawn = false;
+        yield return new WaitForSeconds(3);
+        canSpawn = true;
+    }
+
+
+    
 }

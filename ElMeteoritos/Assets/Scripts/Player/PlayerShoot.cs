@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public string Ownername;
-
-    public float speed;
     private Rigidbody rb;
 
     void Start()

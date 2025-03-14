@@ -103,6 +103,8 @@ public class PlayerUIManager : MonoBehaviour
         //oleadaText.gameObject.SetActive(false);
         waveText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0);
 
-        //startWave();
+        GameController.instance.EnemiesCalculation();
+
+        GameController.instance.canSpawn = true;
     }
 }

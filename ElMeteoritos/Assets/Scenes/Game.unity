@@ -1259,6 +1259,15 @@ MonoBehaviour:
   oleada: 0
   nuevaOleada: 0
   enemiesNum: 0
+  derrotados: 0
+  especialesMax: 0
+  contenedores_Enemigos:
+  - {fileID: 430909367}
+  - {fileID: 385871656}
+  - {fileID: 622738249}
+  - {fileID: 1990851615}
+  - {fileID: 936416827}
+  - {fileID: 331612864}
   mainCamera: {fileID: 0}
   bottomLeftBorder: {x: 0, y: 0, z: 0}
   topRightBorder: {x: 0, y: 0, z: 0}
@@ -3684,6 +3693,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 391430420}
     m_Modifications:
+    - target: {fileID: 7989570169391090474, guid: bd6372cac36cf86438b3d3537ac67e40, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989570169391090474, guid: bd6372cac36cf86438b3d3537ac67e40, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0.028301895
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989570169391090474, guid: bd6372cac36cf86438b3d3537ac67e40, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0.028301895
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989570169391090474, guid: bd6372cac36cf86438b3d3537ac67e40, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0.028301895
+      objectReference: {fileID: 0}
     - target: {fileID: 8834734169634807592, guid: bd6372cac36cf86438b3d3537ac67e40, type: 3}
       propertyPath: m_IsActive
       value: 1
