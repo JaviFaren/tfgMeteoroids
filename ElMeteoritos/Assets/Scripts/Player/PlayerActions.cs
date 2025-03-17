@@ -30,9 +30,6 @@ public class PlayerActions : MonoBehaviour
     public float shotHeat;
     public bool isOverheat = false; // ---> De momento no se usa.
     //public bool shotCooldown = false;
-    public GameObject shotOBJ;
-    public GameObject shotSpawn;
-    public GameObject shotStorage;
 
     [Header("Interfaz")]
     public VirtualJoystick rotationJoystick;
@@ -179,7 +176,7 @@ public class PlayerActions : MonoBehaviour
     }
     public void Shoot()
     {
-        GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
+        GameObject tempShot = Instantiate(playerManager.spaceship.shotPrefab, playerManager.spaceship.shotSpawn.position, Quaternion.identity, playerManager.spaceship.shotContainer);
         Rigidbody rb = tempShot.GetComponent<Rigidbody>();
         tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -198,12 +195,6 @@ public class PlayerActions : MonoBehaviour
     {
         shotHeat = Mathf.Max(shotHeat - 33 * Time.deltaTime, 0);
         heatBar.fillAmount = shotHeat / 100f;
-
-        //shotHeat -= 33 * Time.deltaTime;
-        //if (shotHeat < 0)
-        //{
-        //    shotHeat = 0;
-        //}
     }
 
     // Código de disparo antiguo

@@ -104,7 +104,10 @@ MonoBehaviour:
   spaceshipTrail: {fileID: 0}
   propulsorColor: {r: 0, g: 0, b: 0, a: 0}
   propulsorSprite: {fileID: 0}
-  shootColor: {r: 0, g: 0, b: 0, a: 0}
+  shotPrefab: {fileID: 5852269099349950948, guid: 689604b615b59e54ea4cfe92ace7c264, type: 3}
+  shotContainer: {fileID: 3404960517302210697}
+  shotSpawn: {fileID: 1506270752313606213}
+  shotColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3808531777452310775
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,9 +262,6 @@ MonoBehaviour:
   shotCooldown: 0.5
   shotHeat: 0
   isOverheat: 0
-  shotOBJ: {fileID: 5852269099349950948, guid: 689604b615b59e54ea4cfe92ace7c264, type: 3}
-  shotSpawn: {fileID: 4744750438247052054}
-  shotStorage: {fileID: 4828147338612809113}
   rotationJoystick: {fileID: 0}
   velocitySlider: {fileID: 0}
   heatBar: {fileID: 0}

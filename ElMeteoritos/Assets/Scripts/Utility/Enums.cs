@@ -19,3 +19,29 @@ public enum EnemyType
     BLINDADO, 
     CURATIVO 
 };
+
+// ---> Menús
+public enum MainMenuState
+{
+    START,
+    CUSTOMIZATION,
+    GAME,
+    SOCIAL,
+    SETTINGS
+}
+
+public enum CustomizationMenuCategory
+{
+    SPACESHIP_COLOR,
+    SPACESHIP_SKIN,
+    SHOT_COLOR,
+    SHOT_SKIN,
+    TRAIL_SKIN,
+    PROPULSION_SKIN
+}
+
+public enum GameMenuState
+{
+    ROOMS,
+    IN_ROOM
+}

@@ -21,7 +21,10 @@ public class Spaceship : MonoBehaviour
     public Sprite propulsorSprite;
 
     [Header("Propiedades Disparo")]
-    public Color shootColor;
+    public GameObject shotPrefab;
+    public Transform shotContainer;
+    public Transform shotSpawn;
+    public Color shotColor;
 
     private void Awake()
     {

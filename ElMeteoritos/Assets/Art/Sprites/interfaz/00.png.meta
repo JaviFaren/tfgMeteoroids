@@ -396,7 +396,7 @@ TextureImporter:
         width: 38
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -404,6 +404,69 @@ TextureImporter:
       bones: []
       spriteID: b87ffd7e502f73944a11b4e94009bf49
       internalID: -1490920342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 00_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 112
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19caef16f764d1e4db48f0bebfb4ce12
+      internalID: -1225192032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 00_14
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 135
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a56036443191f74287572269f71cd36
+      internalID: 1633133556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 00_15
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 68
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97774f7351078214aaecebf50cd528d6
+      internalID: -922888622
       vertices: []
       indices: 
       edges: []
@@ -424,6 +487,9 @@ TextureImporter:
       00_10: -648618079
       00_11: -1078579240
       00_12: -1490920342
+      00_13: -1225192032
+      00_14: 1633133556
+      00_15: -922888622
       00_2: -1040407543
       00_3: -1251497129
       00_4: -96397504
