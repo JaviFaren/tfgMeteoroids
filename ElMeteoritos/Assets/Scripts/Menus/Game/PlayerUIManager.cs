@@ -44,7 +44,7 @@ public class PlayerUIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     // ---> Gestión de los paneles de información de los jugadores
     public void InitializePlayersPanel() 
     {

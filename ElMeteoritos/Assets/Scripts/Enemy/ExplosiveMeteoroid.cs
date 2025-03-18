@@ -27,13 +27,14 @@ public class ExplosiveMeteoroid : Enemy
 
     protected override void OnHitBehavior()
     {
-        Debug.Log("exploto");
+        //Debug.Log("exploto");
         animator.SetBool("enterExplosion", true);
         rb.velocity = Vector3.zero;
     }
 
     protected override void OnDeath()
     {
+        animator.SetBool("enterExplosion", false);
         base.OnDeath();
     }
 }

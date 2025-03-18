@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6339422383006354956}
   - component: {fileID: 8417086787890412533}
   - component: {fileID: 401671602938206689}
-  - component: {fileID: 6215175121375624505}
   - component: {fileID: 2673108788639804395}
+  - component: {fileID: 2681772653002398568}
   m_Layer: 6
   m_Name: Meteorito
   m_TagString: enemigo
@@ -114,27 +114,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 64
   m_CollisionDetection: 0
---- !u!65 &6215175121375624505
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713334987228781919}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.46, y: 0.58, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2673108788639804395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +135,24 @@ MonoBehaviour:
   enemyType: 0
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+--- !u!135 &2681772653002398568
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713334987228781919}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.29
+  m_Center: {x: 0, y: 0, z: 0}

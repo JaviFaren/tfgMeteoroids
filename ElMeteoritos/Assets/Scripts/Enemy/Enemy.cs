@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("disparo"))
         {
-            Debug.Log("heh, man dao");
+            //Debug.Log("heh, man dao");
             OnHitBehavior();
         }
     }
@@ -62,6 +62,6 @@ public class Enemy : MonoBehaviour
     protected virtual void OnDeath()
     {
         gameObject.SetActive(false);
-        transform.position = enemyContainer.transform.position;
+        this.transform.position = enemyContainer.transform.position;
     }
 }

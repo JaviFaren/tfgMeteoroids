@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-// ---> Clase para almacenar y guardar en la base de datos la información de la partida.
+// ---> Clase para almacenar y guardar en la base de datos la informaciï¿½n de la partida.
 // Al terminar la partida hay que pasar las puntuaciones de los jugadores (PlayerStats).
 public class Match : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class Match : MonoBehaviour
     public string matchDate;
     public float matchTime;
 
-    [Header("Estadísticas generales")]
+    [Header("Estadisticas generales")]
     public int globalScore;
     public int globalShoots;
     public int globalEnemies;  

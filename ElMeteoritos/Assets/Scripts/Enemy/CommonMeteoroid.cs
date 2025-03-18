@@ -19,7 +19,11 @@ public class CommonMeteoroid : Enemy
 
     protected override void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
+        if (other.CompareTag("disparo"))
+        {
+            Debug.Log("heh, man dao");
+            OnHitBehavior();
+        }
     }
 
     protected override void MoveTowardsTarget()
@@ -30,10 +34,13 @@ public class CommonMeteoroid : Enemy
     protected override void OnHitBehavior()
     {
         Debug.Log("me desintegro");
+        rb.velocity = Vector3.zero;
+        OnDeath();
     }
 
     protected override void OnDeath()
     {
-        base.OnDeath();
+        gameObject.SetActive(false);
+        this.transform.position = enemyContainer.transform.position;
     }
 }

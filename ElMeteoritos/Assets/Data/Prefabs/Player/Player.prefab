@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  currentLifes: 0
+  currentLifes: 4
   maxLifes: 5
   shootType: 0
   score: 0

@@ -14,8 +14,8 @@ public class GameController : MonoBehaviour
     public bool bSpawnM = false;
     [Tooltip("Comunes:0, Divx2:1, Divx5:2, Blindados:3, Curativos:4, Expl:5")]
     public int meteoroidType = 0;
-    public List<GameObject> playersListsDebug; // ---> Añadir en el inspector de Unity prefabs de jugadores con distinto ID para hacer pruebas.
-    public GameObject meteoroidPrefab; // ---> Añadir en el inspector de Unity un prefab de cualquier enemigo para hacer pruebas.
+    public List<GameObject> playersListsDebug; // ---> Agregar en el inspector de Unity prefabs de jugadores con distinto ID para hacer pruebas.
+    public GameObject meteoroidPrefab; // ---> Aï¿½adir en el inspector de Unity un prefab de cualquier enemigo para hacer pruebas.
 
     [Header("Jugadores")]
     public List<PlayerManager> playersList = new();
@@ -35,13 +35,13 @@ public class GameController : MonoBehaviour
     [Tooltip("Comunes:0, Divx2:1, Divx5:2, Blindados:3, Curativos:4, Expl:5")]
     public GameObject[] contenedores_Enemigos;
 
-    [Header("Cámara")]
+    [Header("Camara")]
     public Camera mainCamera;
     public Vector3 bottomLeftBorder;
     public Vector3 topRightBorder;
     public float cameraDistance;
 
-    // ---> Toda la gestión de la interfaz se ha movido (Se puede volver a la que había antes) a PlayerUIManager
+    // ---> Toda la gestion de la interfaz se ha movido (Se puede volver a la que habï¿½a antes) a PlayerUIManager
     //[Header("Interfaz")]
     //public TextMeshProUGUI oleadaText;
     //public GameObject[] PlayerBoxes = new GameObject[4];
@@ -72,6 +72,7 @@ public class GameController : MonoBehaviour
         //playerCount = 4;
         nuevaOleada = true;
         canSpawn = false;
+        enemiesNum = 0;
 
         //asignacionPlayers();
         //StartCoroutine(prueba());
@@ -101,7 +102,7 @@ public class GameController : MonoBehaviour
         
     }
 
-    // ---> Cámara
+    // ---> Camara
     public void SetCameraBorders()
     {
         cameraDistance = Mathf.Abs(mainCamera.transform.position.z);
@@ -111,22 +112,22 @@ public class GameController : MonoBehaviour
     }
 
     // ---> Spawn de jugadores
-    public void AddPlayerToPlayersList(PlayerManager player) // ---> Función para añadir jugadores a la lista
+    public void AddPlayerToPlayersList(PlayerManager player) // ---> Funcion para agregar jugadores a la lista
     {
         if (!playersList.Contains(player))
         {
             playersList.Add(player);
         }
     }
-    public void RemovePlayerFromPlayersList(PlayerManager player) // ---> Función para quitar jugadores a la lista
+    public void RemovePlayerFromPlayersList(PlayerManager player) // ---> Funcion para quitar jugadores a la lista
     {
         if (playersList.Contains(player))
         {
             playersList.Remove(player);
         }
     }
-    //public void asignacionPlayers() --> Se ha cambiado para la interfaz de prueba, está en PlayerUIManager
-    //public void asignacionPlayers() --> Se ha cambiado para la interfaz de prueba, está en PlayerUIManager
+    //public void asignacionPlayers() --> Se ha cambiado para la interfaz de prueba, esta en PlayerUIManager
+    //public void asignacionPlayers() --> Se ha cambiado para la interfaz de prueba, esta en PlayerUIManager
     //{
     //    for (int i = 0; i < playerCount; i++)
     //    {
@@ -140,7 +141,7 @@ public class GameController : MonoBehaviour
     //        PlayerBoxes[i].SetActive(true);
     //    }
     //}
-    public IEnumerator SpawnPlayers() // ---> Función para spawnear a los juagdores, esperando a que se inicialicen todos para que no fallos. Habrá que cambiar algunas cosas al meter el Photon.
+    public IEnumerator SpawnPlayers() // ---> Funciï¿½n para spawnear a los juagdores, esperando a que se inicialicen todos para que no fallos. Habrï¿½ que cambiar algunas cosas al meter el Photon.
     {
         //PhotonNetwork.PlayerList;
         foreach (var pla in playersListsDebug)
@@ -150,10 +151,10 @@ public class GameController : MonoBehaviour
 
         yield return new WaitUntil(() => playersList.TrueForAll(e => e.initialized)); // --> Esperar a que todos los jugadores tengan los componentes inicializados
 
-        PlayerUIManager.instance.InitializePlayersPanel(); // ---> Inicializar los paneles de información de los jugadores
+        PlayerUIManager.instance.InitializePlayersPanel(); // ---> Inicializar los paneles de informaciï¿½n de los jugadores
     }
 
-    // ---> Gestión de enemigos
+    // ---> Gestion de enemigos
     public void SpawnMeteoroid(int IDType)
     {
         //Comprueba el contenedor correspondiente en base al enemigo que tiene que mover, lo activa y lo lanza hacia un jugador aleatorio (Sin testear)
@@ -167,6 +168,7 @@ public class GameController : MonoBehaviour
 
                 int randomPlayer = Random.Range(0, playersList.Count);
                 contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>().SetTarget(playersList[randomPlayer].transform.position);
+                break;
             }
         }
         //GameObject meteoroid = Instantiate(meteoroidPrefab, spawnPosition, Quaternion.identity);
@@ -180,7 +182,7 @@ public class GameController : MonoBehaviour
         float margin = 10f;
         float xSpawn = 0, ySpawn = 0;
         int side = Random.Range(0, 4);
-        Debug.Log("Side: " + side);
+        //Debug.Log("Side: " + side);
 
         switch (side)
         {
@@ -207,11 +209,12 @@ public class GameController : MonoBehaviour
         return new Vector3(xSpawn, ySpawn, 0);
     }
 
-    // ---> Gestión de oleadas
+    // ---> Gestion de oleadas
     public void WaveController()
     {
         if (nuevaOleada)
         {
+            Debug.Log("Oleada: " + oleada);
             StartCoroutine(PlayerUIManager.instance.WaveStarterText(oleada));
         }
     }
@@ -271,12 +274,13 @@ public class GameController : MonoBehaviour
                 baseEnemiesPercentage = 0.8f;
             }
         }
+        Debug.Log("Numero de enemigos: " + enemiesNum);
     }
 
     public void EnemiesSpawner()
     {
         //Hay que equilibrar el tipo de especiales que salen en cada ronda de cara a la entrega final del TFG
-        if (enemies_Spawned <= enemiesNum)
+        if (enemies_Spawned < enemiesNum)
         {
             int eligeEnemigo = Random.Range(1, enemiesNum + 1);
             if (eligeEnemigo > normalesMax)
@@ -295,12 +299,21 @@ public class GameController : MonoBehaviour
             //Necesita restarse al morir un meteorito
             enemies_Spawned++;
         }
+        else
+        {
+            Debug.Log("oleada terminada");
+            enemies_Spawned = 0;
+            canSpawn = false;
+            oleada++;
+            nuevaOleada = true;
+        }
+        Debug.Log("Enemigos spawneados: " + enemies_Spawned);
     }
 
     public IEnumerator meteoritoCD()
     {
         canSpawn = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(8);
         canSpawn = true;
     }
 
