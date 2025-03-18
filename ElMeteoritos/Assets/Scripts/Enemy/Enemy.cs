@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public int lifes;
     public int maxLifes;
     public float movementSpeed;
+    public int damage;
 
     [Header("Propiedades")]
     public EnemyType enemyType;

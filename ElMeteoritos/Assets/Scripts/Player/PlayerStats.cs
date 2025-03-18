@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // ---> Clase con las estadísticas in-game del jugador, los valores se cambian en el prefab Player usando el editor de Unity (para que no haya que estar modificando el código todo el rato).
@@ -31,15 +32,19 @@ public class PlayerStats : MonoBehaviour
     {
         if (other.CompareTag("enemigo"))
         {
-            Debug.Log("COSORRO, ME IDENTIFICO COMO CADAVER");
+            ModifyLifes(-other.GetComponent<Enemy>().damage); // El menos es para que reste vida.
         }
     }
 
     // ---> Gestionar vidas
-    public void ModifyLifes(int amount) // ---> Función para cambiar las vidas del jugador que impide que bajen de 0, que suban más de las máximas y actualiza el panel del jugador.
+    public void ModifyLifes(int amount) // ---> Función para cambiar las vidas del jugador que impide que bajen de 0, que suban más de las máximas y actualiza el panel del jugador. Se pasa un valor positivo para sumar vidas y uno negativo para restarlas.
     {
+        Debug.Log("MAN DAO!! AYUAAA");
+
         currentLifes = Mathf.Clamp(currentLifes + amount, 0, maxLifes);
         PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
+
+        Debug.Log("ESTOY MUERTO? = " + playerManager.isDead);
     }
 
     // ---> Gestionar puntuacion

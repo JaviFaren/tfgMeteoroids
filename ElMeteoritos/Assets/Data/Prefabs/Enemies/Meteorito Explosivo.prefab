@@ -210,6 +210,7 @@ MonoBehaviour:
   lifes: 0
   maxLifes: 0
   movementSpeed: 15
+  damage: 5
   enemyType: 3
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
