@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.InputSystem.DefaultInputActions;
 
 // ---> Clase con las estadísticas in-game del jugador, los valores se cambian en el prefab Player usando el editor de Unity (para que no haya que estar modificando el código todo el rato).
 public class PlayerStats : MonoBehaviour
 {
     [HideInInspector] public PlayerManager playerManager;
+    private Animator animator;
+    public PlayerActions playerActions;
 
     [Header("Stats")]
     public int currentLifes;
@@ -22,6 +25,8 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         playerManager = GetComponent<PlayerManager>();
+        animator = GetComponent<Animator>();
+        playerActions = GetComponent<PlayerActions>();
     }
 
     private void Start()
@@ -34,6 +39,8 @@ public class PlayerStats : MonoBehaviour
         if (other.CompareTag("enemigo"))
         {
             ModifyLifes(-other.GetComponent<Enemy>().damage); // El menos es para que reste vida.
+
+            StartCoroutine(deathRelocate());
         }
     }
 
@@ -46,6 +53,28 @@ public class PlayerStats : MonoBehaviour
         PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
 
         Debug.Log("ESTOY MUERTO? = " + playerManager.isDead);
+    }
+
+    public IEnumerator deathRelocate()
+    {
+        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerActions.velocitySlider.value = 0;
+
+        animator.SetBool("died", true);
+        yield return new WaitForSeconds(3.45f);
+        animator.SetBool("died", false);
+    }
+
+    public void returnToCenter()
+    {
+        if (currentLifes <= 0)
+        {
+            playerManager.canMove = false;
+            playerManager.canShoot = false;
+            this.gameObject.SetActive(false);
+            PlayerUIManager.instance.deathScreen.SetActive(true);
+        }
+        this.gameObject.transform.position = Vector3.zero;
     }
 
     // ---> Gestionar puntuacion

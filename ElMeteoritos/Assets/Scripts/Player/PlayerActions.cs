@@ -10,6 +10,7 @@ public class PlayerActions : MonoBehaviour
 
     [Header("Componentes")]
     private Rigidbody rb;
+    
 
     [Header("Rotacion")]
     public Vector2 joystickAxis;
@@ -198,6 +199,8 @@ public class PlayerActions : MonoBehaviour
         shotHeat = Mathf.Max(shotHeat - 33 * Time.deltaTime, 0);
         heatBar.fillAmount = shotHeat / 100f;
     }
+
+    
 
     // Código de disparo antiguo
     //public void Disparar()

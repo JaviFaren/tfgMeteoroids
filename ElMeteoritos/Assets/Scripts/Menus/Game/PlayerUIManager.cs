@@ -16,6 +16,7 @@ public class PlayerUIManager : MonoBehaviour
 
     [Header("Botones")]
     public Button shootButton;
+    public GameObject deathScreen;
 
     [Header("Sliders")]
     public Slider speedSlider;

@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         playerActions = GetComponent<PlayerActions>();
         spaceship = GetComponentInChildren<Spaceship>();
+        
     }
 
     private void Start()
@@ -50,6 +51,8 @@ public class PlayerManager : MonoBehaviour
             setNewScore = false;
             playerStats.StartCoroutine(playerStats.ModifyScore(newScore));
         }
+
+        
     }
 
     private void OnSpawn()
