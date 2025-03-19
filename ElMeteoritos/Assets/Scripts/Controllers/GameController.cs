@@ -118,6 +118,28 @@ public class GameController : MonoBehaviour
         bottomLeftBorder = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, cameraDistance));
         topRightBorder = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, cameraDistance));
     }
+    public string CheckPosition(GameObject entity)
+    {
+        float margin = 15;
+
+        if (entity.transform.position.y > GameController.instance.topRightBorder.y + margin)
+        {
+            return ("above");
+        }
+        else if (entity.transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
+        {
+            return ("below");
+        }
+        else if (entity.transform.position.x > GameController.instance.topRightBorder.x + margin)
+        {
+            return ("right");
+        }
+        else if (entity.transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
+        {
+            return ("left");
+        }
+        else { return null; }
+    }
 
     // ---> Spawn de jugadores
     public void AddPlayerToPlayersList(PlayerManager player) // ---> Funcion para agregar jugadores a la lista playersList
@@ -373,8 +395,10 @@ public class GameController : MonoBehaviour
         isWaveActive = true;
         while (!allEnemiesDefeated)
         {
-            if (spawnedEnemies.Count <= maxEnemyNumberOnScreen)
-            {
+            // Condicion 1: el numero de enmigos spwaneados no puede superar el numero de enmigos en pantalla
+            // Condicion 2: el numero de enmigos spwaneados + el numero de enmigos derrotados no puede superar el numero de enmigos total de la oleada
+            if (spawnedEnemies.Count <= maxEnemyNumberOnScreen && (spawnedEnemies.Count + defeatedEnemyNumber) < waveEnemyNumber) 
+            {                                                                                                                     
                 SpawnEnemy();
                 Debug.Log("ENEMIGOS SPAWNEADOS: " + spawnedEnemies.Count);
 

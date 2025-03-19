@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (ComprobarPosicion() != null) { TransportarJugador(); }
+        if (GameController.instance.CheckPosition(gameObject) != null) { RelocateEnemy(); }
     }
 
     protected virtual void OnTriggerEnter (Collider other)
@@ -64,6 +64,11 @@ public class Enemy : MonoBehaviour
         
     }
 
+    public virtual void OnSpawn()
+    {
+
+    }
+
     public virtual void OnDeath()
     {
         GameController.instance.SetDefeatedEnemies(1); // Aumenta en 1 el numero de enmigos derrotados en el GameController
@@ -78,46 +83,44 @@ public class Enemy : MonoBehaviour
     }
 
     // Falta hacer que los enemigos "mueran" (o lo que se quiera) al pasar los limites de la camara
-    void TransportarJugador()
+    protected virtual void RelocateEnemy()
     {
-        switch (ComprobarPosicion())
+        switch (GameController.instance.CheckPosition(gameObject))
         {
-            case "arriba":
+            case "above":
                 transform.position = new Vector3(transform.position.x, GameController.instance.bottomLeftBorder.y, transform.position.z);
                 break;
-            case "abajo":
+            case "below":
                 transform.position = new Vector3(transform.position.x, GameController.instance.topRightBorder.y, transform.position.z);
                 break;
-            case "derecha":
+            case "right":
                 transform.position = new Vector3(GameController.instance.bottomLeftBorder.x, transform.position.y, transform.position.z);
                 break;
-            case "izquierda":
+            case "left":
                 transform.position = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
                 break;
-            default:
-                break;
         }
     }
-    string ComprobarPosicion()
-    {
-        float margin = 15;
+    //string ComprobarPosicion()
+    //{
+    //    float margin = 15;
 
-        if (transform.position.y > GameController.instance.topRightBorder.y + margin)
-        {
-            return ("arriba");
-        }
-        else if (transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
-        {
-            return ("abajo");
-        }
-        else if (transform.position.x > GameController.instance.topRightBorder.x + margin)
-        {
-            return ("derecha");
-        }
-        else if (transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
-        {
-            return ("izquierda");
-        }
-        else { return null; }
-    }
+    //    if (transform.position.y > GameController.instance.topRightBorder.y + margin)
+    //    {
+    //        return ("arriba");
+    //    }
+    //    else if (transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
+    //    {
+    //        return ("abajo");
+    //    }
+    //    else if (transform.position.x > GameController.instance.topRightBorder.x + margin)
+    //    {
+    //        return ("derecha");
+    //    }
+    //    else if (transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
+    //    {
+    //        return ("izquierda");
+    //    }
+    //    else { return null; }
+    //}
 }

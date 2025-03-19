@@ -63,7 +63,7 @@ public class PlayerActions : MonoBehaviour
         }
 
         SobrecalentamientoDisparo();
-        if (ComprobarPosicion() != null) { TransportarJugador(); }
+        if (GameController.instance.CheckPosition(gameObject) != null) { TransportarJugador(); }
     }
     private void FixedUpdate()
     {
@@ -123,46 +123,46 @@ public class PlayerActions : MonoBehaviour
     // ---> Límites de pantalla
     void TransportarJugador()
     {
-        switch (ComprobarPosicion())
+        switch (GameController.instance.CheckPosition(gameObject))
         {
-            case "arriba":
+            case "above":
                 transform.position = new Vector3(transform.position.x, GameController.instance.bottomLeftBorder.y, transform.position.z);
                 break;
-            case "abajo":
+            case "below":
                 transform.position = new Vector3(transform.position.x, GameController.instance.topRightBorder.y, transform.position.z);
                 break;
-            case "derecha":
+            case "right":
                 transform.position = new Vector3(GameController.instance.bottomLeftBorder.x, transform.position.y, transform.position.z);
                 break;
-            case "izquierda":
+            case "left":
                 transform.position = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
                 break;
             default:
                 break;
         }
     }
-    string ComprobarPosicion()
-    {
-        float margin = 5;
+    //string ComprobarPosicion()
+    //{
+    //    float margin = 5;
 
-        if (transform.position.y > GameController.instance.topRightBorder.y + margin)
-        {
-            return ("arriba");
-        }
-        else if (transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
-        {
-            return ("abajo");
-        }
-        else if (transform.position.x > GameController.instance.topRightBorder.x + margin)
-        {
-            return ("derecha");
-        }
-        else if (transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
-        {
-            return ("izquierda");
-        }
-        else { return null; }
-    }
+    //    if (transform.position.y > GameController.instance.topRightBorder.y + margin)
+    //    {
+    //        return ("arriba");
+    //    }
+    //    else if (transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
+    //    {
+    //        return ("abajo");
+    //    }
+    //    else if (transform.position.x > GameController.instance.topRightBorder.x + margin)
+    //    {
+    //        return ("derecha");
+    //    }
+    //    else if (transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
+    //    {
+    //        return ("izquierda");
+    //    }
+    //    else { return null; }
+    //}
 
     // ---> Disparo 
     public void Fire() // ---> Se asigna al botón de disparar por código en el PlayerManager

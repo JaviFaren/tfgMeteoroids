@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour
         {
             ModifyLifes(-other.GetComponent<Enemy>().damage); // El menos es para que reste vida.
 
-            StartCoroutine(deathRelocate());
+            //StartCoroutine(deathRelocate());
         }
     }
 
