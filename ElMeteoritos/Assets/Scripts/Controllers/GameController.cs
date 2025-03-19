@@ -210,9 +210,6 @@ public class GameController : MonoBehaviour
                 break;
             }
         }
-        //GameObject meteoroid = Instantiate(meteoroidPrefab, spawnPosition, Quaternion.identity);
-        //meteoroid.GetComponent<detectarMeteorito>().SetTarget(Vector3.zero);
-        //meteoroid.GetComponent<Enemy>().SetTarget(Vector3.zero);
     }
     public Vector3 ChooseEnemySpawnPoint()
     {
@@ -283,7 +280,6 @@ public class GameController : MonoBehaviour
 
                     defeatedEnemyNumber = 0;
                     spawnedEnemies.Clear();
-                    //spawnedEnemyNumber = 0;
                     wave++;
 
                     waveType = SetWaveType(); // Se determina el tipo de oleada
@@ -413,80 +409,4 @@ public class GameController : MonoBehaviour
         Debug.Log("TODOS LOS ENEMIGOS VENCIDOS: " + allEnemiesDefeated);
         isWaveActive = false;
     }
-
-    // Codigo de gestion de rondas antiguo
-    //public void WaveController()
-    //{
-    //    if (nuevaOleada)
-    //    {
-    //        Debug.Log("Oleada: " + oleada);
-    //        StartCoroutine(PlayerUIManager.instance.WaveStarterText(oleada));
-    //    }
-    //}
-
-    //public void EnemiesCalculation()
-    //{
-    //    //Calcula el numero de enemigos normales y especiales va a haber en la ronda que toque
-    //    int FactorJugadores = Mathf.RoundToInt(1 + (playersList.Count - 1) * 0.25f);
-    //    normalesMax = Mathf.CeilToInt((3 + Mathf.Pow(oleada, 1.5f)) * FactorJugadores);
-    //    especialesMax = Mathf.CeilToInt(enemiesNum * baseEnemiesPercentage);
-    //    normalesMax = normalesMax - especialesMax;
-    //    enemiesNum = normalesMax + especialesMax;
-    //    if (oleada <= 3)
-    //    {
-    //        //No hay enemigos especiales en las 3 primeras oleadas
-    //        normalesMax = normalesMax + especialesMax;
-    //        especialesMax = 0;
-    //    }
-    //    else
-    //    {
-    //        //Aumento de porcentaje de enemigos especiales para la proxima oleada hasta un maximo del 80%
-    //        baseEnemiesPercentage = baseEnemiesPercentage + 0.01f;
-    //        if (baseEnemiesPercentage > 0.8f)
-    //        {
-    //            baseEnemiesPercentage = 0.8f;
-    //        }
-    //    }
-    //    Debug.Log("Numero de enemigos: " + enemiesNum);
-    //}
-
-    //public void EnemiesSpawner()
-    //{
-    //    //Hay que equilibrar el tipo de especiales que salen en cada ronda de cara a la entrega final del TFG
-    //    if (enemies_Spawned < enemiesNum)
-    //    {
-    //        int eligeEnemigo = Random.Range(1, enemiesNum + 1);
-    //        if (eligeEnemigo > normalesMax)
-    //        {
-    //            //spawnea especial
-    //            especialesMax--;
-    //            SpawnMeteoroid(5);
-    //        }
-    //        else
-    //        {
-    //            //spawnea normal
-    //            normalesMax--;
-    //            SpawnMeteoroid(0);
-    //        }
-    //        StartCoroutine(meteoritoCD());
-    //        //Necesita restarse al morir un meteorito
-    //        enemies_Spawned++;
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("oleada terminada");
-    //        enemies_Spawned = 0;
-    //        canSpawn = false;
-    //        oleada++;
-    //        nuevaOleada = true;
-    //    }
-    //    Debug.Log("Enemigos spawneados: " + enemies_Spawned);
-    //}
-
-    //public IEnumerator meteoritoCD()
-    //{
-    //    canSpawn = false;
-    //    yield return new WaitForSeconds(8);
-    //    canSpawn = true;
-    //}
 }

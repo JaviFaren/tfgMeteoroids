@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     public int maxLifes;
     public float movementSpeed;
     public int damage;
+    public int puntos;
 
     [Header("Propiedades")]
     public EnemyType enemyType;
@@ -56,7 +57,6 @@ public class Enemy : MonoBehaviour
     {
         Vector2 direction = (targetPosition - transform.position).normalized;
         rb.velocity = direction * movementSpeed;
-        //rb.AddForce(direction * movementSpeed, ForceMode.VelocityChange);
     }
 
     protected virtual void OnHitBehavior(int damage)
@@ -101,26 +101,4 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
-    //string ComprobarPosicion()
-    //{
-    //    float margin = 15;
-
-    //    if (transform.position.y > GameController.instance.topRightBorder.y + margin)
-    //    {
-    //        return ("arriba");
-    //    }
-    //    else if (transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
-    //    {
-    //        return ("abajo");
-    //    }
-    //    else if (transform.position.x > GameController.instance.topRightBorder.x + margin)
-    //    {
-    //        return ("derecha");
-    //    }
-    //    else if (transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
-    //    {
-    //        return ("izquierda");
-    //    }
-    //    else { return null; }
-    //}
 }

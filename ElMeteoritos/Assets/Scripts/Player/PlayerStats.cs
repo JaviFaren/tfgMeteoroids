@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour
         {
             ModifyLifes(-other.GetComponent<Enemy>().damage); // El menos es para que reste vida.
 
-            //StartCoroutine(deathRelocate());
+            StartCoroutine(playerManager.deathRelocate());
         }
     }
 
@@ -53,16 +53,6 @@ public class PlayerStats : MonoBehaviour
         PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
 
         Debug.Log("ESTOY MUERTO? = " + playerManager.isDead);
-    }
-
-    public IEnumerator deathRelocate()
-    {
-        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        playerActions.velocitySlider.value = 0;
-
-        animator.SetBool("died", true);
-        yield return new WaitForSeconds(3.45f);
-        animator.SetBool("died", false);
     }
 
     public void returnToCenter()

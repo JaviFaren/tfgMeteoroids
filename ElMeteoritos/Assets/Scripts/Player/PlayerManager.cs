@@ -25,11 +25,13 @@ public class PlayerManager : MonoBehaviour
     public bool initialized = false; // ---> Booleana que sirve para controlar si el jugador tiene todos los componentes y valores asignados.
     public bool isDead => playerStats.currentLifes == 0; // ---> Booleana que sirve para controlar si el jugador esta muerto.
 
+    public Animator animator;
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
         playerActions = GetComponent<PlayerActions>();
         spaceship = GetComponentInChildren<Spaceship>();
+        animator = GetComponent<Animator>();
         
     }
 
@@ -75,5 +77,15 @@ public class PlayerManager : MonoBehaviour
         canMove = true;
         canShoot = true;
         initialized = true;
+    }
+
+    public IEnumerator deathRelocate()
+    {
+        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerActions.velocitySlider.value = 0;
+
+        animator.SetBool("died", true);
+        yield return new WaitForSeconds(3.45f);
+        animator.SetBool("died", false);
     }
 }

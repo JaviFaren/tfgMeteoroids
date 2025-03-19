@@ -243,6 +243,7 @@ MonoBehaviour:
   canMove: 0
   canShoot: 0
   initialized: 0
+  animator: {fileID: 0}
 --- !u!114 &3846363682642957151
 MonoBehaviour:
   m_ObjectHideFlags: 0

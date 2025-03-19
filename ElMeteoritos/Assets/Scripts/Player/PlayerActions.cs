@@ -141,28 +141,6 @@ public class PlayerActions : MonoBehaviour
                 break;
         }
     }
-    //string ComprobarPosicion()
-    //{
-    //    float margin = 5;
-
-    //    if (transform.position.y > GameController.instance.topRightBorder.y + margin)
-    //    {
-    //        return ("arriba");
-    //    }
-    //    else if (transform.position.y < GameController.instance.bottomLeftBorder.y - margin)
-    //    {
-    //        return ("abajo");
-    //    }
-    //    else if (transform.position.x > GameController.instance.topRightBorder.x + margin)
-    //    {
-    //        return ("derecha");
-    //    }
-    //    else if (transform.position.x < GameController.instance.bottomLeftBorder.x - margin)
-    //    {
-    //        return ("izquierda");
-    //    }
-    //    else { return null; }
-    //}
 
     // ---> Disparo 
     public void Fire() // ---> Se asigna al botón de disparar por código en el PlayerManager
@@ -199,36 +177,4 @@ public class PlayerActions : MonoBehaviour
         shotHeat = Mathf.Max(shotHeat - 33 * Time.deltaTime, 0);
         heatBar.fillAmount = shotHeat / 100f;
     }
-
-    
-
-    // Código de disparo antiguo
-    //public void Disparar()
-    //{
-    //    if (playerManager.canShoot)
-    //    {
-    //        //GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
-    //        //Quaternion tempRotation = this.transform.rotation;
-    //        //tempRotation.x = tempRotation.x + 90;
-    //        //tempShot.transform.rotation = Quaternion.LookRotation(this.transform.up, this.transform.forward * -1);
-    //        //tempShot.GetComponent<Rigidbody>().AddForce(tempShot.gameObject.transform.forward * 80, ForceMode.Impulse);
-    //        //shotHeat += 25;
-    //        //StartCoroutine(EnfriamientoDisparo());
-
-    //        GameObject tempShot = Instantiate(shotOBJ, shotSpawn.transform.position, Quaternion.identity, shotStorage.transform);
-    //        tempShot.GetComponent<PlayerShoot>().Ownername = playerManager.username;
-    //        Rigidbody rb = tempShot.GetComponent<Rigidbody>();
-    //        tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
-    //        rb.constraints = RigidbodyConstraints.FreezeRotation;
-    //        rb.AddForce(transform.up * 80, ForceMode.Impulse);
-    //        shotHeat += 25;
-    //        StartCoroutine(EnfriamientoDisparo());
-    //    }
-    //}
-    //public IEnumerator EnfriamientoDisparo()
-    //{
-    //    playerManager.canShoot = false;
-    //    yield return new WaitForSeconds(0.5f);
-    //    playerManager.canShoot = true;
-    //}
 }

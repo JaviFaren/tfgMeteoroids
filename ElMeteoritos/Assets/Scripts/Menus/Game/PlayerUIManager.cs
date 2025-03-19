@@ -94,7 +94,6 @@ public class PlayerUIManager : MonoBehaviour
 
         waveText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0.7f);
         waveText.gameObject.SetActive(true);
-        //GameController.instance.nuevaOleada = false;
         string oleadaNum = "OLEADA " + waveNumber;
         for (int i = 0; i < oleadaNum.Length; i++)
         {
@@ -117,13 +116,9 @@ public class PlayerUIManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.1f);
         }
-        //oleadaText.text = "";
-        //oleadaText.gameObject.SetActive(false);
+        waveText.gameObject.SetActive(false);
         waveText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0);
 
         animating = false;
-
-        //GameController.instance.EnemiesCalculation();
-        //GameController.instance.canSpawn = true;
     }
 }
