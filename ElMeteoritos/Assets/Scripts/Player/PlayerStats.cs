@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour
     public int currentLifes;
     public int maxLifes;
     public ShootType shootType;
+    public int shootDamage;
 
     [Header("Estadísticas de partida")]
     public int score;
@@ -48,7 +49,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // ---> Gestionar puntuacion
-    public IEnumerator ModifyScoreIE (int amount) // ---> Función para cambiar la puntuación del jugador que impide que baje de 0 y actualiza el panel del jugador usando una animación simple.
+    public IEnumerator ModifyScore (int amount) // ---> Función para cambiar la puntuación del jugador que impide que baje de 0 y actualiza el panel del jugador usando una animación simple.
     {
         int finalScore = Mathf.Max(score + amount, 0);
         while (score != finalScore)
@@ -66,9 +67,4 @@ public class PlayerStats : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
     }
-    //public void ModifyScore(int amount)
-    //{
-    //    score = Mathf.Max(score + amount, 0);
-    //    PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
-    //}
 }

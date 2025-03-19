@@ -31,15 +31,14 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void Start()
     {
-
+        SetLifes(maxLifes);
     }
 
     protected virtual void OnTriggerEnter (Collider other)
     {
         if (other.CompareTag("disparo"))
         {
-            //Debug.Log("heh, man dao");
-            OnHitBehavior();
+            OnHitBehavior(-other.GetComponent<PlayerShoot>().damage);
         }
     }
 
@@ -55,14 +54,23 @@ public class Enemy : MonoBehaviour
         //rb.AddForce(direction * movementSpeed, ForceMode.VelocityChange);
     }
 
-    protected virtual void OnHitBehavior()
+    protected virtual void OnHitBehavior(int damage)
     {
-
+        
     }
 
-    protected virtual void OnDeath()
+    public virtual void OnDeath()
     {
+        GameController.instance.SetDefeatedEnemies(1); // Aumenta en 1 el numero de enmigos derrotados en el GameController
+        GameController.instance.RemoveEnemyFromSpawnedEnemiesList(this); // Elimina el enemigo de la lista spawnedEnemies del Game Controller
         gameObject.SetActive(false);
         this.transform.position = enemyContainer.transform.position;
     }
+
+    public void SetLifes(int amount)
+    {
+        lifes = Mathf.Clamp(lifes + amount, 0, maxLifes);
+    }
+
+    // Falta hacer que los enemigos "mueran" (o lo que se quiera) al pasar los limites de la camara
 }

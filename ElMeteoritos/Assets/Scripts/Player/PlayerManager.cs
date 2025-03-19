@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     public bool canMove = false; // ---> Booleana que sirve para controlar si el jugador puede moverse y rotar.
     public bool canShoot = false; // ---> Booleana que sirve para controlar si el jugador puede disparar.
     public bool initialized = false; // ---> Booleana que sirve para controlar si el jugador tiene todos los componentes y valores asignados.
-    public bool isDead => playerStats.currentLifes == 0;
+    public bool isDead => playerStats.currentLifes == 0; // ---> Booleana que sirve para controlar si el jugador esta muerto.
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class PlayerManager : MonoBehaviour
         if (setNewScore)
         {
             setNewScore = false;
-            playerStats.StartCoroutine(playerStats.ModifyScoreIE(newScore));
+            playerStats.StartCoroutine(playerStats.ModifyScore(newScore));
         }
     }
 

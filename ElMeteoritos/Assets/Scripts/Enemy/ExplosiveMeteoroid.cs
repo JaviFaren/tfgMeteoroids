@@ -25,14 +25,14 @@ public class ExplosiveMeteoroid : Enemy
         base.MoveTowardsTarget();
     }
 
-    protected override void OnHitBehavior()
+    protected override void OnHitBehavior(int damage)
     {
         //Debug.Log("exploto");
         animator.SetBool("enterExplosion", true);
         rb.velocity = Vector3.zero;
     }
 
-    protected override void OnDeath()
+    public override void OnDeath()
     {
         animator.SetBool("enterExplosion", false);
         base.OnDeath();

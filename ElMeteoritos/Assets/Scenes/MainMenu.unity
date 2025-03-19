@@ -2821,6 +2821,7 @@ RectTransform:
   m_Children:
   - {fileID: 26642903}
   - {fileID: 1743073073}
+  - {fileID: 2101272659}
   - {fileID: 1452149344}
   - {fileID: 1233074998}
   m_Father: {fileID: 0}
@@ -2842,21 +2843,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fca8b870a1ddc4da1df293c4dc5bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customizationMenu: {fileID: 1452149343}
-  playMenu: {fileID: 1233074997}
   customizationMenuBTN: {fileID: 1402889535}
   playMenuBTN: {fileID: 1176367582}
   socialMenuBTN: {fileID: 305448226}
   settingsMenuBTN: {fileID: 961915245}
-  unselectedColor: {r: 159, g: 159, b: 159, a: 255}
-  customizationMenuBTNSelectedColor: {r: 159, g: 159, b: 159, a: 255}
-  customizationMenuBTNUnselectedColor: {r: 159, g: 159, b: 159, a: 255}
-  playMenuBTNSelectedColor: {r: 159, g: 159, b: 159, a: 255}
-  playMenuBTNUnselectedColor: {r: 159, g: 159, b: 159, a: 255}
-  socialMenuBTNSelectedColor: {r: 159, g: 159, b: 159, a: 255}
-  socialMenuBTNUnselectedColor: {r: 159, g: 159, b: 159, a: 255}
-  settingsMenuBTNSelectedColor: {r: 159, g: 159, b: 159, a: 255}
-  settingsMenuBTNUnselectedColor: {r: 159, g: 159, b: 159, a: 255}
+  customizationMenu: {fileID: 1452149343}
+  playMenu: {fileID: 1233074997}
+  exitBTN: {fileID: 2101272660}
+  main_Menu_State: 0
 --- !u!1 &597146320
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,7 +4443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.32551622, b: 1, a: 1}
+  m_Color: {r: 0.25, g: 0.37675494, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5299,7 +5293,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2101272659}
   - {fileID: 471687733}
   - {fileID: 210144581}
   m_Father: {fileID: 563018033}
@@ -5361,7 +5354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomsMenu: {fileID: 471687732}
   inRoomMenu: {fileID: 210144580}
-  exitBTN: {fileID: 2101272660}
   createRoomBTN: {fileID: 617538084}
   joinRoomBTN: {fileID: 1165842562}
   startMatchBTN: {fileID: 14896989}
@@ -10102,13 +10094,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2101272658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1663531505}
-  m_Father: {fileID: 1233074998}
+  m_Father: {fileID: 563018033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}

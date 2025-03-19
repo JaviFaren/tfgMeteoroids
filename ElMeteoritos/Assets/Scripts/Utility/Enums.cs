@@ -2,6 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ---> Partida
+public enum MatchState
+{
+    INICIAR_RONDA,
+    RONDA,
+    TERMINAR_RONDA
+}
+
+public enum WaveType
+{
+    COMMON_WAVE,
+    SPECIAL_WAVE,
+    EASTEREGG_WAVE
+}
+
+// ---> Jugador
 public enum ShootType 
 { 
   NADA, 
@@ -10,6 +26,7 @@ public enum ShootType
   ESCOPETA 
 };
 
+// ---> Enemigos
 public enum EnemyType 
 { 
     NORMAL, 

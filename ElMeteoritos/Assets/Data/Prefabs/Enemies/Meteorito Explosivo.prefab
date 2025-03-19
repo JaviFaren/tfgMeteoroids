@@ -208,9 +208,9 @@ MonoBehaviour:
   animator: {fileID: 0}
   enemyContainer: {fileID: 0}
   lifes: 0
-  maxLifes: 0
-  movementSpeed: 15
-  damage: 5
+  maxLifes: 1
+  movementSpeed: 20
+  damage: 1
   enemyType: 3
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}

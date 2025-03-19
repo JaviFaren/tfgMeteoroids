@@ -11,6 +11,9 @@ public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager instance;
 
+    [Header("Flags")]
+    public bool animating;
+
     [Header("Botones")]
     public Button shootButton;
 
@@ -64,6 +67,18 @@ public class PlayerUIManager : MonoBehaviour
             currentPlayersPanels.Add(newPlayerPanel);
         }
     }
+    public void ManagePlayersPanel(bool active = true)
+    {
+        switch (active)
+        {
+            case true:
+                playersInfoPanel.SetActive(true);
+                break;
+            case false:
+                playersInfoPanel.SetActive(false);
+                break;
+        }
+    }
     public void UpdatePlayerPanel(PlayerManager player) // ---> Función para actualizar la información de los jugadores, se llama desde PlayerStats para que solo actualice la de ese jugador. Se puede dividir en dos funciones para actualizar la vida y la puntuación individualmente.
     {
         GameObject panelToUpdate = currentPlayersPanels.FirstOrDefault(e => e.GetComponent<PlayerPanel>().playerID == player.userID);
@@ -74,9 +89,11 @@ public class PlayerUIManager : MonoBehaviour
     // ---> Gestión del texto de las oleadas
     public IEnumerator WaveStarterText(int waveNumber)
     {
+        animating = true;
+
         waveText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0.7f);
         waveText.gameObject.SetActive(true);
-        GameController.instance.nuevaOleada = false;
+        //GameController.instance.nuevaOleada = false;
         string oleadaNum = "OLEADA " + waveNumber;
         for (int i = 0; i < oleadaNum.Length; i++)
         {
@@ -103,8 +120,9 @@ public class PlayerUIManager : MonoBehaviour
         //oleadaText.gameObject.SetActive(false);
         waveText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0);
 
-        GameController.instance.EnemiesCalculation();
+        animating = false;
 
-        GameController.instance.canSpawn = true;
+        //GameController.instance.EnemiesCalculation();
+        //GameController.instance.canSpawn = true;
     }
 }

@@ -11,7 +11,6 @@ public class PlayMenuManager : MonoBehaviour
     public GameObject inRoomMenu;
 
     [Header("Botones")]
-    public Button exitBTN;
     public Button createRoomBTN;
     public Button joinRoomBTN;
     public Button startMatchBTN;

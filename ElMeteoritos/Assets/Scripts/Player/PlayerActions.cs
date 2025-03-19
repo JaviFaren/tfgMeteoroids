@@ -177,6 +177,8 @@ public class PlayerActions : MonoBehaviour
     public void Shoot()
     {
         GameObject tempShot = Instantiate(playerManager.spaceship.shotPrefab, playerManager.spaceship.shotSpawn.position, Quaternion.identity, playerManager.spaceship.shotContainer);
+        tempShot.GetComponent<PlayerShoot>().damage = playerManager.playerStats.shootDamage; // Se asigna el dano del disparo 
+        tempShot.GetComponent<PlayerShoot>().playerID = playerManager.userID; // Se asigna el id del usuario que ha realizado el disparo
         Rigidbody rb = tempShot.GetComponent<Rigidbody>();
         tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         rb.constraints = RigidbodyConstraints.FreezeRotation;
