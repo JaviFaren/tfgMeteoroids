@@ -112,6 +112,8 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case MainMenuState.SOCIAL:
+                customizationMenu.SetActive(false);
+                playMenu.SetActive(false);
 
                 ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
                 ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
@@ -120,6 +122,8 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case MainMenuState.SETTINGS:
+                customizationMenu.SetActive(false);
+                playMenu.SetActive(false);
 
                 ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
                 ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);

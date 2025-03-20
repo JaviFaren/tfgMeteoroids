@@ -6,12 +6,17 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
 
-public class Connection : MonoBehaviour
+public class Connection : MonoBehaviourPunCallbacks
 {
+    public MenuManager menuManager;
+
     public TextMeshProUGUI maxPlayersText;
     public int maxPlayerid;
     public bool openLobby;
     public Image candado;
+
+    public Image botonCrear, botonBuscar, botonCrearSala, botonCerrarSala, botonJugar;
+    public GameObject panelCrear, panelBuscar, panelSalaCreada;
 
     public TextMeshProUGUI nombreSala;
 
@@ -20,6 +25,9 @@ public class Connection : MonoBehaviour
     {
         maxPlayerid = 1;
         openLobby = true;
+
+        botonCrear.color = menuManager.colors["buttonCustomizationSelected"];
+        botonBuscar.color = menuManager.colors["buttonUnselected"];
     }
 
     // Update is called once per frame
@@ -30,6 +38,8 @@ public class Connection : MonoBehaviour
 
     public void CrearSala()
     {
+        botonCrearSala.gameObject.SetActive(false);
+
         RoomOptions r = new RoomOptions();
         r.MaxPlayers = maxPlayerid;
         r.IsOpen = openLobby;
@@ -68,5 +78,41 @@ public class Connection : MonoBehaviour
             openLobby = true;
             candado.color = Color.green;
         }
+    }
+
+    public void SalaState(int state)
+    {
+        if(state == 1)
+        {
+            botonCrear.color = menuManager.colors["buttonPlaySelected"];
+            botonBuscar.color = menuManager.colors["buttonUnselected"];
+            panelCrear.SetActive(true);
+            panelBuscar.SetActive(false);
+        }
+        else
+        {
+            botonBuscar.color = menuManager.colors["buttonPlaySelected"];
+            botonCrear.color = menuManager.colors["buttonUnselected"];
+            panelBuscar.SetActive(true);
+            panelCrear.SetActive(false);
+            //ejecutar la busqueda de salas visibles
+        }
+    }
+
+    public override void OnCreatedRoom()
+    {
+        panelSalaCreada.SetActive(true);
+    }
+
+    public void borrarSala()
+    {
+        PhotonNetwork.LeaveRoom();
+        panelSalaCreada.SetActive(false);
+    }
+
+    [PunRPC]
+    public void iniciarPartida()
+    {
+        //Cositas de empezar a cambiar de escena
     }
 }
