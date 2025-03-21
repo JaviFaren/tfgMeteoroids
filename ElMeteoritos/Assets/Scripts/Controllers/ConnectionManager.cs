@@ -64,21 +64,21 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     {
         return new()
         {
-            MaxPlayers = 4,
+            MaxPlayers = MenuManager.instance.playMenuManager.getRoomMaxPlayers(),
             IsVisible = true,
-            IsOpen = true
+            IsOpen = MenuManager.instance.playMenuManager.isRoomPublic
         };
     }
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom("Sala de " + PhotonNetwork.LocalPlayer.NickName, SetUpRoom(), TypedLobby.Default); // ---> Cambiar nombre de la sala
-
-        Debug.Log("Sala creada");
+        // "Sala de " + PhotonNetwork.LocalPlayer.NickName
+        PhotonNetwork.CreateRoom(MenuManager.instance.playMenuManager.getRoomName(), SetUpRoom(), TypedLobby.Default);
     }
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
         MenuManager.instance.playMenuManager.SetState(GameMenuState.IN_ROOM);
+        Debug.Log("SALA CREADA | Name: " + PhotonNetwork.CurrentRoom.Name + ", MaxPlayers: " + PhotonNetwork.CurrentRoom.MaxPlayers + ", IsOpen: " + PhotonNetwork.CurrentRoom.IsOpen);
     }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {

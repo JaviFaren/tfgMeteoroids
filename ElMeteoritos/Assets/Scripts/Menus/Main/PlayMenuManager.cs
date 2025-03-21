@@ -14,13 +14,14 @@ public class PlayMenuManager : MonoBehaviour
     public Button createRoomBTN;
     public Button joinRoomBTN;
     public Button startMatchBTN;
+    public Button privateRoomBTN;
 
     [Header("Textos")]
     public TextMeshProUGUI roomNameTMP;
-    public TextMeshProUGUI maxPlayersTMP;
+    public TextMeshProUGUI maxPlayersInRoomTMP;
 
     [Header("Slider")]
-    public Slider maxPlayersSlider;
+    public Slider maxPlayersInRoomSlider;
 
     [Header("Capos de texto")]
     public TMP_InputField roomNameIF;
@@ -41,8 +42,9 @@ public class PlayMenuManager : MonoBehaviour
     public event OnVariableChangeDelegate OnStateChange;
 
     [Header("Flags")]
-    public bool canCreateRoom;
+    private bool canCreateRoom;
     private bool canJoinRoom;
+    public bool isRoomPublic;
 
     private void Start()
     {
@@ -87,9 +89,22 @@ public class PlayMenuManager : MonoBehaviour
 
     public void UpdateMaxPlayersText()
     {
-        maxPlayersTMP.text = (maxPlayersSlider.value).ToString();
+        maxPlayersInRoomTMP.text = (maxPlayersInRoomSlider.value).ToString();
     }
 
+    public void SetPublicRoom()
+    {
+        if (isRoomPublic)
+        {
+            privateRoomBTN.gameObject.GetComponent<Animator>().CrossFade("Close", 0.2f);
+            isRoomPublic = false;
+        }
+        else
+        {
+            privateRoomBTN.gameObject.GetComponent<Animator>().CrossFade("Open", 0.2f);
+            isRoomPublic = true;
+        }
+    }
     public void CanCreateRoom()
     {
         if (roomNameIF.text.Equals(""))
@@ -103,9 +118,17 @@ public class PlayMenuManager : MonoBehaviour
 
         createRoomBTN.interactable = canCreateRoom;
     }
-
     public void CanJoinRoom()
     {
 
+    }
+
+    public int getRoomMaxPlayers()
+    {
+        return (int)maxPlayersInRoomSlider.value;
+    }
+    public string getRoomName()
+    {
+        return roomNameIF.text;
     }
 }
