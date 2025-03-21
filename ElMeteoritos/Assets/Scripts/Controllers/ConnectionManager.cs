@@ -10,6 +10,8 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 {
     public static ConnectionManager instance;
 
+    public string playerName;
+
     public TextMeshProUGUI maxPlayersText;
     public int maxPlayerid;
     public bool openLobby;
@@ -51,6 +53,8 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     public void Connect()
     {
         PhotonNetwork.ConnectUsingSettings();
+
+        PhotonNetwork.NickName = playerName;
     }
     public override void OnConnectedToMaster()
     {
@@ -64,7 +68,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     {
         return new()
         {
-            MaxPlayers = MenuManager.instance.playMenuManager.getRoomMaxPlayers(),
+            MaxPlayers = MenuManager.instance.playMenuManager.GetRoomMaxPlayers(),
             IsVisible = true,
             IsOpen = MenuManager.instance.playMenuManager.isRoomPublic
         };
@@ -72,7 +76,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         // "Sala de " + PhotonNetwork.LocalPlayer.NickName
-        PhotonNetwork.CreateRoom(MenuManager.instance.playMenuManager.getRoomName(), SetUpRoom(), TypedLobby.Default);
+        PhotonNetwork.CreateRoom(MenuManager.instance.playMenuManager.GetRoomName(), SetUpRoom(), TypedLobby.Default);
     }
     public override void OnCreatedRoom()
     {
@@ -102,6 +106,9 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         {
             MenuManager.instance.playMenuManager.ManageStartMatchButton(false);
         }
+
+        MenuManager.instance.playMenuManager.UpdateRoomName(PhotonNetwork.CurrentRoom.Name);
+        MenuManager.instance.playMenuManager.UpdatePlayersPanel(PhotonNetwork.PlayerList);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {

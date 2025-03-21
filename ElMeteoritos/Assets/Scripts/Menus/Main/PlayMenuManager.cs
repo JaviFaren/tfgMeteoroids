@@ -1,3 +1,5 @@
+using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,8 +25,13 @@ public class PlayMenuManager : MonoBehaviour
     [Header("Slider")]
     public Slider maxPlayersInRoomSlider;
 
-    [Header("Capos de texto")]
+    [Header("Campos de texto")]
     public TMP_InputField roomNameIF;
+
+    [Header("Jugadores")]
+    public List<GameObject> playersPanels;
+    public List<GameObject> playersSpaceships;
+    public List<TextMeshProUGUI> playersNamesTMP;
 
     [Header("Estado")]
     public GameMenuState game_Menu_State;
@@ -92,6 +99,23 @@ public class PlayMenuManager : MonoBehaviour
         maxPlayersInRoomTMP.text = (maxPlayersInRoomSlider.value).ToString();
     }
 
+    public void UpdatePlayersPanel(Player[] playerList)
+    {
+        playersPanels.ForEach(playerPanel => playerPanel.SetActive(false));
+
+        for (int i = 0; i < playerList.Length; i++)
+        {
+            playersPanels[i].SetActive(true);
+            playersNamesTMP[i].text = playerList[i].NickName;
+            //playersSpaceships[i].GetComponent<Image>().sprite =  ---> Cambiar cuande se guarde la personalización de la nave en shared preferences
+        }
+    }
+
+    public void UpdateRoomName(string name)
+    {
+        roomNameTMP.text = name;
+    }
+
     public void SetPublicRoom()
     {
         if (isRoomPublic)
@@ -123,11 +147,11 @@ public class PlayMenuManager : MonoBehaviour
 
     }
 
-    public int getRoomMaxPlayers()
+    public int GetRoomMaxPlayers()
     {
         return (int)maxPlayersInRoomSlider.value;
     }
-    public string getRoomName()
+    public string GetRoomName()
     {
         return roomNameIF.text;
     }
