@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections;
@@ -21,6 +22,7 @@ public class PlayMenuManager : MonoBehaviour
     [Header("Textos")]
     public TextMeshProUGUI roomNameTMP;
     public TextMeshProUGUI maxPlayersInRoomTMP;
+    public TextMeshProUGUI privacyRoomRMP;
 
     [Header("Slider")]
     public Slider maxPlayersInRoomSlider;
@@ -32,6 +34,11 @@ public class PlayMenuManager : MonoBehaviour
     public List<GameObject> playersPanels;
     public List<GameObject> playersSpaceships;
     public List<TextMeshProUGUI> playersNamesTMP;
+
+    [Header("Salas")]
+    public GameObject roomPanelPrefab;
+    public GameObject roomsPanelContent;
+    public string selectedRoomName;
 
     [Header("Estado")]
     public GameMenuState game_Menu_State;
@@ -71,6 +78,7 @@ public class PlayMenuManager : MonoBehaviour
             case GameMenuState.ROOMS:
 
                 UpdateMaxPlayersText();
+                SetPublicRoom();
 
                 joinRoomBTN.interactable = false; // ---> Cuando tengamos lo de mostar las salas habra que cambiarlo
                 createRoomBTN.interactable = false;
@@ -96,7 +104,7 @@ public class PlayMenuManager : MonoBehaviour
 
     public void UpdateMaxPlayersText()
     {
-        maxPlayersInRoomTMP.text = (maxPlayersInRoomSlider.value).ToString();
+        maxPlayersInRoomTMP.text = (maxPlayersInRoomSlider.value + " Jugadores").ToString();
     }
 
     public void UpdatePlayersPanel(Player[] playerList)
@@ -121,11 +129,13 @@ public class PlayMenuManager : MonoBehaviour
         if (isRoomPublic)
         {
             privateRoomBTN.gameObject.GetComponent<Animator>().CrossFade("Close", 0.2f);
+            privacyRoomRMP.text = "Privada";
             isRoomPublic = false;
         }
         else
         {
             privateRoomBTN.gameObject.GetComponent<Animator>().CrossFade("Open", 0.2f);
+            privacyRoomRMP.text = "Abierta";
             isRoomPublic = true;
         }
     }
@@ -144,15 +154,35 @@ public class PlayMenuManager : MonoBehaviour
     }
     public void CanJoinRoom()
     {
+        if (selectedRoomName.Equals(""))
+        {
+            canJoinRoom = false;
+            joinRoomBTN.onClick.RemoveAllListeners();
+        }
+        else
+        {
+            canJoinRoom = true;
+            joinRoomBTN.onClick.AddListener(delegate { ConnectionManager.instance.JoinRoom(selectedRoomName); });
+        }
 
+        joinRoomBTN.interactable = canJoinRoom;
     }
 
-    public int GetRoomMaxPlayers()
+    public int GetRoomMaxPlayersFromSlider()
     {
         return (int)maxPlayersInRoomSlider.value;
     }
-    public string GetRoomName()
+    public string GetRoomNameFromIF()
     {
         return roomNameIF.text;
+    }
+
+    public void DisplayRooms(List<RoomInfo> roomList)
+    {
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            GameObject roomPanel = Instantiate(roomPanelPrefab, Vector3.zero, Quaternion.identity, roomsPanelContent.transform);
+            roomPanel.GetComponent<Room>().UpdateRoomPanelInfo(roomList[i].Name, roomList[i].PlayerCount, roomList[i].MaxPlayers, roomList[i].IsOpen);
+        }
     }
 }

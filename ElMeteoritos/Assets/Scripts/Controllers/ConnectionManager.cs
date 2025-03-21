@@ -12,16 +12,6 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 
     public string playerName;
 
-    public TextMeshProUGUI maxPlayersText;
-    public int maxPlayerid;
-    public bool openLobby;
-    public Image candado;
-
-    public Image botonCrear, botonBuscar, botonCrearSala, botonCerrarSala, botonJugar;
-    public GameObject panelCrear, panelBuscar, panelSalaCreada;
-
-    public TextMeshProUGUI nombreSala;
-
     private void Awake()
     {
         //  Singleton
@@ -39,27 +29,24 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
-        Connect();
-
-        maxPlayerid = 1;
-        openLobby = true;
-
-        botonCrear.color = MenuManager.instance.colors["buttonCustomizationSelected"];
-        botonBuscar.color = MenuManager.instance.colors["buttonUnselected"];
     }
 
     //  Gestionar conexión
     public void Connect()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
 
-        PhotonNetwork.NickName = playerName;
+            PhotonNetwork.NickName = playerName;
+        }
     }
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
         Debug.Log("Conectado al master");
+
+        PhotonNetwork.JoinLobby();
         //PhotonNetwork.LocalPlayer.NickName = UIManager.instance.mainMenuManager.playerName; --> Coger el nombre de usuario de shared Prefernces
     }
 
@@ -68,7 +55,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     {
         return new()
         {
-            MaxPlayers = MenuManager.instance.playMenuManager.GetRoomMaxPlayers(),
+            MaxPlayers = MenuManager.instance.playMenuManager.GetRoomMaxPlayersFromSlider(),
             IsVisible = true,
             IsOpen = MenuManager.instance.playMenuManager.isRoomPublic
         };
@@ -76,7 +63,10 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         // "Sala de " + PhotonNetwork.LocalPlayer.NickName
-        PhotonNetwork.CreateRoom(MenuManager.instance.playMenuManager.GetRoomName(), SetUpRoom(), TypedLobby.Default);
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            PhotonNetwork.CreateRoom(MenuManager.instance.playMenuManager.GetRoomNameFromIF(), SetUpRoom(), TypedLobby.Default); ;
+        }
     }
     public override void OnCreatedRoom()
     {
@@ -91,12 +81,16 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     }
     public void JoinRoom(string roomName)
     {
-        PhotonNetwork.JoinRoom(roomName);
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            PhotonNetwork.JoinRoom(roomName);
+        }
     }
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         Debug.Log("Conectado a la sala");
+        MenuManager.instance.playMenuManager.SetState(GameMenuState.IN_ROOM);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -107,8 +101,8 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
             MenuManager.instance.playMenuManager.ManageStartMatchButton(false);
         }
 
-        MenuManager.instance.playMenuManager.UpdateRoomName(PhotonNetwork.CurrentRoom.Name);
         MenuManager.instance.playMenuManager.UpdatePlayersPanel(PhotonNetwork.PlayerList);
+        MenuManager.instance.playMenuManager.UpdateRoomName(PhotonNetwork.CurrentRoom.Name);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -116,6 +110,23 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         Debug.Log("No ha sido posible conectarse a la sala - " + message + " _ " + returnCode);
     }
 
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+
+        Debug.Log(roomList.Count);
+        foreach (var room in roomList)
+        {
+            Debug.Log("Name: " + room.Name + " Players: " + room.PlayerCount + ", MaxPlayers: " + room.MaxPlayers + ", IsOpen: " + room.IsOpen);
+        }
+        MenuManager.instance.playMenuManager.DisplayRooms(roomList);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        MenuManager.instance.playMenuManager.UpdatePlayersPanel(PhotonNetwork.PlayerList);
+    }
 
     //  Gestionar desconexión
     public void Disconnect()

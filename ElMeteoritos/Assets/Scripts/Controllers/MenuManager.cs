@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,6 +92,11 @@ public class MenuManager : MonoBehaviour
                 break;
 
             case MainMenuState.GAME:
+
+                if (!PhotonNetwork.IsConnected)
+                {
+                    ConnectionManager.instance.Connect();
+                }
 
                 OpenGameMenu();
                 break;
