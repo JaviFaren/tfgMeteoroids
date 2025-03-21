@@ -22,15 +22,19 @@ public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
         rectTransform = GetComponent<RectTransform>();
 
         pickerTransform = pickerImage.GetComponent<RectTransform>();
-        pickerTransform.position = new Vector2(-(rectTransform.sizeDelta.x * 0.5f), -(rectTransform.sizeDelta.y * 0.5f));
+        //pickerTransform.position = new Vector2(-(rectTransform.sizeDelta.x * 0.5f), -(rectTransform.sizeDelta.y * 0.5f));
+        pickerTransform.localPosition = new Vector2(-(rectTransform.rect.width * 0.5f), -(rectTransform.rect.height * 0.5f));
     }
 
     void UpdateColor(PointerEventData eventData)
     {
         Vector3 pos = rectTransform.InverseTransformPoint(eventData.position);
 
-        float deltaX = rectTransform.sizeDelta.x * 0.5f;
-        float deltaY = rectTransform.sizeDelta.y * 0.5f;
+        float deltaX = rectTransform.rect.width * 0.5f;
+        float deltaY = rectTransform.rect.height * 0.5f;
+        //float deltaX = rectTransform.sizeDelta.x * 0.5f;
+        //float deltaY = rectTransform.sizeDelta.y * 0.5f;
+        
 
         if(pos.x < -deltaX)
         {
@@ -53,8 +57,10 @@ public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
         float x = pos.x + deltaX;
         float y = pos.y + deltaY;
 
-        float xNorm = x / rectTransform.sizeDelta.x;
-        float yNorm = y / rectTransform.sizeDelta.y;
+        float xNorm = x / rectTransform.rect.width;
+        float yNorm = y / rectTransform.rect.height;
+        //float xNorm = x / rectTransform.sizeDelta.x;
+        //float yNorm = y / rectTransform.sizeDelta.y;
 
         pickerTransform.localPosition = pos;
         pickerImage.color = Color.HSVToRGB(0, 0, 1 - yNorm);

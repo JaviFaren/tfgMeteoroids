@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] public PlayerActions playerActions;
     [HideInInspector] public Spaceship spaceship;
+    [HideInInspector] public Animator animator;
 
     [Header("Debug")]
     public int newScore;
@@ -25,14 +26,12 @@ public class PlayerManager : MonoBehaviour
     public bool initialized = false; // ---> Booleana que sirve para controlar si el jugador tiene todos los componentes y valores asignados.
     public bool isDead => playerStats.currentLifes == 0; // ---> Booleana que sirve para controlar si el jugador esta muerto.
 
-    public Animator animator;
     private void Awake()
     {
         playerStats = GetComponent<PlayerStats>();
         playerActions = GetComponent<PlayerActions>();
-        spaceship = GetComponentInChildren<Spaceship>();
+        spaceship = GetComponentInChildren<Spaceship>();    
         animator = GetComponent<Animator>();
-        
     }
 
     private void Start()
@@ -79,13 +78,21 @@ public class PlayerManager : MonoBehaviour
         initialized = true;
     }
 
-    public IEnumerator deathRelocate()
+    //public IEnumerator deathRelocate()
+    //{
+    //    this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    //    playerActions.velocitySlider.value = 0;
+
+    //    animator.SetBool("died", true);
+    //    //yield return new WaitForSeconds(3.45f);
+    //    //animator.SetBool("died", false);
+    //}
+
+    public void OnHitRelocate()
     {
         this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         playerActions.velocitySlider.value = 0;
 
-        animator.SetBool("died", true);
-        yield return new WaitForSeconds(3.45f);
-        animator.SetBool("died", false);
+        animator.CrossFade("Respawn", 0.2f);
     }
 }

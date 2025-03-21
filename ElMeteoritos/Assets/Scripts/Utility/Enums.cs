@@ -59,6 +59,7 @@ public enum CustomizationMenuCategory
 
 public enum GameMenuState
 {
+    INITIALIZED,
     ROOMS,
     IN_ROOM
 }

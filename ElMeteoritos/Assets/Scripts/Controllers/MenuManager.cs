@@ -16,7 +16,9 @@ public class MenuManager : MonoBehaviour
 
     [Header("Menus")]
     public GameObject customizationMenu;
+    public CustomizationMenuManager customizationMenuManager;
     public GameObject playMenu;
+    public PlayMenuManager playMenuManager;
 
     [Header("Botones")]
     public Button exitBTN;
@@ -80,59 +82,82 @@ public class MenuManager : MonoBehaviour
         {
             case MainMenuState.START:
 
-                customizationMenu.SetActive(false);
-                playMenu.SetActive(false);
-
-                ChangeButtonColor(customizationMenuBTN, colors["buttonCustomizationUnselected"]);
-                ChangeButtonColor(playMenuBTN, colors["buttonPlayUnselected"]);
-                ChangeButtonColor(socialMenuBTN, colors["buttonSocialUnselected"]);
-                ChangeButtonColor(settingsMenuBTN, colors["buttonSettingsUnselected"]);
+                StartMenu();
                 break;
 
             case MainMenuState.CUSTOMIZATION:
 
-                customizationMenu.SetActive(true);
-                playMenu.SetActive(false);
-
-                ChangeButtonColor(customizationMenuBTN, colors["buttonCustomizationSelected"]);
-                ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(socialMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(settingsMenuBTN, colors["buttonUnselected"]);
+                OpenCustomizationMenu();
                 break;
 
             case MainMenuState.GAME:
 
-                customizationMenu.SetActive(false);
-                playMenu.SetActive(true);
-
-                ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(playMenuBTN, colors["buttonPlaySelected"]);
-                ChangeButtonColor(socialMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(settingsMenuBTN, colors["buttonUnselected"]);
+                OpenGameMenu();
                 break;
 
             case MainMenuState.SOCIAL:
-                customizationMenu.SetActive(false);
-                playMenu.SetActive(false);
 
-                ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(socialMenuBTN, colors["buttonSocialSelected"]);
-                ChangeButtonColor(settingsMenuBTN, colors["buttonUnselected"]);
+                OpenSocialMenu();
                 break;
 
             case MainMenuState.SETTINGS:
-                customizationMenu.SetActive(false);
-                playMenu.SetActive(false);
 
-                ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(socialMenuBTN, colors["buttonUnselected"]);
-                ChangeButtonColor(settingsMenuBTN, colors["buttonSettingsSelected"]);
+                OpenSettingsMenu();
                 break;
 
         }
     } 
+
+    private void StartMenu()
+    {
+        customizationMenu.SetActive(false);
+        playMenu.SetActive(false);
+
+        ChangeButtonColor(customizationMenuBTN, colors["buttonCustomizationUnselected"]);
+        ChangeButtonColor(playMenuBTN, colors["buttonPlayUnselected"]);
+        ChangeButtonColor(socialMenuBTN, colors["buttonSocialUnselected"]);
+        ChangeButtonColor(settingsMenuBTN, colors["buttonSettingsUnselected"]);
+    }
+    private void OpenCustomizationMenu()
+    {
+        customizationMenu.SetActive(true);
+        playMenu.SetActive(false);
+
+        ChangeButtonColor(customizationMenuBTN, colors["buttonCustomizationSelected"]);
+        ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(socialMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(settingsMenuBTN, colors["buttonUnselected"]);
+    }
+    private void OpenGameMenu()
+    {
+        customizationMenu.SetActive(false);
+        playMenu.SetActive(true);
+
+        ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(playMenuBTN, colors["buttonPlaySelected"]);
+        ChangeButtonColor(socialMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(settingsMenuBTN, colors["buttonUnselected"]);
+    }
+    private void OpenSocialMenu()
+    {
+        customizationMenu.SetActive(false);
+        playMenu.SetActive(false);
+
+        ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(socialMenuBTN, colors["buttonSocialSelected"]);
+        ChangeButtonColor(settingsMenuBTN, colors["buttonUnselected"]);
+    }
+    private void OpenSettingsMenu()
+    {
+        customizationMenu.SetActive(false);
+        playMenu.SetActive(false);
+
+        ChangeButtonColor(customizationMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(playMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(socialMenuBTN, colors["buttonUnselected"]);
+        ChangeButtonColor(settingsMenuBTN, colors["buttonSettingsSelected"]);
+    }
 
     // ---> Botones de navegación
     private void ManageNavigationButtons(bool bActivate = true)

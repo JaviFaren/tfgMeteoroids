@@ -23,7 +23,7 @@ public class ColorPickerControl : MonoBehaviour
 
         CreateSVImage();
 
-        CreateOutputImage();
+        //CreateOutputImage();
 
         UpdateOutputImage();
     }
@@ -86,12 +86,12 @@ public class ColorPickerControl : MonoBehaviour
     {
         Color currentColor = Color.HSVToRGB(currentHue, currentSat, currentVal);
 
-        for (int i = 0; i < outputTexture.height; i++)
-        {
-            outputTexture.SetPixel(0, i, currentColor);
-        }
+        //for (int i = 0; i < outputTexture.height; i++)
+        //{
+        //    outputTexture.SetPixel(0, i, currentColor);
+        //}
 
-        outputTexture.Apply();
+        //outputTexture.Apply();
 
         changeThisColor.GetComponent<Image>().color = currentColor;
     }

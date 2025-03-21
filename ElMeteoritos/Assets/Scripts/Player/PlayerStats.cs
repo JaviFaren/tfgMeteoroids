@@ -8,8 +8,6 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 public class PlayerStats : MonoBehaviour
 {
     [HideInInspector] public PlayerManager playerManager;
-    private Animator animator;
-    public PlayerActions playerActions;
 
     [Header("Stats")]
     public int currentLifes;
@@ -25,8 +23,6 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         playerManager = GetComponent<PlayerManager>();
-        animator = GetComponent<Animator>();
-        playerActions = GetComponent<PlayerActions>();
     }
 
     private void Start()
@@ -40,7 +36,8 @@ public class PlayerStats : MonoBehaviour
         {
             ModifyLifes(-other.GetComponent<Enemy>().damage); // El menos es para que reste vida.
 
-            StartCoroutine(playerManager.deathRelocate());
+            playerManager.OnHitRelocate();
+            //StartCoroutine(playerManager.deathRelocate());
         }
     }
 
@@ -55,16 +52,16 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("ESTOY MUERTO? = " + playerManager.isDead);
     }
 
-    public void returnToCenter()
+    public void ReturnToCenter()
     {
-        if (currentLifes <= 0)
+        if (!playerManager.isDead)
         {
             playerManager.canMove = false;
             playerManager.canShoot = false;
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             PlayerUIManager.instance.deathScreen.SetActive(true);
         }
-        this.gameObject.transform.position = Vector3.zero;
+        transform.position = Vector3.zero;
     }
 
     // ---> Gestionar puntuacion

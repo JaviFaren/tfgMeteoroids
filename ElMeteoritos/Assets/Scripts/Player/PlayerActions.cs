@@ -6,11 +6,10 @@ using UnityEngine.UI;
 // ---> Clase con todas las acciones que puede hacer el jugador
 public class PlayerActions : MonoBehaviour
 {
-    public PlayerManager playerManager;
+    [HideInInspector] public PlayerManager playerManager;
 
     [Header("Componentes")]
     private Rigidbody rb;
-    
 
     [Header("Rotacion")]
     public Vector2 joystickAxis;
