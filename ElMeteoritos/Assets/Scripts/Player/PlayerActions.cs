@@ -103,7 +103,13 @@ public class PlayerActions : MonoBehaviour
                 rotationStep = angleDifference;
             }
             rb.AddTorque(this.transform.forward * rotationStep, ForceMode.Acceleration);
+
+            if (Mathf.Abs(angleDifference) < 0.5f)
+            {
+                rb.angularVelocity = Vector3.zero;
+            }
         }
+        
     }
 
     // ---> Propulsión de la nave
@@ -164,7 +170,10 @@ public class PlayerActions : MonoBehaviour
 
         shotHeat += 25;
 
-        Destroy(tempShot, 5f);
+        if (tempShot)
+        {
+            Destroy(tempShot, 4f);
+        }
     }
     IEnumerator ResetShootCooldown()
     {

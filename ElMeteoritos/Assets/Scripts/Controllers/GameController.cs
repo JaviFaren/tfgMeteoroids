@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour
     [Tooltip("Comunes:0, Divx2:1, Divx5:2, Blindados:3, Curativos:4, Expl:5")]
     public int meteoroidType = 0;
     public List<GameObject> playersListsDebug; // ---> Agregar en el inspector de Unity prefabs de jugadores con distinto ID para hacer pruebas.
+    public List<GameObject> playerSpawns;
     public GameObject meteoroidPrefab; // ---> Anadir en el inspector de Unity un prefab de cualquier enemigo para hacer pruebas.
 
     [Header("Jugadores")]
@@ -31,6 +33,7 @@ public class GameController : MonoBehaviour
     public bool isWaveActive; // Booleana que controla si la oleada esta en marcha
     public WaveType waveType; // Tipo de oleada actual
     public float enemySpawnDelay; // Tipo de espera entre spawn de enemigos
+    public float enemySpawnDelayReduction; //Factor de reduccion de tiempo de spawn de enemigos entre rondas
     public int waveEnemyNumber; // Numero maximo de enemigos en este ronda
     public int commonEnemyNumber; // Numero maximo de enemigos comunes en este ronda
     public int specialEnemyNumber; // Numero maximo de enemigos especiales en este ronda
@@ -88,6 +91,9 @@ public class GameController : MonoBehaviour
 
         //asignacionPlayers();
         //StartCoroutine(prueba());
+
+        enemySpawnDelay = 6;
+        enemySpawnDelayReduction = 0.01f;
 
         StartCoroutine(SpawnPlayers());
         StartCoroutine(StartMatch());
@@ -158,10 +164,17 @@ public class GameController : MonoBehaviour
     }
     public IEnumerator SpawnPlayers() // ---> Funcion para spawnear a los jugadores, esperando a que se inicialicen todos para que no haya fallos. Habra que cambiar algunas cosas al meter el Photon
     {
+        int pos = -1;
         //PhotonNetwork.PlayerList;
         foreach (var pla in playersListsDebug)
         {
+            pos++;
             Instantiate(pla);
+            playersListsDebug[pos].transform.position = playerSpawns[pos].transform.position;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                
+            }
         }
 
         yield return new WaitUntil(() => playersList.TrueForAll(e => e.initialized)); // --> Esperar a que todos los jugadores tengan los componentes inicializados
@@ -366,6 +379,11 @@ public class GameController : MonoBehaviour
         //Calcula el numero de enemigos normales y especiales que va a haber en la ronda que toque
         int playersFactor = Mathf.RoundToInt(1 + (playersList.Count - 1) * 0.25f);
         commonEnemyNumber = Mathf.CeilToInt((3 + Mathf.Pow(wave, 1.5f)) * playersFactor);
+
+        if(wave > 2 && enemySpawnDelay > 2)
+        {
+            enemySpawnDelay = enemySpawnDelay - (enemySpawnDelay * enemySpawnDelayReduction);
+        }
 
         if (wave <= specialEnemyWaveDelay)
         {

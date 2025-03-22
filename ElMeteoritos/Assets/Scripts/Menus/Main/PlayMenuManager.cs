@@ -181,8 +181,11 @@ public class PlayMenuManager : MonoBehaviour
     {
         for (int i = 0; i < roomList.Count; i++)
         {
-            GameObject roomPanel = Instantiate(roomPanelPrefab, Vector3.zero, Quaternion.identity, roomsPanelContent.transform);
-            roomPanel.GetComponent<Room>().UpdateRoomPanelInfo(roomList[i].Name, roomList[i].PlayerCount, roomList[i].MaxPlayers, roomList[i].IsOpen);
+            if (roomList[i].IsOpen && roomList[i].PlayerCount < roomList[i].MaxPlayers)
+            {
+                GameObject roomPanel = Instantiate(roomPanelPrefab, Vector3.zero, Quaternion.identity, roomsPanelContent.transform);
+                roomPanel.GetComponent<Room>().UpdateRoomPanelInfo(roomList[i].Name, roomList[i].PlayerCount, roomList[i].MaxPlayers, roomList[i].IsOpen);
+            }
         }
     }
 }

@@ -99,7 +99,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  animator: {fileID: 0}
   spaceshipSprite: {fileID: 21300000, guid: b884be276728fc94e8f7b4b00858e58d, type: 3}
   spaceshipColor: {r: 1, g: 0, b: 0, a: 1}
   spaceshipTrail: {fileID: 0}
@@ -144,7 +143,7 @@ Transform:
   m_GameObject: {fileID: 3808531777452310775}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 25, y: -10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -317,6 +316,7 @@ MonoBehaviour:
   playerStats: {fileID: 0}
   playerActions: {fileID: 0}
   spaceship: {fileID: 0}
+  animator: {fileID: 0}
   newScore: 0
   newLifes: 0
   setNewLifes: 0

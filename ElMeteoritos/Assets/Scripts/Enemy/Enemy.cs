@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("disparo"))
         {
             OnHitBehavior(-other.GetComponent<PlayerShoot>().damage);
+            Destroy(other.gameObject);
         }
     }
 
