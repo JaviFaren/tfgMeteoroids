@@ -103,7 +103,7 @@ public class GameController : MonoBehaviour
         // ---> Debug
         if (bSpawnM == true)
         {
-            SpawnMeteoroid(meteoroidType);
+            //SpawnMeteoroid(meteoroidType);
             bSpawnM = false;
         }
 
@@ -179,7 +179,7 @@ public class GameController : MonoBehaviour
         PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
             //Cambiar el numero de jugador
-            while (playersList.Count() < 2) {
+            while (playersList.Count() < PhotonNetwork.PlayerList.Count()) {
                 yield return null;
             }
             for (int i = 0; i < playersList.Count(); i++)
@@ -200,40 +200,52 @@ public class GameController : MonoBehaviour
     public void SpawnEnemy()
     {
         //Hay que equilibrar el tipo de especiales que salen en cada ronda de cara a la entrega final del TFG
-        int eligeEnemigo = Random.Range(1, waveEnemyNumber + 1);
-        if (eligeEnemigo > commonEnemyNumber)
+
+        //PlayerManager player = playersList.Find(player => player.phView.Owner.IsMasterClient);
+        for (int i = 0; i < playersList.Count(); i++)
         {
-            //spawnea especial
-            //specialEnemyNumber--;
-            SpawnMeteoroid(5);
-        }
-        else
-        {
-            //spawnea normal
-            //commonEnemyNumber--;
-            SpawnMeteoroid(0);
-        }
-    }
-    public void SpawnMeteoroid(int IDType)
-    {
-        //Comprueba el contenedor correspondiente en base al enemigo que tiene que mover, lo activa y lo lanza hacia un jugador aleatorio (Sin testear)
-        Vector3 spawnPosition = ChooseEnemySpawnPoint();
-        for(int i = 0; i < contenedores_Enemigos[IDType].transform.childCount; i++)
-        {
-            if (!contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.activeInHierarchy)
+            if (playersList[i].phView.Owner.IsMasterClient)
             {
-                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.transform.position = spawnPosition;
-                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.SetActive(true);
+                PlayerManager player = playersList[i];
 
-                int randomPlayer = Random.Range(0, playersList.Count);
-                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>().SetTarget(playersList[randomPlayer].transform.position);
-
-                spawnedEnemies.Add(contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>());
-
-                break;
+                int eligeEnemigo = Random.Range(1, waveEnemyNumber + 1);
+                if (eligeEnemigo > commonEnemyNumber)
+                {
+                    //spawnea especial
+                    //specialEnemyNumber--;
+                    player.SpawnMeteoroid(5);
+                }
+                else
+                {
+                    //spawnea normal
+                    //commonEnemyNumber--;
+                    player.SpawnMeteoroid(0);
+                }
             }
         }
     }
+    //public void SpawnMeteoroid(int IDType)
+    //{
+    //    //Comprueba el contenedor correspondiente en base al enemigo que tiene que mover, lo activa y lo lanza hacia un jugador aleatorio (Sin testear)
+    //    Vector3 spawnPosition = ChooseEnemySpawnPoint();
+    //    for(int i = 0; i < contenedores_Enemigos[IDType].transform.childCount; i++)
+    //    {
+    //        if (!contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.activeInHierarchy)
+    //        {
+    //            contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.transform.position = spawnPosition;
+    //            contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.SetActive(true);
+
+    //            int randomPlayer = Random.Range(0, playersList.Count);
+    //            contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>().SetTarget(playersList[randomPlayer].transform.position);
+
+    //            spawnedEnemies.Add(contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>());
+
+    //            break;
+    //        }
+    //    }
+    //}
+
+    
 
     public Vector3 ChooseEnemySpawnPoint()
     {

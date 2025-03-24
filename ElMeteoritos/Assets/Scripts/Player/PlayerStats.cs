@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -36,7 +37,8 @@ public class PlayerStats : MonoBehaviour
         {
             ModifyLifes(-other.GetComponent<Enemy>().damage); // El menos es para que reste vida.
 
-            playerManager.OnHitRelocate();
+            //playerManager.OnHitRelocate();
+            playerManager.phView.RPC("OnHitRelocate", RpcTarget.All);
             //StartCoroutine(playerManager.deathRelocate());
         }
     }
@@ -54,14 +56,27 @@ public class PlayerStats : MonoBehaviour
 
     public void ReturnToCenter()
     {
+        playerManager.phView.RPC("ResetPosition", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void ResetPosition()
+    {
         if (!playerManager.isDead)
         {
+            playerManager.canMove = true;
+            playerManager.canShoot = true;
+            //gameObject.SetActive(true);
+        }
+        else
+        {
+            PlayerUIManager.instance.deathScreen.SetActive(true);
             playerManager.canMove = false;
             playerManager.canShoot = false;
             gameObject.SetActive(false);
-            PlayerUIManager.instance.deathScreen.SetActive(true);
         }
         transform.position = Vector3.zero;
+        //gameObject.SetActive(true);
     }
 
     // ---> Gestionar puntuacion

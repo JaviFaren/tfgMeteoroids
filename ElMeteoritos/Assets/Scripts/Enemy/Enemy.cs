@@ -86,6 +86,7 @@ public class Enemy : MonoBehaviour
     // Falta hacer que los enemigos "mueran" (o lo que se quiera) al pasar los limites de la camara
     protected virtual void RelocateEnemy()
     {
+        gameObject.SetActive(false);
         switch (GameController.instance.CheckPosition(gameObject))
         {
             case "above":
@@ -101,5 +102,6 @@ public class Enemy : MonoBehaviour
                 transform.position = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
                 break;
         }
+        gameObject.SetActive(true);
     }
 }

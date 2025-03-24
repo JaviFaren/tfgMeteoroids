@@ -114,7 +114,6 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
-        Debug.Log(roomList.Count);
         foreach (var room in roomList)
         {
             Debug.Log("Name: " + room.Name + " Players: " + room.PlayerCount + ", MaxPlayers: " + room.MaxPlayers + ", IsOpen: " + room.IsOpen);

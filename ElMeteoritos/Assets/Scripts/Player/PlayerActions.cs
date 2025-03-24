@@ -75,8 +75,7 @@ public class PlayerActions : MonoBehaviour
         }
         else
         {
-            Debug.Log(playerManager.canMove);
-            Debug.Log(view.IsMine);
+            
         }
     }
 
@@ -160,12 +159,14 @@ public class PlayerActions : MonoBehaviour
     {
         if (playerManager.canShoot && Time.time >= lastShotTime + shotCooldown)
         {
-            Shoot();  // Se llama al método Shoot para crear el disparo
+            playerManager.phView.RPC("Shoot", RpcTarget.All);  // Se llama al método Shoot para crear el disparo
             playerManager.canShoot = false;  // Se bloquea el disparo hasta que pase el cooldown
             lastShotTime = Time.time;  // Se guarda el tiempo del disparo
             StartCoroutine(ResetShootCooldown());
         }
     }
+
+    [PunRPC]
     public void Shoot()
     {
         GameObject tempShot = Instantiate(playerManager.spaceship.shotPrefab, playerManager.spaceship.shotSpawn.position, Quaternion.identity, playerManager.spaceship.shotContainer);
@@ -183,6 +184,7 @@ public class PlayerActions : MonoBehaviour
             Destroy(tempShot, 4f);
         }
     }
+
     IEnumerator ResetShootCooldown()
     {
         yield return new WaitForSeconds(shotCooldown);
@@ -201,6 +203,6 @@ public class PlayerActions : MonoBehaviour
     [PunRPC]
     public void addPlayer()
     {
-        GameController.instance.AddPlayerToPlayersList(this.gameObject.GetComponent<PlayerManager>());
+        GameController.instance.AddPlayerToPlayersList(playerManager);
     }
 }

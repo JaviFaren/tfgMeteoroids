@@ -317,6 +317,7 @@ MonoBehaviour:
   playerActions: {fileID: 0}
   spaceship: {fileID: 0}
   animator: {fileID: 0}
+  phView: {fileID: 0}
   newScore: 0
   newLifes: 0
   setNewLifes: 0
