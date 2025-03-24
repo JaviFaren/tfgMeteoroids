@@ -2186,6 +2186,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 917655289212010940, guid: 012735f8c0bc56c47ab4a43ca1b15235, type: 3}
+      propertyPath: shot_Container
+      value: 
+      objectReference: {fileID: 755553371}
+    - target: {fileID: 917655289212010940, guid: 012735f8c0bc56c47ab4a43ca1b15235, type: 3}
       propertyPath: playerSpawns.Array.size
       value: 4
       objectReference: {fileID: 0}
