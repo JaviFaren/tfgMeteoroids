@@ -143,7 +143,7 @@ Transform:
   m_GameObject: {fileID: 3808531777452310775}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: -10, z: 0}
+  m_LocalPosition: {x: -25, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  currentLifes: 2
+  currentLifes: 5
   maxLifes: 5
   shootType: 0
   shootDamage: 1
@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
+  view: {fileID: 8171124965151549145}
   joystickAxis: {x: 0, y: 0}
   targetAngle: 0
   currentAngle: 0

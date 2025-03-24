@@ -70,13 +70,14 @@ public class PlayerManager : MonoBehaviour
         playerActions.shootButton.onClick.AddListener(delegate { playerActions.Fire(); });
 
         // ---> Se añade el jugador a la lista de jugadores del GameController
-        GameController.instance.AddPlayerToPlayersList(this);
+        playerActions.view.RPC("addPlayer", Photon.Pun.RpcTarget.All);
 
         // ---> El jugador se ha inicializado (Importante que vaya la último de esta función)
         canMove = true;
         canShoot = true;
         initialized = true;
     }
+    
 
     //public IEnumerator deathRelocate()
     //{

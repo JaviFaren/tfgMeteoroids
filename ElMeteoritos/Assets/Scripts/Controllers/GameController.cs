@@ -166,18 +166,28 @@ public class GameController : MonoBehaviour
     {
         int pos = -1;
         //PhotonNetwork.PlayerList;
-        foreach (var pla in playersListsDebug)
-        {
-            pos++;
-            Instantiate(pla);
-            playersListsDebug[pos].transform.position = playerSpawns[pos].transform.position;
-            if (PhotonNetwork.IsMasterClient)
+        //foreach (var pla in playersListsDebug)
+        //{
+        //    pos++;
+        //    Instantiate(pla);
+        //    playersListsDebug[pos].transform.position = playerSpawns[pos].transform.position;
+        //    if (PhotonNetwork.IsMasterClient)
+        //    {
+
+        //    }
+        //}
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+            //Cambiar el numero de jugador
+            while (playersList.Count() < 2) {
+                yield return null;
+            }
+            for (int i = 0; i < playersList.Count(); i++)
             {
-                
+                playersList[i].playerActions.view.RPC("setupPlayer", RpcTarget.All, playerSpawns[i].transform.position);
             }
         }
-
-        yield return new WaitUntil(() => playersList.TrueForAll(e => e.initialized)); // --> Esperar a que todos los jugadores tengan los componentes inicializados
+        //yield return new WaitUntil(() => playersList.TrueForAll(e => e.initialized)); // --> Esperar a que todos los jugadores tengan los componentes inicializados
 
         PlayerUIManager.instance.InitializePlayersPanel(); // ---> Inicializar los paneles de informacion de los jugadores
     }

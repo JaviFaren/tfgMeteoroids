@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class botones : MonoBehaviour
 {
@@ -49,6 +50,12 @@ public class botones : MonoBehaviour
                 errorPasswordConf.gameObject.SetActive(false);
                 VolverLogin();
             }
+            else if (codigoDevuelto.Equals("exitoLogin"))
+            {
+                errorPasswordLogin.gameObject.SetActive(false);
+                errorUserLogin.gameObject.SetActive(false);
+                SceneManager.LoadScene(1);
+            }
             else if (codigoDevuelto.Equals("errorCorreo"))
             {
                 errorEmail.text = errorEmailMSG1;
@@ -80,6 +87,14 @@ public class botones : MonoBehaviour
             else if (codigoDevuelto.Equals("errorPassword"))
             {
                 errorPassword.gameObject.SetActive(true);
+            }
+            else if (codigoDevuelto.Equals("errorPasswordLogin"))
+            {
+                errorPasswordLogin.gameObject.SetActive(true);
+            }
+            else if (codigoDevuelto.Equals("errorUserLogin"))
+            {
+                errorUserLogin.gameObject.SetActive(true);
             }
         }
     }
@@ -116,7 +131,7 @@ public class botones : MonoBehaviour
             user = LogintextFieldUser.text;
             password = LogintextFieldPassword.text;
 
-            //Llamar a corrutina de login
+            Logueando();
 
         }
     }
@@ -215,6 +230,11 @@ public class botones : MonoBehaviour
         codigoDevuelto = C.downloadHandler.text;
     }
 
+    public void Logueando()
+    {
+        StartCoroutine(loginRequest());
+    }
+
     public IEnumerator loginRequest()
     {
         UnityWebRequest C = new UnityWebRequest();
@@ -232,5 +252,6 @@ public class botones : MonoBehaviour
             yield return null;
         }
         codigoDevuelto = C.downloadHandler.text;
+        Debug.Log(codigoDevuelto);
     }
 }

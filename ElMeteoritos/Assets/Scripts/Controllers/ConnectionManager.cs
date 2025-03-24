@@ -151,6 +151,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     //  Jugar
     public void Play()
     {
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.LoadLevel(2);
     }
     public void DisconnectFromGame()

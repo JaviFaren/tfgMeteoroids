@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using Terresquall;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class PlayerActions : MonoBehaviour
 
     [Header("Componentes")]
     private Rigidbody rb;
+    public PhotonView view;
 
     [Header("Rotacion")]
     public Vector2 joystickAxis;
@@ -41,6 +43,7 @@ public class PlayerActions : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerManager = GetComponent<PlayerManager>();
+        view = GetComponent<PhotonView>();
     }
     private void Start()
     {
@@ -66,9 +69,14 @@ public class PlayerActions : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (playerManager.canMove)
+        if (playerManager.canMove && view.IsMine)
         {
             Movement();
+        }
+        else
+        {
+            Debug.Log(playerManager.canMove);
+            Debug.Log(view.IsMine);
         }
     }
 
@@ -184,5 +192,15 @@ public class PlayerActions : MonoBehaviour
     {
         shotHeat = Mathf.Max(shotHeat - 33 * Time.deltaTime, 0);
         heatBar.fillAmount = shotHeat / 100f;
+    }
+    [PunRPC]
+    public void setupPlayer(Vector3 pos)
+    {
+        transform.position = pos;
+    }
+    [PunRPC]
+    public void addPlayer()
+    {
+        GameController.instance.AddPlayerToPlayersList(this.gameObject.GetComponent<PlayerManager>());
     }
 }

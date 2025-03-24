@@ -2143,7 +2143,7 @@ PrefabInstance:
       objectReference: {fileID: 2115438359}
     - target: {fileID: 917655289212010940, guid: 012735f8c0bc56c47ab4a43ca1b15235, type: 3}
       propertyPath: playersListsDebug.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 917655289212010940, guid: 012735f8c0bc56c47ab4a43ca1b15235, type: 3}
       propertyPath: playersListsDebug.Array.data[1]
@@ -2365,6 +2365,14 @@ PrefabInstance:
     - target: {fileID: 4311900834886131155, guid: 0abb348ca07850f4bb1147464eadff66, type: 3}
       propertyPath: m_Color.r
       value: 0.764151
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311900834886131181, guid: 0abb348ca07850f4bb1147464eadff66, type: 3}
+      propertyPath: radius
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311900834886131181, guid: 0abb348ca07850f4bb1147464eadff66, type: 3}
+      propertyPath: directions
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4311900834886131181, guid: 0abb348ca07850f4bb1147464eadff66, type: 3}
       propertyPath: dragColor.b
