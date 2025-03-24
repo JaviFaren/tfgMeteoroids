@@ -234,6 +234,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
     public Vector3 ChooseEnemySpawnPoint()
     {
         float margin = 10f;

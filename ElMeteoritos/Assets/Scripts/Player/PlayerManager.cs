@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -95,5 +96,25 @@ public class PlayerManager : MonoBehaviour
         playerActions.velocitySlider.value = 0;
 
         animator.CrossFade("Respawn", 0.2f);
+    }
+
+    [PunRPC]
+    public void LaunchMeteoroid(int ID, Vector3 pos)
+    {
+        for (int i = 0; i < contenedores_Enemigos[IDType].transform.childCount; i++)
+        {
+            if (!contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.transform.position = spawnPosition;
+                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.SetActive(true);
+
+                int randomPlayer = Random.Range(0, playersList.Count);
+                contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>().SetTarget(playersList[randomPlayer].transform.position);
+
+                spawnedEnemies.Add(contenedores_Enemigos[IDType].transform.GetChild(i).gameObject.GetComponent<Enemy>());
+
+                break;
+            }
+        }
     }
 }
