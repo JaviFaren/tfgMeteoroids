@@ -46,6 +46,9 @@ MonoBehaviour:
   - Shoot
   - OnHitRelocate
   - ResetPosition
+  - MofifyPlayerPanel
+  - InitializePanels
+  - ModifyLifes
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

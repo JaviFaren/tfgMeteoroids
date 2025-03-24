@@ -199,6 +199,7 @@ public class PlayerActions : MonoBehaviour
     public void setupPlayer(Vector3 pos)
     {
         transform.position = pos;
+        //PlayerUIManager.instance.InitializePlayersPanel();
     }
     [PunRPC]
     public void addPlayer()

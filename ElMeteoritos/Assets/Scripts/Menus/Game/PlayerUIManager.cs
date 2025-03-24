@@ -61,8 +61,10 @@ public class PlayerUIManager : MonoBehaviour
         currentPlayersPanels.Clear();
 
         // ---> Se añaden paneles en función de los jugadores de la partida
+        Debug.Log(GameController.instance.playersList.Count);
         for (int i = 0; i < GameController.instance.playersList.Count; i++)
         {
+            Debug.Log(GameController.instance.playersList[i].userID);
             GameObject newPlayerPanel = Instantiate(playerPanelPrefab, playersInfoPanel.transform, true);
             newPlayerPanel.GetComponent<PlayerPanel>().SetID(GameController.instance.playersList[i].userID);
             newPlayerPanel.GetComponent<PlayerPanel>().IniatializePanel();

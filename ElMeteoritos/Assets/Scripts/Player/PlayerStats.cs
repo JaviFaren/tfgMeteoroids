@@ -44,12 +44,14 @@ public class PlayerStats : MonoBehaviour
     }
 
     // ---> Gestionar vidas
+
     public void ModifyLifes(int amount) // ---> Función para cambiar las vidas del jugador que impide que bajen de 0, que suban más de las máximas y actualiza el panel del jugador. Se pasa un valor positivo para sumar vidas y uno negativo para restarlas.
     {
         Debug.Log("MAN DAO!! AYUAAA");
 
         currentLifes = Mathf.Clamp(currentLifes + amount, 0, maxLifes);
-        PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
+        playerManager.phView.RPC("MofifyPlayerPanel", RpcTarget.All);
+        //PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
 
         Debug.Log("ESTOY MUERTO? = " + playerManager.isDead);
     }
@@ -57,6 +59,18 @@ public class PlayerStats : MonoBehaviour
     public void ReturnToCenter()
     {
         playerManager.phView.RPC("ResetPosition", RpcTarget.All);
+    }
+
+    [PunRPC] 
+    public void InitializePanels()
+    {
+        PlayerUIManager.instance.InitializePlayersPanel();
+    }
+
+    [PunRPC]
+    public void MofifyPlayerPanel()
+    {
+        PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
     }
 
     [PunRPC]

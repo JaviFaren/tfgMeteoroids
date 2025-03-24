@@ -177,7 +177,8 @@ public class GameController : MonoBehaviour
 
         //    }
         //}
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
         if (PhotonNetwork.LocalPlayer.IsMasterClient) {
             //Cambiar el numero de jugador
             while (playersList.Count() < PhotonNetwork.PlayerList.Count()) {
@@ -185,12 +186,16 @@ public class GameController : MonoBehaviour
             }
             for (int i = 0; i < playersList.Count(); i++)
             {
-                playersList[i].playerActions.view.RPC("setupPlayer", RpcTarget.All, playerSpawns[i].transform.position);
+                playersList[i].userID = i;
+                playersList[i].phView.RPC("setupPlayer", RpcTarget.All, playerSpawns[i].transform.position);
             }
+            yield return new WaitUntil(() => playersList.TrueForAll(e => e.initialized));
+            player.GetComponent<PlayerManager>().phView.RPC("InitializePanels", RpcTarget.All);
         }
         //yield return new WaitUntil(() => playersList.TrueForAll(e => e.initialized)); // --> Esperar a que todos los jugadores tengan los componentes inicializados
 
-        PlayerUIManager.instance.InitializePlayersPanel(); // ---> Inicializar los paneles de informacion de los jugadores
+        //Debug.Log("Hola");
+        //PlayerUIManager.instance.InitializePlayersPanel(); // ---> Inicializar los paneles de informacion de los jugadores
     }
 
     // ---> Gestion de enemigos
