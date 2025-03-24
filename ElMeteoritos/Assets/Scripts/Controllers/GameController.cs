@@ -58,6 +58,7 @@ public class GameController : MonoBehaviour
     //public bool canSpawn;
     [Tooltip("Comunes:0, Divx2:1, Divx5:2, Blindados:3, Curativos:4, Expl:5")]
     public GameObject[] contenedores_Enemigos;
+    public GameObject shot_Container;
 
     [Header("Camara")]
     public Camera mainCamera;
