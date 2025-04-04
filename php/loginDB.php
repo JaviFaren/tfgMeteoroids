@@ -3,35 +3,67 @@
 
     $user = $_POST["usuario"];
     $password = $_POST["password"];
-
-    $sql = "SELECT ID_user,Nickname,Password FROM usuario WHERE Nickname = '$user' and Password = '$password';";
-    $result = mysqli_query($con, $sql);
+    $continuar = 0;
+    
+	$sql2 = "SELECT ID_user,Nickname,Password FROM usuario WHERE Nickname = '$user';";
+	$result = mysqli_query($con, $sql2);
 
     if(mysqli_connect_errno()){
         echo "Connection failed" . $mysql_connect_error();
         exit();
     }
     $total = mysqli_num_rows($result);
-
-    if($total == 1){
-        
-        echo "exito";
+	
+	if($total != 0){
+    	$continuar = 1;
     }
-    else{
-        $sql = "SELECT ID_user,Nickname FROM usuario WHERE Nickname = '$user';";
-        $result = mysqli_query($con, $sql);
+	else{
+     	$sql2 = "SELECT ID_user,Nickname,Password FROM usuario WHERE email = '$user';";
+        $result = mysqli_query($con, $sql2);
+
         if(mysqli_connect_errno()){
             echo "Connection failed" . $mysql_connect_error();
             exit();
-    	}
-        $total = mysqli_num_rows($result);
+        }
 
-        if($total == 0){
-            echo "usuario incorrecto"
+        $total = mysqli_num_rows($result);
+	
+        if($total != 0){
+            $continuar = 2;
         }
         else{
-            echo "contraseña incorrecta";
+            $continuar = 3;
         }
-        
+    }
+
+    if ($continuar == 1 || $continuar == 2){
+
+        $sql = "SELECT ID_user,Nickname,Password FROM usuario WHERE Password = '$password' and ";
+        if($continuar == 1){
+            $sql = "$sql Nickname = '$user';";
+        }
+        else{
+            $sql = "$sql email = '$user';";
+        }
+
+
+        $result = mysqli_query($con, $sql);
+
+            if(mysqli_connect_errno()){
+                echo "Connection failed" . $mysql_connect_error();
+                exit();
+            }
+            $total = mysqli_num_rows($result);
+
+            if($total == 1){
+                
+                echo "exitoLogin";
+            }
+            else{
+                echo "errorPasswordLogin";
+            }
+    }
+    else{
+        echo "errorUserLogin";
     }
 ?>
