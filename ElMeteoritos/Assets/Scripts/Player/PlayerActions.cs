@@ -133,25 +133,44 @@ public class PlayerActions : MonoBehaviour
     }
 
     // ---> Límites de pantalla
+    [PunRPC]
+    void Teleport(Vector3 newPosition)
+    {
+        var photonTransformView = GetComponent<PhotonTransformView>();
+        if (photonTransformView != null)
+            photonTransformView.enabled = false;
+
+        transform.position = newPosition;
+
+        if (photonTransformView != null)
+            photonTransformView.enabled = true;
+    }
+
     void TransportarJugador()
     {
+        if (!playerManager.phView.IsMine) return; // Solo el jugador local debe hacer la comprobación
+
+        Vector3 newPosition = transform.position;
+
         switch (GameController.instance.CheckPosition(gameObject))
         {
             case "above":
-                transform.position = new Vector3(transform.position.x, GameController.instance.bottomLeftBorder.y, transform.position.z);
+                newPosition = new Vector3(transform.position.x, GameController.instance.bottomLeftBorder.y, transform.position.z);
                 break;
             case "below":
-                transform.position = new Vector3(transform.position.x, GameController.instance.topRightBorder.y, transform.position.z);
+                newPosition = new Vector3(transform.position.x, GameController.instance.topRightBorder.y, transform.position.z);
                 break;
             case "right":
-                transform.position = new Vector3(GameController.instance.bottomLeftBorder.x, transform.position.y, transform.position.z);
+                newPosition = new Vector3(GameController.instance.bottomLeftBorder.x, transform.position.y, transform.position.z);
                 break;
             case "left":
-                transform.position = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
+                newPosition = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
                 break;
             default:
-                break;
+                return; // No cambio, salimos
         }
+
+        playerManager.phView.RPC("Teleport", RpcTarget.All, newPosition);
     }
 
     // ---> Disparo 

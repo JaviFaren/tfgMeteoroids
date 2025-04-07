@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,7 @@ public class Enemy : MonoBehaviour
     [Header("Componentes")]
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Animator animator;
+    [HideInInspector] public PhotonView phView;
     public Transform enemyContainer;
 
     [Header("Stats")]
@@ -29,6 +31,7 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        phView = GetComponent<PhotonView>();
     }
     protected virtual void Start()
     {
@@ -37,7 +40,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameController.instance.CheckPosition(gameObject) != null) { RelocateEnemy(); }
+        if (GameController.instance.CheckPosition(gameObject) != null) { Relocate(); }
     }
 
     protected virtual void OnTriggerEnter (Collider other)
@@ -84,24 +87,43 @@ public class Enemy : MonoBehaviour
     }
 
     // Falta hacer que los enemigos "mueran" (o lo que se quiera) al pasar los limites de la camara
-    protected virtual void RelocateEnemy()
+    [PunRPC]
+    public virtual void Teleport(Vector3 newPosition)
     {
-        gameObject.SetActive(false);
+        var photonTransformView = GetComponent<PhotonTransformView>();
+        if (photonTransformView != null)
+            photonTransformView.enabled = false;
+
+        transform.position = newPosition;
+
+        if (photonTransformView != null)
+            photonTransformView.enabled = true;
+    }
+
+    public virtual void Relocate()
+    {
+        if (!phView.IsMine) return;
+
+        Vector3 newPosition = transform.position;
+
         switch (GameController.instance.CheckPosition(gameObject))
         {
             case "above":
-                transform.position = new Vector3(transform.position.x, GameController.instance.bottomLeftBorder.y, transform.position.z);
+                newPosition = new Vector3(transform.position.x, GameController.instance.bottomLeftBorder.y, transform.position.z);
                 break;
             case "below":
-                transform.position = new Vector3(transform.position.x, GameController.instance.topRightBorder.y, transform.position.z);
+                newPosition = new Vector3(transform.position.x, GameController.instance.topRightBorder.y, transform.position.z);
                 break;
             case "right":
-                transform.position = new Vector3(GameController.instance.bottomLeftBorder.x, transform.position.y, transform.position.z);
+                newPosition = new Vector3(GameController.instance.bottomLeftBorder.x, transform.position.y, transform.position.z);
                 break;
             case "left":
-                transform.position = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
+                newPosition = new Vector3(GameController.instance.topRightBorder.x, transform.position.y, transform.position.z);
                 break;
+            default:
+                return; // No cambio, salimos
         }
-        gameObject.SetActive(true);
+
+        phView.RPC("Teleport", RpcTarget.All, newPosition);
     }
 }
