@@ -8,6 +8,7 @@ using UnityEngine;
 // Si no se incluye el override de una función del Padre y se llama desde otro script, se ejecutará el código del script Padre.
 public class CommonMeteoroid : Enemy
 {
+
     protected override void Awake()
     {
         base.Awake();

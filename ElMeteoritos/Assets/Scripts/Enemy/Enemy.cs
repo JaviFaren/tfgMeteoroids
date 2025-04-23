@@ -40,14 +40,15 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameController.instance.CheckPosition(gameObject) != null) { Relocate(); }
+        //if (GameController.instance.CheckPosition(gameObject) != null) { Relocate(); }
     }
 
     protected virtual void OnTriggerEnter (Collider other)
     {
         if (other.CompareTag("disparo"))
         {
-            OnHitBehavior(-other.GetComponent<PlayerShoot>().damage);
+            //OnHitBehavior(-other.GetComponent<PlayerShoot>().damage);
+            OnHitBehavior(-1);
             Destroy(other.gameObject);
         }
     }
