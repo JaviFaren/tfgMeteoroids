@@ -16,6 +16,7 @@ public class PlayerPanel : MonoBehaviour
 
     [Header("Vidas")]
     [SerializeField] GameObject playerLifePrefab;
+    [SerializeField] GameObject playerDeathPrefab;
     [SerializeField] GameObject playerLifesPanel;
     [SerializeField] List<GameObject> currentPlayerLifes = new();
 
@@ -28,7 +29,7 @@ public class PlayerPanel : MonoBehaviour
         currentPlayer = GetPlayerByID();
         SetPlayerName(currentPlayer.username);
         SetPlayerScore(currentPlayer.playerStats.score);
-        InitializeLifesPanel(currentPlayer.playerStats.currentLifes);
+        InitializeLifesPanel(currentPlayer.playerStats.currentLives);
     }
 
     // ---> Asignar jugador
@@ -81,6 +82,12 @@ public class PlayerPanel : MonoBehaviour
             GameObject currentLife = currentPlayerLifes[0];
             currentPlayerLifes.Remove(currentLife);
             Destroy(currentLife);
+        }
+
+        if (lifes == 0)
+        {
+            GameObject currentLife = Instantiate(playerDeathPrefab, playerLifesPanel.transform, true);
+            currentPlayerLifes.Add(currentLife);
         }
     }
 }

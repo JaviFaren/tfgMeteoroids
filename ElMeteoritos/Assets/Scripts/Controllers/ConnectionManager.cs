@@ -137,6 +137,13 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
         Debug.Log("Desconectado del master - " + cause);
     }
+
+    public void ReturnToMainMenu()
+    {
+        PhotonNetwork.LoadLevel(1);
+
+        LeaveRoom();
+    }
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();

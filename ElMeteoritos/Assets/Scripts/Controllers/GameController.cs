@@ -251,8 +251,6 @@ public class GameController : MonoBehaviour
     //    }
     //}
 
-    
-
     public Vector3 ChooseEnemySpawnPoint()
     {
         float margin = 10f;
@@ -376,6 +374,8 @@ public class GameController : MonoBehaviour
                     break;
             }
         }
+
+        StartCoroutine(OnEndGame());
     }
 
     public WaveType SetWaveType()
@@ -455,5 +455,23 @@ public class GameController : MonoBehaviour
 
         Debug.Log("TODOS LOS ENEMIGOS VENCIDOS: " + allEnemiesDefeated);
         isWaveActive = false;
+    }
+
+    public IEnumerator OnEndGame()
+    {
+        yield return PlayerUIManager.instance.ContadorText();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ConnectionManager.instance.ReturnToMainMenu();
+        }
+    }
+    public void CheckForEndGame()
+    {
+        if (playersList.TrueForAll(obj => obj.isDead))
+        {
+            isWaveActive = false;
+            isMatchActive = false;
+        }
     }
 }

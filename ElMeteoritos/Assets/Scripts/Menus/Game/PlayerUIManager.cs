@@ -1,4 +1,3 @@
-using ExitGames.Client.Photon;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +30,9 @@ public class PlayerUIManager : MonoBehaviour
     [Header("Paneles")]
     public GameObject playersInfoPanel;
 
-    [Header("Textos")]   
+    [Header("Textos")]
     public TextMeshProUGUI waveText;
+    public TextMeshProUGUI contadorText;
 
     [Header("Gestión de los paneles de información")]
     [SerializeField] GameObject playerPanelPrefab;
@@ -72,26 +72,6 @@ public class PlayerUIManager : MonoBehaviour
             currentPlayersPanels.Add(newPlayerPanel);
         }
     }
-    //public void InitializePlayersPanel() 
-    //{
-    //    // ---> Se limpia la interfaz de los paneles
-    //    foreach (var playerPanel in currentPlayersPanels)
-    //    {
-    //        Destroy(playerPanel);
-    //    }
-    //    currentPlayersPanels.Clear();
-
-    //    // ---> Se añaden paneles en función de los jugadores de la partida
-    //    Debug.Log(GameController.instance.playersList.Count);
-    //    for (int i = 0; i < GameController.instance.playersList.Count; i++)
-    //    {
-    //        Debug.Log(GameController.instance.playersList[i].userID);
-    //        GameObject newPlayerPanel = Instantiate(playerPanelPrefab, playersInfoPanel.transform, true);
-    //        newPlayerPanel.GetComponent<PlayerPanel>().SetID(GameController.instance.playersList[i].userID);
-    //        newPlayerPanel.GetComponent<PlayerPanel>().IniatializePanel();
-    //        currentPlayersPanels.Add(newPlayerPanel);
-    //    }
-    //}
     public void ManagePlayersPanel(bool active = true)
     {
         switch (active)
@@ -108,7 +88,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         GameObject panelToUpdate = currentPlayersPanels.FirstOrDefault(e => e.GetComponent<PlayerPanel>().playerID == player.userID);
         panelToUpdate.GetComponent<PlayerPanel>().SetPlayerScore(player.playerStats.score);
-        panelToUpdate.GetComponent<PlayerPanel>().UpdateLifesPanel(player.playerStats.currentLifes);
+        panelToUpdate.GetComponent<PlayerPanel>().UpdateLifesPanel(player.playerStats.currentLives);
     }
 
     // ---> Gestión del texto de las oleadas
@@ -144,5 +124,20 @@ public class PlayerUIManager : MonoBehaviour
         waveText.fontSharedMaterial.SetFloat(ShaderUtilities.ID_GlowPower, 0);
 
         animating = false;
+    }
+
+    public IEnumerator ContadorText()
+    {
+        deathScreen.SetActive(true);
+
+        for (int i = 5; i >= 0; i--)
+        {
+            string text = $"Saliendo en {i}...";
+            contadorText.text = text;
+
+            yield return new WaitForSeconds(1f);
+        }
+
+        deathScreen.SetActive(false);
     }
 }

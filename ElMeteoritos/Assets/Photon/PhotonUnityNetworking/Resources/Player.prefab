@@ -327,6 +327,7 @@ MonoBehaviour:
   canMove: 0
   canShoot: 0
   initialized: 0
+  isDead: 0
 --- !u!114 &3846363682642957151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,8 +341,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  currentLifes: 5
-  maxLifes: 5
+  currentLives: 0
+  maxLives: 3
   shootType: 0
   shootDamage: 1
   score: 0
