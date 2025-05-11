@@ -42,6 +42,18 @@ public class PlayerStats : MonoBehaviourPun
             playerManager.phView.RPC("OnHitRelocate", RpcTarget.All);
             //StartCoroutine(playerManager.deathRelocate());
         }
+        else if(other.tag == "PUMetralleta")
+        {
+            playerManager.playerStats.setShootType(ShootType.METRALLETA);
+        }
+        else if (other.tag == "PUEscopeta")
+        {
+            playerManager.playerStats.setShootType(ShootType.ESCOPETA);
+        }
+        else if(other.tag == "PUCurativo")
+        {
+            ModifyLives(+other.GetComponent<powerUPM>().heal);
+        }
     }
 
     // ---> Gestionar vidas
@@ -136,5 +148,10 @@ public class PlayerStats : MonoBehaviourPun
     private void UpdateUI()
     {
         PlayerUIManager.instance.UpdatePlayerPanel(playerManager);
+    }
+
+    public void setShootType(ShootType type)
+    {
+        shootType = type;
     }
 }

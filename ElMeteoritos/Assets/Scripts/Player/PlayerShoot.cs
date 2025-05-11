@@ -6,6 +6,7 @@ public class PlayerShoot : MonoBehaviour
 {
     public Rigidbody rb;
     public int playerID;
+    public GameObject owner;
     public int damage;
 
     void Start()

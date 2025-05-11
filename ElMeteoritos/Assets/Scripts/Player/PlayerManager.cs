@@ -131,7 +131,7 @@ public class PlayerManager : MonoBehaviour
             {
                 enemy.transform.position = spawnPosition;
                 enemy.SetActive(true);
-
+                enemy.GetComponent<Enemy>().powerUp = GameController.instance.PowerUPRandom();
                 enemy.GetComponent<Enemy>().SetTarget(targetPosition);
                 GameController.instance.spawnedEnemies.Add(enemy.GetComponent<Enemy>());
 

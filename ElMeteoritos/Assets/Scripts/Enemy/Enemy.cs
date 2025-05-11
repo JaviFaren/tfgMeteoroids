@@ -27,6 +27,8 @@ public class Enemy : MonoBehaviour
     public GameObject target;
     public Vector3 targetPosition;
 
+    public GameObject powerUp;
+
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -78,6 +80,12 @@ public class Enemy : MonoBehaviour
     {
         GameController.instance.SetDefeatedEnemies(1); // Aumenta en 1 el numero de enmigos derrotados en el GameController
         GameController.instance.RemoveEnemyFromSpawnedEnemiesList(this); // Elimina el enemigo de la lista spawnedEnemies del Game Controller
+
+        if(powerUp != null)
+        {
+            GameObject powerUPA = Instantiate(powerUp, transform.position, Quaternion.identity);
+        }
+
         gameObject.SetActive(false);
         this.transform.position = enemyContainer.transform.position;
     }

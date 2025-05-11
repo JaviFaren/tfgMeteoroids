@@ -11,16 +11,19 @@ public class DivisibleMeteoroid : Enemy
     public float hijoSpeed;
 
     public GameObject agresor;
+    public int hijosRestantes;
 
     protected override void Awake()
     {
         if (enemyType == EnemyType.DIVISIBLEx2)
         {
             maxLifes = 2;
+            hijosRestantes = 2;
         }
         else
         {
             maxLifes = 6;
+            hijosRestantes = 6;
         }
         base.Awake();
     }
@@ -29,8 +32,20 @@ public class DivisibleMeteoroid : Enemy
         
     }
 
+    protected override void Update()
+    {
+        if(hijosRestantes == 0)
+        {
+            //sumar puntos al primer jugador que golpeo al enemigo
+            this.gameObject.SetActive(false);
+            this.gameObject.transform.position = Vector3.zero;
+        }
+        base.Update();
+    }
+
     protected override void OnTriggerEnter(Collider other)
     {
+        agresor = other.GetComponent<PlayerShoot>().owner;
         base.OnTriggerEnter(other);
     }
 

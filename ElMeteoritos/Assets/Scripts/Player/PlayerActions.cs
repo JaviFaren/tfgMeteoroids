@@ -33,11 +33,19 @@ public class PlayerActions : MonoBehaviour
     public bool isOverheat = false; // ---> De momento no se usa.
     //public bool shotCooldown = false;
 
+    [Header("Power Up")]
+    public float PowerUpDuration = 10;
+    public float PowerUpID;
+
     [Header("Interfaz")]
     public VirtualJoystick rotationJoystick;
     public Slider velocitySlider;
     public Image heatBar;
     public Button shootButton;
+
+    [Header("Audios")]
+    public AudioClip shootsound;
+    public AudioSource audioSource;
 
     private void Awake()
     {
@@ -178,11 +186,37 @@ public class PlayerActions : MonoBehaviour
     {
         if (playerManager.canShoot && Time.time >= lastShotTime + shotCooldown)
         {
-            playerManager.phView.RPC("Shoot", RpcTarget.All);  // Se llama al método Shoot para crear el disparo
             playerManager.canShoot = false;  // Se bloquea el disparo hasta que pase el cooldown
             lastShotTime = Time.time;  // Se guarda el tiempo del disparo
-            StartCoroutine(ResetShootCooldown());
+            audioSource.PlayOneShot(shootsound);
+            switch (playerManager.playerStats.shootType)
+            {
+                case ShootType.NADA:
+                    shotCooldown = 0.5f;
+                    playerManager.phView.RPC("Shoot", RpcTarget.All);  // Se llama al método Shoot para crear el disparo
+                    StartCoroutine(ResetShootCooldown());
+                    break;
+
+                case ShootType.METRALLETA:
+                    playerManager.phView.RPC("Shoot", RpcTarget.All);
+                    shotCooldown = 0.1f;
+                    StartCoroutine(ResetShootCooldown());
+                    StartCoroutine(cooldownPowerUp());
+                    break;
+
+                case ShootType.ESCOPETA:
+                    playerManager.phView.RPC("Escopeta", RpcTarget.All);
+                    shotCooldown = 1;
+                    StartCoroutine(ResetShootCooldown());
+                    StartCoroutine(cooldownPowerUp());
+                    break;
+            }
         }
+    }
+    IEnumerator cooldownPowerUp()
+    {
+        yield return new WaitForSeconds(PowerUpDuration);
+        playerManager.playerStats.setShootType(ShootType.NADA);
     }
 
     [PunRPC]
@@ -191,6 +225,7 @@ public class PlayerActions : MonoBehaviour
         GameObject tempShot = Instantiate(playerManager.spaceship.shotPrefab, playerManager.spaceship.shotSpawn.position, Quaternion.identity, GameController.instance.shot_Container.transform);
         tempShot.GetComponent<PlayerShoot>().damage = playerManager.playerStats.shootDamage; // Se asigna el dano del disparo 
         tempShot.GetComponent<PlayerShoot>().playerID = playerManager.userID; // Se asigna el id del usuario que ha realizado el disparo
+        tempShot.GetComponent<PlayerShoot>().owner = this.gameObject;
         Rigidbody rb = tempShot.GetComponent<Rigidbody>();
         tempShot.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -202,6 +237,28 @@ public class PlayerActions : MonoBehaviour
         {
             Destroy(tempShot, 4f);
         }
+    }
+
+    [PunRPC]
+    public void Escopeta()
+    {
+        Vector3 temp_pos_izq = new Vector3(playerManager.spaceship.shotSpawn.position.x - 2f, playerManager.spaceship.shotSpawn.position.y, playerManager.spaceship.shotSpawn.position.z);
+        Vector3 temp_pos_der = new Vector3(playerManager.spaceship.shotSpawn.position.x + 2f, playerManager.spaceship.shotSpawn.position.y, playerManager.spaceship.shotSpawn.position.z);
+        GameObject temporal_bullet = Instantiate(playerManager.spaceship.shotPrefab, playerManager.spaceship.shotSpawn.position, Quaternion.identity, GameController.instance.shot_Container.transform);
+        GameObject temporal_bullet1 = Instantiate(playerManager.spaceship.shotPrefab, temp_pos_der, Quaternion.identity, GameController.instance.shot_Container.transform);
+        GameObject temporal_bullet2 = Instantiate(playerManager.spaceship.shotPrefab, temp_pos_izq, Quaternion.identity, GameController.instance.shot_Container.transform);
+        temporal_bullet.GetComponent<PlayerShoot>().damage = playerManager.playerStats.shootDamage;
+        temporal_bullet.GetComponent<PlayerShoot>().playerID = playerManager.userID;
+        temporal_bullet1.GetComponent<PlayerShoot>().damage = playerManager.playerStats.shootDamage;
+        temporal_bullet1.GetComponent<PlayerShoot>().playerID = playerManager.userID;
+        temporal_bullet2.GetComponent<PlayerShoot>().damage = playerManager.playerStats.shootDamage;
+        temporal_bullet2.GetComponent<PlayerShoot>().playerID = playerManager.userID;
+        temporal_bullet.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
+        temporal_bullet1.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 35);
+        temporal_bullet2.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 125);
+        temporal_bullet.GetComponent<Rigidbody>().AddForce(transform.up * shotForce, ForceMode.Impulse);
+        temporal_bullet1.GetComponent<Rigidbody>().AddForce(temporal_bullet1.transform.right * shotForce, ForceMode.Impulse);
+        temporal_bullet2.GetComponent<Rigidbody>().AddForce(temporal_bullet2.transform.right * shotForce, ForceMode.Impulse);
     }
 
     IEnumerator ResetShootCooldown()

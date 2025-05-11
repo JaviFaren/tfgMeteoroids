@@ -46,6 +46,8 @@ public class GameController : MonoBehaviour
     public float specialEnemyPercentage; // Porcentaje de enemigos especiales
     public int specialEnemyWaveDelay; // Numero de rondas iniciales sin enemigos especiales
 
+    [Header("powerUps")]
+    public List<GameObject> powerUps;
     //public int oleada;
     //public bool nuevaOleada;
     //public int enemiesNum = 0;
@@ -219,7 +221,9 @@ public class GameController : MonoBehaviour
                 {
                     //spawnea especial
                     //specialEnemyNumber--;
-                    player.SpawnMeteoroid(5);
+                    int randomSpecial = 0;
+                    randomSpecial = Random.Range(1, 4);
+                    player.SpawnMeteoroid(randomSpecial);
                 }
                 else
                 {
@@ -473,5 +477,16 @@ public class GameController : MonoBehaviour
             isWaveActive = false;
             isMatchActive = false;
         }
+    }
+
+    public GameObject PowerUPRandom()
+    {
+        float aparicion = Random.Range(0, 1f);
+        if(aparicion <= 0.1f)
+        {
+            int eligePowerUP = Random.Range(0, powerUps.Count);
+            return powerUps[eligePowerUP];
+        }
+        return null;
     }
 }
