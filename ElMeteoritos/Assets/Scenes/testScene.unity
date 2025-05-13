@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 196460457}
   m_Layer: 0
   m_Name: Ovni
-  m_TagString: Untagged
+  m_TagString: enemigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,11 +234,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0faac1e9e9c757049ab0f3ea7b9b8669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objetivo: {fileID: 632370552}
-  canMove: 0
-  distancia: 0
   rb: {fileID: 196460457}
-  Maxspeed: 20
+  animator: {fileID: 0}
+  phView: {fileID: 0}
+  enemyContainer: {fileID: 0}
+  lifes: 0
+  maxLifes: 0
+  movementSpeed: 0
+  damage: 0
+  puntos: 0
+  enemyType: 0
+  target: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  powerUp: {fileID: 0}
+  objetivo: {fileID: 632370552}
+  canMove: 1
+  distancia: 0
+  direction: {x: 0, y: 0, z: 0}
+  lastDirection: {x: 0, y: 0, z: 0}
+  lastPos: {x: 0, y: 0, z: 0}
+  Maxspeed: 40
   speed: 0
   targetSpeed: 0
   decelerationDistance: 2

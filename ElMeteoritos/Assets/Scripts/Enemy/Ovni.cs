@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Ovni : MonoBehaviour
+public class Ovni : Enemy
 {
     public GameObject objetivo;
-    public bool canMove;
+    public bool canMove = true;
     public float distancia;
     public Vector3 direction;
-    public Rigidbody rb;
-    public float Maxspeed = 20f;
+    public Vector3 lastDirection;
+    public Vector3 lastPos;
+    public float Maxspeed = 40f;
     public float speed;
     public float targetSpeed;
-    public float decelerationDistance = 2f;
+    public float decelerationDistance = 40f;
 
-    // Start is called before the first frame update
-    //protected override void Start()
-    //{
-    //    base.Start();
-    //}
+    //Start is called before the first frame update
+    protected override void Start()
+    {
+        base.Start();
+        trackPlayer();
+        lastPos = objetivo.transform.position;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -29,16 +32,20 @@ public class Ovni : MonoBehaviour
         //    canMove = false;
         //    trackPlayer();
         //}
-        if (objetivo != null)
+        if (objetivo != null && canMove)
         {
-            distancia = Vector3.Distance(transform.position, objetivo.transform.position);
+            distancia = Vector3.Distance(transform.position, lastPos);
             targetSpeed = Maxspeed;
             if(distancia < decelerationDistance)
             {
-                if(distancia < 1f)
+                if (distancia < 20f)
                 {
-                    rb.velocity = Vector3.zero;
-                    StartCoroutine(NewObjectiveCooldown());
+                    canMove = false;
+                    
+                    if(distancia < 3f)
+                    {
+                        StartCoroutine(NewObjectiveCooldown());
+                    }
                 }
                 else
                 {
@@ -48,22 +55,31 @@ public class Ovni : MonoBehaviour
             }
             else
             {
-                direction = (objetivo.transform.position - transform.position).normalized;
-                rb.velocity = Vector3.Lerp(rb.velocity, direction * targetSpeed, decelerationDistance * Time.fixedDeltaTime);
+                if (canMove)
+                {
+                    lastDirection = direction;
+                }
+                rb.velocity = Vector3.Lerp(rb.velocity, lastDirection * targetSpeed, decelerationDistance * Time.fixedDeltaTime);
             }
             
         }
-        
+        if (!canMove)
+        {
+            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelerationDistance * Time.fixedDeltaTime);
+        }
     }
 
     public void trackPlayer()
     {
         direction = (objetivo.transform.position - transform.position).normalized;
+        lastPos = objetivo.transform.position;
     }
 
     public IEnumerator NewObjectiveCooldown()
     {
         yield return new WaitForSeconds(2.5f);
+        trackPlayer();
         canMove = true;
+        rb.velocity = Vector3.zero;
     }
 }
