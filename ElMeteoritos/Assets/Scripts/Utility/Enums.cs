@@ -1,65 +1,107 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-// ---> Partida
+#region Conexion
+public enum ConnectionStatus
+{
+    NO_CONNECTED,
+    CONNECTING,
+    CONNECTED
+}
+#endregion
+
+#region Partida
 public enum MatchState
 {
-    INICIAR_RONDA,
-    RONDA,
-    TERMINAR_RONDA
+    START_WAVE,
+    WAVE,
+    END_WAVE
 }
-
 public enum WaveType
 {
     COMMON_WAVE,
     SPECIAL_WAVE,
     EASTEREGG_WAVE
 }
+#endregion
 
-// ---> Jugador
-public enum ShootType 
-{ 
-  NADA, 
-  PENETRANTE, 
-  METRALLETA, 
-  ESCOPETA 
-};
+#region Jugador
+public enum ShootType
+{
+    DEFAULT,
+    PIERCING,
+    MACHINE_GUN,
+    SHOTGUN
+}
+#endregion
 
-// ---> Enemigos
-public enum EnemyType 
-{ 
-    NORMAL, 
-    DIVISIBLEx2,
-    DIVISIBLEx5,
-    EXPLOSIVO, 
-    BLINDADO, 
-    CURATIVO 
-};
+#region Enemigos
+public enum EnemyType
+{
+    METEOROID_COMMON,
+    METEOROID_DIVISIBLE_X2,
+    METEOROID_DIVISIBLE_X5,
+    METEOROID_ARMORED,
+    METEOROID_EXPLOSIVE,
+    METEOROID_HEALING
+}
+#endregion
 
-// ---> Menús
+#region Menus
+// Menu login-registro
+public enum LoginMenuState
+{
+    START,
+    LOGIN,
+    REGISTER
+}
+
+// Menu principal
 public enum MainMenuState
 {
     START,
+    NO_MENU,
     CUSTOMIZATION,
-    GAME,
+    PLAY,
     SOCIAL,
     SETTINGS
 }
 
-public enum CustomizationMenuCategory
+// Menu personalizacion
+public enum CustomizationMenuState
+{
+    START,
+    SPACESHIP,
+    PROPULSION,
+    TRAIL,
+    SHOT
+}
+public enum CustomizationField
 {
     SPACESHIP_COLOR,
     SPACESHIP_SKIN,
     SHOT_COLOR,
     SHOT_SKIN,
-    TRAIL_SKIN,
-    PROPULSION_SKIN
+    PROPULSION_COLOR,
+    PROPULSION_SKIN,
+    TRAIL_COLOR,
+    TRAIL_SKIN
 }
 
-public enum GameMenuState
+// Menu jugar
+public enum PlayMenuState
 {
-    INITIALIZED,
+    START,
     ROOMS,
     IN_ROOM
 }
+
+// Iconos
+public enum UIIconType
+{
+    PLAYER_LIFE,
+    PLAYER_DEAD
+}
+#endregion
+
+#region Utilidad
+
+#endregion

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbcd42e343e7d2147a2986523ab481a6, type: 3}
+  m_Name: CustomizationDatabase
+  m_EditorClassIdentifier: 
+  shipSkinsList:
+  - id: 1
+    sprite: {fileID: 21300000, guid: b884be276728fc94e8f7b4b00858e58d, type: 3}
+    animator: {fileID: 9100000, guid: b79fb121cdbfc154b8f881b24dd4e5d3, type: 2}
+  shotSkinsList:
+  - id: 0
+    sprite: {fileID: -732111445, guid: e1a65ed43a48a794f8e0969cbab16c06, type: 3}
+    animator: {fileID: 9100000, guid: 571e1ddb080b42741b4ac41ffb76ab5b, type: 2}
+  propulsionSkinsList: []
+  trailSkinsList: []

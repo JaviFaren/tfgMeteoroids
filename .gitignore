@@ -1,10 +1,14 @@
-/Elmeteoritos/Logs
-/Elmeteoritos/.vs/
-/Elmeteoritos/.vsconfig
-/ElMeteoritos/Assembly-CSharp-Editor.csproj
-/ElMeteoritos/Assembly-CSharp.csproj
-/ElMeteoritos/ElMeteoritos.sln
 /ElMeteoritos/Library/
-/ElMeteoritos/UserSettings/
-/ElMeteoritos/obj/
 /ElMeteoritos/Temp/
+/ElMeteoritos/Obj/
+/ElMeteoritos/Logs/
+/ElMeteoritos/UserSettings/
+/ElMeteoritos/.vs/
+/ElMeteoritos/.vscode/
+/ElMeteoritos/.vsconfig
+
+# /ElMeteoritos/Assembly-CSharp-Editor.csproj
+# /ElMeteoritos/Assembly-CSharp.csproj
+
+# /ElMeteoritos/*.csproj
+# /ElMeteoritos/*.sln

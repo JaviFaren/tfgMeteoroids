@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: f5a57b7a-4c71-4338-8e9a-83d0e246beb1
+    AppIdRealtime: fbb09460-81df-4280-bcab-3577ba3469db
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
@@ -39,20 +39,70 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - iniciarPartida
-  - setupPlayer
+  - Teleport
   - addPlayer
-  - SpawnEnemyRPC
-  - Shoot
+  - InitializePanels
+  - MofifyPlayerPanel
   - OnHitRelocate
   - ResetPosition
-  - MofifyPlayerPanel
-  - InitializePanels
-  - ModifyLifes
-  - Teleport
+  - setupPlayer
+  - Shoot
+  - SpawnEnemyRPC
+  - SetupPlayer
+  - AddPlayerToList
+  - Relocate
+  - SyncStats
+  - Initialize
   - SyncLives
+  - SyncScore
+  - SyncFlags
+  - SyncFlagCanGetDamaged
+  - SyncFlagCanMove
+  - SyncFlagCanShoot
+  - SyncFlagOverheat
+  - OnHitBehavior
+  - AddPlayerToPlayersList
+  - ActivateEnemy
+  - SetLives
+  - SetTarget
+  - DeactivateEnemy
+  - SyncIncrementEnemiesDefeated
+  - SyncIncrementShotsFired
+  - SyncInitialize
   - UpdateUI
-  - Escopeta
+  - SyncCanRelocate
+  - OnDeath
+  - OnSpawn
+  - SyncFlag
+  - ModifyLives
+  - Activate
+  - RPC_SpawnEnemy
+  - RPC_SyncGameFlag
+  - DestroyShot
+  - RPC_ActivateEnemy
+  - RPC_ActivateEnemyFromPool
+  - RPC_DespawnEnemy
+  - RPC_Activate
+  - RPC_Despawn
+  - RPC_DestroyShot
+  - RegisterEnemyInPool
+  - RPC_DespawnEnemy_Internal
+  - SyncInfo
+  - RPC_SyncInfo
+  - SyncShootType
+  - InitializeUIPanel
+  - NotifyPlayerReadyRPC
+  - RPC_NotifyPlayerReady
+  - NotifyInitializationComplete
+  - RPC_NotifyInitializationComplete
+  - OnUIPanelInitialized
+  - SyncUIReady
+  - RPC_SyncFlag
+  - RPC_SyncScreenBorders
+  - RPC_SyncScreenSize
+  - SyncWaveDefeatedEnemies
+  - SyncDefeatedEnemies
+  - SyncShootProperties
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1
