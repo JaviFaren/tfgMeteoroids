@@ -7,8 +7,8 @@
 /ElMeteoritos/.vscode/
 /ElMeteoritos/.vsconfig
 
-# /ElMeteoritos/Assembly-CSharp-Editor.csproj
-# /ElMeteoritos/Assembly-CSharp.csproj
+/ElMeteoritos/Assembly-CSharp-Editor.csproj
+/ElMeteoritos/Assembly-CSharp.csproj
 
 # /ElMeteoritos/*.csproj
 # /ElMeteoritos/*.sln
