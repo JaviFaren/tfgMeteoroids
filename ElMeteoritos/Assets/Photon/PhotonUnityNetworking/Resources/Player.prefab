@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  _maxLives: 1
+  _maxLives: 5
   _currentLives: 0
   _shootType: 0
   _defaultShootDamage: 1

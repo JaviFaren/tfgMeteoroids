@@ -49,6 +49,18 @@ public class PlayerManager : MonoBehaviour
 
     public int GetPlayersCount() => Players.Count;
 
+    public Player GetRandomPlayer()
+    {
+        var randomPlayer = Players[Random.Range(0, Players.Count)];
+
+        while (randomPlayer.IsDead)
+        {
+            randomPlayer = Players[Random.Range(0, Players.Count)];
+        }
+
+        return randomPlayer;
+    }
+
     #endregion
 
     #region Spawn

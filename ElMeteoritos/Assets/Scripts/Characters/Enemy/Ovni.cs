@@ -1,0 +1,115 @@
+using System.Collections;
+using UnityEngine;
+
+public class Ovni : Enemy
+{
+    public GameObject objetivo;
+    public bool canMove = true;
+    public float distancia;
+    public Vector3 direction;
+    public Vector3 lastDirection;
+    public Vector3 lastPos;
+    public float Maxspeed;
+    public float speed;
+    public float targetSpeed;
+    public float decelerationDistance = 40f;
+
+
+    void FixedUpdate()
+    {
+        if (objetivo != null && canMove && gameObject.activeInHierarchy)
+        {
+            distancia = Vector3.Distance(transform.position, lastPos);
+            targetSpeed = Maxspeed;
+            if (distancia < decelerationDistance)
+            {
+                if (distancia < 20f)
+                {
+                    canMove = false;
+
+                    if (distancia < 3f)
+                    {
+                        StartCoroutine(NewObjectiveCooldown());
+                    }
+                }
+                else
+                {
+                    targetSpeed = Maxspeed * (distancia / decelerationDistance);
+
+                }
+            }
+            else
+            {
+                if (canMove)
+                {
+                    lastDirection = direction;
+                }
+                rb.velocity = Vector3.Lerp(rb.velocity, lastDirection * targetSpeed, decelerationDistance * Time.fixedDeltaTime);
+            }
+
+        }
+        if (!canMove)
+        {
+            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, decelerationDistance * Time.fixedDeltaTime);
+        }
+    }
+
+    public void trackPlayer()
+    {
+        direction = (objetivo.transform.position - transform.position).normalized;
+        lastPos = objetivo.transform.position;
+    }
+
+    public IEnumerator NewObjectiveCooldown()
+    {
+        yield return new WaitForSeconds(2.5f);
+        trackPlayer();
+        canMove = true;
+        rb.velocity = Vector3.zero;
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (!photonView.IsMine) return;
+
+        if (other.CompareTag("Player"))
+        {
+            if (other.TryGetComponent<Player>(out var player))
+            {
+                player.TakeDamage(-damage);
+            }
+        }
+        else if (other.CompareTag("PlayerShot"))
+        {
+            if (other.TryGetComponent<PlayerShot>(out var shot))
+            {
+                OnHitBehavior(-shot.damage, shot.ownerPlayerID);
+            }
+        }
+    }
+
+    public override Vector3 GetSpawnPosition() => EnemyManager.Instance.GetRandomSpawnPoint();
+
+    protected override void OnSpawnBehavior(float lag)
+    {
+        objetivo = PlayerManager.Instance.GetRandomPlayer().gameObject;
+
+        trackPlayer();
+        lastPos = objetivo.transform.position;
+    }
+
+    public override void OnHitBehavior(int damage, int playerID)
+    {
+        ModifyLives(damage);
+
+        if (currentLives <= 0)
+        {
+            OnDeath(playerID);
+        }
+    }
+
+    protected override void OnDeathBehavior()
+    {
+        
+    }
+}
