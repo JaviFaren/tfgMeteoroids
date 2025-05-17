@@ -1515,7 +1515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5272603309305729922, guid: d3d68946fdc35c3449e3d1477e78075d, type: 3}
       propertyPath: enemyPoolConfigs.Array.data[2].prefabPath
-      value: Enemies/MeteoritoDivisible
+      value: Enemies/MeteoroidDivisible
       objectReference: {fileID: 0}
     - target: {fileID: 5272603309305729922, guid: d3d68946fdc35c3449e3d1477e78075d, type: 3}
       propertyPath: enemyPoolConfigs.Array.data[3].prefabPath

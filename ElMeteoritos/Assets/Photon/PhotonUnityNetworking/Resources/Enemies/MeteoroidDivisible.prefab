@@ -1049,7 +1049,7 @@ GameObject:
   - component: {fileID: 2461420562647469638}
   - component: {fileID: 8009385044203689526}
   m_Layer: 6
-  m_Name: MeteoritoDivisible
+  m_Name: MeteoroidDivisible
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
