@@ -15,5 +15,7 @@ MonoBehaviour:
   id: 2
   duration: 5
   lifetime: 4
-  icon: {fileID: 462126327, guid: 085a32e89e61878418d9406381bdf629, type: 3}
+  icon: {fileID: -1026150435, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
   shootType: 3
+  customHeatPerShot: -1
+  customDamage: -1

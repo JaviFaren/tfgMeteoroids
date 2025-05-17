@@ -160,7 +160,7 @@ public class PlayerActions : MonoBehaviour
         switch (playerManager.playerStats.ShootType)
         {
             case ShootType.DEFAULT:
-                CreateShot(spawn.position, rotation * Quaternion.Euler(0, 0, 90), shotForce, lag, piercing: false);
+                CreateShot(spawn.position, rotation * Quaternion.Euler(0, 0, 90), shotForce, lag);
                 break;
 
             case ShootType.PIERCING:

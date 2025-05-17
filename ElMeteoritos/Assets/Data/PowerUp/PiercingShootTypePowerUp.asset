@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351d2971dd46ac4429b91492f015df0e, type: 3}
   m_Name: PiercingShootTypePowerUp
   m_EditorClassIdentifier: 
-  id: 0
+  id: 4
   duration: 5
   lifetime: 4
-  icon: {fileID: 462126327, guid: 085a32e89e61878418d9406381bdf629, type: 3}
+  icon: {fileID: 2096858263, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
   shootType: 1
   customHeatPerShot: -1
   customDamage: -1

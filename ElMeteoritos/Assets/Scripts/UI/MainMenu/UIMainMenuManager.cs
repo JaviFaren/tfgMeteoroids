@@ -23,10 +23,11 @@ public class UIMainMenuManager : MonoBehaviour
 
     [Header("Menus")]
     public GameObject customizationMenu;
-    public UICustomizationMenuManager customizationMenuManager;
+    [HideInInspector] public UICustomizationMenuManager customizationMenuManager;
     public GameObject playMenu;
-    public UIPlayMenuManager playMenuManager;
+    [HideInInspector] public UIPlayMenuManager playMenuManager;
     public GameObject socialMenu;
+    [HideInInspector] public UISocialMenuManager socialMenuManager;
     public GameObject settingsMenu;
 
     [Header("Textos")]
@@ -78,6 +79,7 @@ public class UIMainMenuManager : MonoBehaviour
         // Componentes
         customizationMenuManager = customizationMenu.GetComponent<UICustomizationMenuManager>();
         playMenuManager = playMenu.GetComponent<UIPlayMenuManager>();
+        socialMenuManager = socialMenu.GetComponent<UISocialMenuManager>();
 
         // Inicializar colores
         buttonColors = buttonColorSets?.ToDictionary(b => b.state, b => b) ?? new();

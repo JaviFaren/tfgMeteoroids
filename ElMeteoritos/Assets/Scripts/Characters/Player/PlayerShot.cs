@@ -8,7 +8,7 @@ public class PlayerShot : MonoBehaviour
     public int damage;
     public float lifetime;
 
-    private bool isPiercing;
+    [SerializeField] private bool isPiercing;
 
     public void Start()
     {

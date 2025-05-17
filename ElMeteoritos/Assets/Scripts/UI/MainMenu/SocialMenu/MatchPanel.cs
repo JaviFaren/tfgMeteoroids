@@ -26,13 +26,11 @@ public class MatchPanel : MonoBehaviour
         wavesTMP.text = MatchData.waves.ToString();
     }
 
-    string DisplayPlayerName(string name)
-{
-    return string.IsNullOrEmpty(name) ? "Sin jugador" : name;
-}
+    string DisplayPlayerName(string name) => string.IsNullOrEmpty(name) ? "Sin jugador" : name;
 
     public void OnMatchPanelClick()
     {
-
+        UIMainMenuManager.Instance.socialMenuManager.SetMatchData(MatchData);
+        UIMainMenuManager.Instance.socialMenuManager.SetState(SocialMenuState.DETAILED_MATCH);
     }
 }
