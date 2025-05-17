@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Characters\PowerUp\PowerUpEffect.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\Ovni.cs" />
+    <Compile Include="Assets\Scripts\UI\MainMenu\SocialMenu\MatchPanel.cs" />
     <Compile Include="Assets\Scripts\Manager\DatabaseManager.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\AppSettingsExtensions.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\AnimationFlags\NoGetDamagedFlag.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Assets\Scripts\UI\MainMenu\PlayMenu\UIPlayMenuManager.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\ExplosiveMeteoroid.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\DivisibleMeteoroid.cs" />
+    <Compile Include="Assets\Scripts\UI\MainMenu\SocialMenu\UISocialMenuManager.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\AnimationFlags\ResetFlags.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextToggleIsOnTransition.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs" />

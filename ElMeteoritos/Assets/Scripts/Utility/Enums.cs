@@ -95,6 +95,14 @@ public enum PlayMenuState
     IN_ROOM
 }
 
+// Menu social
+public enum SocialMenuState
+{
+    START,
+    MATCHES_LIST,
+    DETAILED_MATCH
+}
+
 // Iconos
 public enum UIIconType
 {

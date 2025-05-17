@@ -335,13 +335,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  _maxLives: 5
+  _maxLives: 1
   _currentLives: 0
   _shootType: 0
   _defaultShootDamage: 1
   _score: 0
   _enemiesDefeated: 0
   _shotsFired: 0
+  _obtained_upgrades: 0
 --- !u!114 &2919302109964079642
 MonoBehaviour:
   m_ObjectHideFlags: 0

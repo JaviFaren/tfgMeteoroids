@@ -116,7 +116,7 @@ public class UIMainMenuManager : MonoBehaviour
     {
         customizationMenu.SetActive(showCustomization);
         playMenu.SetActive(showPlay);
-        //socialMenu.SetActive(showSocial);
+        socialMenu.SetActive(showSocial);
         //settingsMenu.SetActive(showSettings);
     }
     private void ToggleMenuState(MainMenuState targetState)

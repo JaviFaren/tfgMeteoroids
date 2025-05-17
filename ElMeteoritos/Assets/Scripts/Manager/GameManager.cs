@@ -379,6 +379,7 @@
 
 using Photon.Pun;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviourPun
@@ -531,8 +532,49 @@ public class GameManager : MonoBehaviourPun
 
         if (PhotonNetwork.IsMasterClient)
         {
+            SaveMatchData();
             ConnectionManager.Instance.ReturnToMainMenu();
         }
+    }
+
+    private async void SaveMatchData()
+    {
+        var playerList = PlayerManager.Instance.GetPlayersList();
+        int[] ids = new int[4];
+        int[] scores = new int[4];
+        int shotsFired = 0;
+        int obstaclesDestroyed = 0;
+        int obtainedUpgrades = 0;
+
+        for (int i = 0; i < playerList.Count && i < 4; i++)
+        {
+            var player = playerList[i];
+            ids[i] = player.playerID;
+            scores[i] = player.playerStats.Score;
+            shotsFired += player.playerStats.ShotsFired;
+            obstaclesDestroyed += player.playerStats.EnemiesDefeated;
+            obtainedUpgrades += player.playerStats.ObtainedUpgrades;
+        }
+
+        MatchData currentMatchData = new()
+        {
+            id_player1 = ids[0],
+            score_player1 = scores[0],
+            id_player2 = ids[1],
+            score_player2 = scores[1],
+            id_player3 = ids[2],
+            score_player3 = scores[2],
+            id_player4 = ids[3],
+            score_player4 = scores[3],
+            score_total = scores.Sum(),
+            date = System.DateTime.Now.ToString("dd-MM-yyyy"),
+            waves = wave,
+            shots_fired = shotsFired,
+            obstacles_destroyed = obstaclesDestroyed,
+            obtained_upgrades = obtainedUpgrades
+        };
+
+        await PHPManager.Instance.AddMatch(currentMatchData);
     }
 
     public void CheckForEndGame()

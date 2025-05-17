@@ -106,10 +106,12 @@ public class Player : MonoBehaviour
         yield return new WaitUntil(() => IsInitialized && _isUIReady);
         Debug.Log($"Jugador {playerID} completamente inicializado");
     }
+
     public void Initialize(int id, string nickname)
     {
         photonView.RPC(nameof(SyncInitialize), RpcTarget.All, id, nickname);
     }
+
     [PunRPC]
     private void SyncInitialize(int id, string username)
     {
@@ -121,6 +123,7 @@ public class Player : MonoBehaviour
         PlayerManager.Instance.AddPlayerToPlayersList(this);
         StartCoroutine(InitializeUI());
     }
+
     private IEnumerator InitializeUI()
     {
         yield return null;
@@ -135,6 +138,7 @@ public class Player : MonoBehaviour
             photonView.RPC(nameof(SyncUIReady), RpcTarget.All);
         }
     }
+
     [PunRPC]
     private void SyncUIReady()
     {
@@ -146,6 +150,7 @@ public class Player : MonoBehaviour
             FinishInitialization();
         }
     }
+
     public void FinishInitialization()
     {
         CanMove = true;

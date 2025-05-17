@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 
 [Serializable]
@@ -10,7 +11,7 @@ public class BaseResponse
     public string code;
 }
 
-// ---> Usuario
+#region Usuario
 [Serializable]
 public class UserData
 {
@@ -28,8 +29,9 @@ public class LoginResponse
     public string code;
     public UserData user;
 }
+#endregion
 
-// ---> Personalizacion
+#region Personalizacion
 [Serializable]
 public class CustomizationData
 {
@@ -51,3 +53,29 @@ public class CustomizationResponse
     public string code;
     public CustomizationData customization;
 }
+#endregion
+
+#region Marcadores
+[System.Serializable]
+public class MatchData
+{
+    public int id_player1, id_player2, id_player3, id_player4;
+    public int score_player1, score_player2, score_player3, score_player4;
+    public int score_total;
+    public string date;
+    public int waves;
+    public int shots_fired;
+    public int obtained_upgrades;
+    public int obstacles_destroyed;
+    public string name_player1, name_player2, name_player3, name_player4;
+}
+
+[System.Serializable]
+public class MatchesResponse
+{
+    public bool success;
+    public string message;
+    public string code;
+    public List<MatchData> games;
+}
+#endregion

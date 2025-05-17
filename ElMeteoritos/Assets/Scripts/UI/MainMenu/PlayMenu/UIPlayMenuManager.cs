@@ -58,7 +58,7 @@ public class UIPlayMenuManager : MonoBehaviour
     private void OnEnable() => OnStateChange += HandleStateChange;
     private void OnDisable() => OnStateChange -= HandleStateChange;
 
-    // ---> Gestionar estado
+    #region Gestionar estado
     public void SetState(PlayMenuState newState) => PlayMenuState = newState;
     private void HandleStateChange(PlayMenuState newState)
     {
@@ -88,11 +88,13 @@ public class UIPlayMenuManager : MonoBehaviour
         roomsMenu.SetActive(showRooms);
         inRoomMenu.SetActive(showInRoom);
     }
+    #endregion
 
-    // ---> Cliente maestro
+    #region Cliente maestro
     public void ManageStartMatchButton(bool active) => startMatchBTN.gameObject.SetActive(active);
+    #endregion
 
-    // ---> Gestionar elementos de la interfaz
+    #region Gestionar elementos de la interfaz
     public void UpdateMaxPlayersText() => maxPlayersInRoomTMP.text = $"{(int)maxPlayersInRoomSlider.value} Jugadores";
     public void UpdatePlayersPanel(Photon.Realtime.Player[] playerList)
     {
@@ -108,14 +110,16 @@ public class UIPlayMenuManager : MonoBehaviour
         }
     }
     public void UpdateRoomName(string name) => roomNameTMP.text = name;
+    #endregion
 
-    // ---> Botones
+    #region Botones
     public void OnCreateRoomButtonClick() => ConnectionManager.Instance.CreateRoom(roomNameIF.text, (int)maxPlayersInRoomSlider.value, isRoomPublic);
     public void OnJoinRoomButtonClick() => ConnectionManager.Instance.JoinRoom(selectedRoomName);
     public void OnStartMatchButtonClick() => ConnectionManager.Instance.StartMatch();
     public void OnSetRoomPrivacyButtonClick() => ToggleRoomPrivacy();
+    #endregion
 
-    // ---> Crear sala
+    #region Crear sala
     private void ToggleRoomPrivacy()
     {
         isRoomPublic = !isRoomPublic;
@@ -129,10 +133,13 @@ public class UIPlayMenuManager : MonoBehaviour
         }
         privacyRoomRMP.text = isRoomPublic ? "Abierta" : "Cerrada";
     }
+    #endregion
 
-    // ---> Unirse a sala
+    #region Unirse a sala
     public void DisplayRooms(List<RoomInfo> roomList)
     {
+        ClearRooms();
+
         foreach (var room in roomList)
         {
             if (room.IsOpen && room.PlayerCount < room.MaxPlayers)
@@ -153,13 +160,21 @@ public class UIPlayMenuManager : MonoBehaviour
         CanJoinRoom();
     }
 
-    // ---> Verificaciones
+    private void ClearRooms()
+    {
+        foreach (Transform child in roomsPanelContent.transform) Destroy(child.gameObject);
+    }
+    #endregion
+
+    #region Verificaciones
     public void CanCreateRoom() => createRoomBTN.interactable = !string.IsNullOrEmpty(roomNameIF.text);
     public void CanJoinRoom() => joinRoomBTN.interactable = !string.IsNullOrEmpty(selectedRoomName);
+    #endregion
 
-    // --- Limpieza de textos
+    #region Limpieza de textos
     private void ClearInputFields(params TMP_InputField[] inputs)
     {
         foreach (var input in inputs) input.text = string.Empty;
     }
+    #endregion
 }

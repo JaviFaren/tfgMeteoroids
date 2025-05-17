@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -46,7 +47,7 @@ public class PHPManager : MonoBehaviour
         }
     }
 
-    // ---> Request generica
+    #region Request generica
     private IEnumerator SendRequestCoroutine(string uri, WWWForm form, TaskCompletionSource<UnityWebRequest> tcs)
     {
         UnityWebRequest request = form == null ? UnityWebRequest.Get(uri) : UnityWebRequest.Post(uri, form);
@@ -61,6 +62,7 @@ public class PHPManager : MonoBehaviour
             tcs.SetResult(request);
         }
     }
+
     public async Task<UnityWebRequest> SendRequestAsync(string uri, WWWForm form = null)
     {
         var tcs = new TaskCompletionSource<UnityWebRequest>();
@@ -78,13 +80,15 @@ public class PHPManager : MonoBehaviour
             return null;
         }
     }
+
     public async Task<string> SendRequestAndGetString(string uri, WWWForm form = null)
     {
         UnityWebRequest request = await SendRequestAsync(uri, form);
         return request?.downloadHandler.text;
     }
+    #endregion
 
-    // ---> Registro
+    #region Registro
     public async Task<BaseResponse> RegisterUserAsync(string name, string email, string password)
     {
         WWWForm form = new();
@@ -104,6 +108,7 @@ public class PHPManager : MonoBehaviour
             return new BaseResponse { success = false, message = "Error de red o del servidor" };
         }
     }
+
     public async Task Register(string name, string email, string password)
     {
         BaseResponse response = await RegisterUserAsync(name, email, password);
@@ -120,8 +125,9 @@ public class PHPManager : MonoBehaviour
             UILoginManager.Instance.SetErrorText(response.code, response.message);
         }
     }
+    #endregion
 
-    // ---> Login
+    #region Login
     public async Task<LoginResponse> LoginUserAsync(string identifier, string password)
     {
         WWWForm form = new();
@@ -140,6 +146,7 @@ public class PHPManager : MonoBehaviour
             return new LoginResponse { success = false, message = "Error de red o del servidor" };
         }
     }
+
     public async Task<LoginResponse> LoginWithTokenAsync()
     {
         WWWForm form = new();
@@ -157,6 +164,7 @@ public class PHPManager : MonoBehaviour
             return new LoginResponse { success = false, message = "Error de red o token inválido" };
         }
     }
+
     public async Task LoginWithToken()
     {
         var autoLoginResponse = await LoginWithTokenAsync();
@@ -176,6 +184,7 @@ public class PHPManager : MonoBehaviour
             Debug.Log("Auto-login fallido: " + autoLoginResponse.message);
         }
     }
+
     public async Task Login(string identifier, string password)
     {
         LoginResponse response = await LoginUserAsync(identifier, password);
@@ -195,16 +204,18 @@ public class PHPManager : MonoBehaviour
             UILoginManager.Instance.SetErrorText(response.code, response.message);
         }
     }
+    #endregion
 
-    // ---> Logout
+    #region Logout
     public void Logout()
     {
         UserSession.Clear();
         SceneManager.LoadScene(0);
         Debug.Log("Sesión cerrada");
     }
+    #endregion
 
-    // ---> Personalizacion
+    #region Personalizacion
     public async Task<CustomizationData> GetCustomizationDataAsync()
     {
         WWWForm form = new();
@@ -233,6 +244,7 @@ public class PHPManager : MonoBehaviour
             return null;
         }
     }
+
     public async Task<bool> UpdateCustomizationFieldAsync(string field, string value)
     {
         WWWForm form = new();
@@ -263,4 +275,75 @@ public class PHPManager : MonoBehaviour
             return false;
         }
     }
+    #endregion
+
+    #region Marcadores
+    public async Task<bool> AddMatch(MatchData data)
+    {
+        WWWForm form = new();
+        form.AddField("id_player1", data.id_player1);
+        form.AddField("score_player1", data.score_player1);
+        form.AddField("id_player2", data.id_player2);
+        form.AddField("score_player2", data.score_player2);
+        form.AddField("id_player3", data.id_player3);
+        form.AddField("score_player3", data.score_player3);
+        form.AddField("id_player4", data.id_player4);
+        form.AddField("score_player4", data.score_player4);
+        form.AddField("score_total", data.score_total);
+        form.AddField("date", data.date);
+        form.AddField("waves", data.waves);
+        form.AddField("shots_fired", data.shots_fired);
+        form.AddField("obtained_upgrades", data.obtained_upgrades);
+        form.AddField("obstacles_destroyed", data.obstacles_destroyed);
+
+        string json = await SendRequestAndGetString(URL + "add_match.php", form);
+
+        if (!string.IsNullOrEmpty(json))
+        {
+            BaseResponse response = JsonUtility.FromJson<BaseResponse>(json);
+
+            if (response.success)
+            {
+                Debug.Log(response.message);
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning($"Error: {response.message}");
+                return false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Respuesta vacia del servidor.");
+            return false;
+        }
+    }
+
+    public async Task<List<MatchData>> GetMatches()
+    {
+        string json = await SendRequestAndGetString(URL + "get_matches.php");
+
+        if (!string.IsNullOrEmpty(json))
+        {
+            MatchesResponse response = JsonUtility.FromJson<MatchesResponse>(json);
+
+            if (response.success)
+            {
+                Debug.Log("Partidas obtenidas correctamente");
+                return response.games;
+            }
+            else
+            {
+                Debug.LogWarning("Error al obtener partidas: " + response.message);
+                return null;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Respuesta vacia del servidor");
+            return null;
+        }
+    }
+    #endregion
 }
