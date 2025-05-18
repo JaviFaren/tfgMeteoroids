@@ -1873,6 +1873,10 @@ PrefabInstance:
       propertyPath: endMatchCountdownTMP
       value: 
       objectReference: {fileID: 1268329606}
+    - target: {fileID: 4745498078670013960, guid: 05f93ab8571a41c4c906b7b55d9444f9, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5204133817997464640, guid: 05f93ab8571a41c4c906b7b55d9444f9, type: 3}
       propertyPath: m_Name
       value: GameCanvas
@@ -1880,6 +1884,10 @@ PrefabInstance:
     - target: {fileID: 6174267550169794330, guid: 05f93ab8571a41c4c906b7b55d9444f9, type: 3}
       propertyPath: m_FillAmount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578138254357842292, guid: 05f93ab8571a41c4c906b7b55d9444f9, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7813275623793212116, guid: 05f93ab8571a41c4c906b7b55d9444f9, type: 3}
       propertyPath: m_Enabled

@@ -103,6 +103,11 @@ MonoBehaviour:
   - SyncWaveDefeatedEnemies
   - SyncDefeatedEnemies
   - SyncShootProperties
+  - RPC_ApplyCustomization
+  - RPC_SyncInitialize
+  - RPC_SyncUIReady
+  - RPC_SyncVisual
+  - RPC_Initialize
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

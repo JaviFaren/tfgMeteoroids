@@ -438,16 +438,28 @@ public class GameManager : MonoBehaviourPun
         yield return new WaitForSeconds(1f);
 
         Debug.Log("Todos los jugadores preparados - Iniciando partida");
-        StartCoroutine(StartMatch());
+        yield return StartMatch();
+        //StartCoroutine(StartMatch());
     }
 
     private IEnumerator StartMatch()
     {
-        if (PhotonNetwork.IsMasterClient) isMatchActive.Value = true;
+        //if (PhotonNetwork.IsMasterClient) isMatchActive.Value = true;
+        //Debug.Log($"[StartMatch] isMatchActive: {isMatchActive.Value}");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isMatchActive.Value = true;
+        }
+        else
+        {
+            yield return new WaitUntil(() => isMatchActive.Value);
+        }
+
+        Debug.Log($"[StartMatch] isMatchActive: {isMatchActive.Value}");
+
         matchState = MatchState.START_WAVE;
 
-        yield return null;
-        StartCoroutine(MatchLoop());
+        yield return MatchLoop();
     }
 
     private IEnumerator MatchLoop()
@@ -470,7 +482,7 @@ public class GameManager : MonoBehaviourPun
             }
         }
 
-        yield return StartCoroutine(OnEndGame());
+        yield return OnEndGame();
     }
 
     private IEnumerator StartWavePhase()
@@ -492,7 +504,14 @@ public class GameManager : MonoBehaviourPun
 
     private IEnumerator WavePhase()
     {
-        if (PhotonNetwork.IsMasterClient) isWaveActive.Value = true;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isWaveActive.Value = true;
+        }
+        else
+        {
+            yield return new WaitUntil(() => isWaveActive.Value);
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -829,18 +848,18 @@ public class GameManager : MonoBehaviourPun
     public class SyncedBool
     {
         private string rpcName;
-        private bool _value;
+        private bool value;
 
         public bool Value
         {
-            get => _value;
+            get => value;
             set
             {
-                if (_value != value)
-                {
-                    _value = value;
-                    GameManager.Instance.photonView.RPC(nameof(RPC_SyncGameFlag), RpcTarget.All, rpcName, value);
-                }
+                if (this.value == value) return;
+
+                this.value = value;
+
+                GameManager.Instance.photonView.RPC(nameof(GameManager.Instance.RPC_SyncGameFlag), RpcTarget.OthersBuffered, rpcName, value);
             }
         }
 

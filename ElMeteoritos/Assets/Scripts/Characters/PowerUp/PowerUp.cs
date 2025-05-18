@@ -7,10 +7,39 @@ public class PowerUp : MonoBehaviourPun
     private PowerUpEffect _effect;
     private Coroutine _lifetimeCoroutine;
 
+    private SpriteRenderer _spriteRenderer;
+
+    private void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        Debug.Log("[PowerUp] Awake called.");
+    }
+
+    [PunRPC]
+    public void RPC_Initialize(int enemyTypeInt, int effectIndex)
+    {
+        var config = DatabaseManager.Instance.enemyPowerUpConfigDatabase.GetEnemyPowerUpConfig((EnemyType)enemyTypeInt);
+        var powerUps = config?.allowedPowerUps;
+
+        if (powerUps == null || effectIndex < 0 || effectIndex >= powerUps.Count)
+        {
+            Debug.LogWarning("[PowerUp] Invalid config or effect index.");
+            return;
+        }
+
+        Initialize(powerUps[effectIndex]);
+    }
+
     public void Initialize(PowerUpEffect effect)
     {
+        if (effect == null || effect.icon == null)
+        {
+            Debug.LogError("[PowerUp] Invalid effect or icon.");
+            return;
+        }
+
         _effect = effect;
-        GetComponent<SpriteRenderer>().sprite = _effect.icon;
+        _spriteRenderer.sprite = _effect.icon;
         _lifetimeCoroutine = StartCoroutine(DestroyAfterLifetime(_effect.lifetime));
     }
 

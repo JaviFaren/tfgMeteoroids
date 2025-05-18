@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8384096093979070934}
   - component: {fileID: 3515817082717800003}
   - component: {fileID: 9151535442623483084}
-  - component: {fileID: 8074562667387172417}
   - component: {fileID: 8618156467925565451}
+  - component: {fileID: 8074562667387172417}
   m_Layer: 0
   m_Name: PowerUp
   m_TagString: PowerUp
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1489304855, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!135 &9151535442623483084
@@ -108,18 +108,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8074562667387172417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2410175795143813232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859802086b0dbe349953471515c6bcb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8618156467925565451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,3 +130,15 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8074562667387172417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410175795143813232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859802086b0dbe349953471515c6bcb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

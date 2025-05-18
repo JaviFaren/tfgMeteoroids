@@ -109,19 +109,33 @@ public class Player : MonoBehaviour
 
     public void Initialize(int id, string nickname)
     {
-        photonView.RPC(nameof(SyncInitialize), RpcTarget.All, id, nickname);
+        photonView.RPC(nameof(RPC_SyncInitialize), RpcTarget.All, id, nickname);
+
+        // Personalizacion
+        spaceship.Initialize();
+        photonView.RPC(nameof(RPC_ApplyCustomization), RpcTarget.OthersBuffered,
+                UserSession.SpaceshipColor, UserSession.SpaceshipSkin,
+                UserSession.PropulsionColor, UserSession.PropulsionSkin
+        );
     }
 
     [PunRPC]
-    private void SyncInitialize(int id, string username)
+    private void RPC_SyncInitialize(int id, string username)
     {
         this.playerID = id;
         this.username = username;
 
-        spaceship.Initialize();
-
         PlayerManager.Instance.AddPlayerToPlayersList(this);
         StartCoroutine(InitializeUI());
+    }
+
+    [PunRPC]
+    public void RPC_ApplyCustomization(string spaceshipColor, int spaceshipSkinID,
+                                       string propulsionColor, int propulsionSkinID)
+    {
+        spaceship.SetCustomizationForSpaceship(spaceshipColor, spaceshipSkinID);
+        spaceship.SetCustomizationForPropulsion(propulsionColor, propulsionSkinID);
+        //spaceship.SetCustomizationForShot(shotColor, shotSkinID);
     }
 
     private IEnumerator InitializeUI()
@@ -135,12 +149,12 @@ public class Player : MonoBehaviour
                 username,
                 playerStats.CurrentLives
             );
-            photonView.RPC(nameof(SyncUIReady), RpcTarget.All);
+            photonView.RPC(nameof(RPC_SyncUIReady), RpcTarget.All);
         }
     }
 
     [PunRPC]
-    private void SyncUIReady()
+    private void RPC_SyncUIReady()
     {
         _isUIReady = true;
         Debug.Log($"UI lista para jugador {playerID}");

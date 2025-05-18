@@ -8,6 +8,10 @@ public class Spaceship : MonoBehaviour
     [HideInInspector] public SpriteRenderer spaceshipSR;
     [HideInInspector] public Animator spaceshipAnim;
 
+    [Header("Propulsion")]
+    public SpriteRenderer propulsionSR;
+    public Animator propulsionAnim;
+
     [Header("Disparo")]
     public GameObject shotPrefab;
     public Transform shotSpawn;
@@ -22,45 +26,35 @@ public class Spaceship : MonoBehaviour
     #region INITIALIZATION
     public void Initialize()
     {
-        SetCustomizationForSpaceship();
-        //SetCustomizationForPropulsion();
-        //SetCustomizationForTrail();
+        SetCustomizationForSpaceship(UserSession.SpaceshipColor, UserSession.SpaceshipSkin);
+        SetCustomizationForPropulsion(UserSession.PropulsionColor, UserSession.PropulsionSkin);
+        //SetCustomizationForShot(UserSession.ShotColor, UserSession.ShotSkin);
     }
 
-    private void SetCustomizationForSpaceship()
+    public void SetCustomizationForSpaceship(string colorHex, int skinID)
     {
-        // Color
-        string spaceshipColorHex = UserSession.SpaceshipColor;
-        spaceshipSR.color = ConvertColor(spaceshipColorHex);
+        spaceshipSR.color = ConvertColor(colorHex);
 
-        // Skin
-        int spaceshipSkinID = UserSession.SpaceshipSkin;
-        var spaceshipSkin = DatabaseManager.Instance.customizationDatabase
-            .GetShipSkinById(spaceshipSkinID);
-
-        // Animator
-        if (spaceshipSkin != null)
+        var skin = DatabaseManager.Instance.customizationDatabase.GetShipSkinById(skinID);
+        if (skin != null)
         {
-            spaceshipSR.sprite = spaceshipSkin.sprite;
-            spaceshipAnim.runtimeAnimatorController = spaceshipSkin.animator;
+            spaceshipSR.sprite = skin.sprite;
+            spaceshipAnim.runtimeAnimatorController = skin.animator;
         }
     }
 
-    private void SetCustomizationForPropulsion()
+    public void SetCustomizationForPropulsion(string colorHex, int skinID)
     {
-        // Color
-        string propulsionColorHex = UserSession.PropulsionColor;
+        propulsionSR.color = ConvertColor(colorHex);
 
-
-        // Skin
-        int propulsionSkinID = UserSession.PropulsionSkin;
-        var propulsionSkin = DatabaseManager.Instance.customizationDatabase
-            .GetPropulsionSkinById(propulsionSkinID);
-
-        // Animator
+        var skin = DatabaseManager.Instance.customizationDatabase.GetPropulsionSkinById(skinID);
+        if (skin != null)
+        {
+            propulsionAnim.runtimeAnimatorController = skin.animator;
+        }
     }
 
-    private void SetCustomizationForTrail() // En funcion de como se haga el trail habra que cambiarlo
+    public void SetCustomizationForTrail() // En funcion de como se haga el trail habra que cambiarlo
     {
         // Color
         string trailColorHex = UserSession.TrailColor;
@@ -71,6 +65,39 @@ public class Spaceship : MonoBehaviour
             .GetTrailSkinById(trailSkinID);
 
         // Animator
+    }
+
+    public void SetCustomizationForShot(GameObject shot, string colorHex, int skinID)
+    {
+        SpriteRenderer shotSR = shot.GetComponent<SpriteRenderer>();
+        Animator shotAnim = shot.GetComponent<Animator>();
+
+        shotSR.color = ConvertColor(colorHex);
+
+        var skin = DatabaseManager.Instance.customizationDatabase.GetShotSkinById(skinID);
+        if (skin != null)
+        {
+            shotSR.sprite = skin.sprite;
+            shotAnim.runtimeAnimatorController = skin.animator;
+        }
+        //SpriteRenderer shotSR = shotPrefab.GetComponent<SpriteRenderer>();
+        //Animator shotAnim = shotPrefab.GetComponent<Animator>();
+
+        //// Color
+        //string shotColorHex = UserSession.ShotColor;
+        //shotSR.color = ConvertColor(shotColorHex);
+
+        //// Skin
+        //int shotSkinID = UserSession.ShotSkin;
+        //var shotSkin = DatabaseManager.Instance.customizationDatabase
+        //    .GetShotSkinById(shotSkinID);
+
+        //// Animator
+        //if (shotSkin != null)
+        //{
+        //    shotSR.sprite = shotSkin.sprite;
+        //    shotAnim.runtimeAnimatorController = shotSkin.animator;
+        //}
     }
 
     public Color ConvertColor(string hexColor)
@@ -88,6 +115,11 @@ public class Spaceship : MonoBehaviour
     {
         //animator.CrossFade(targetAnimation, 0.2f);
         spaceshipAnim.Play(targetAnimation);
+    }
+
+    public void SetPropulsion(float speed)
+    {
+        propulsionAnim.SetFloat("Speed", speed);
     }
     #endregion
 }

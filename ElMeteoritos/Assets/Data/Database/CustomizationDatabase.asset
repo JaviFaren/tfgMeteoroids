@@ -17,8 +17,11 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: b884be276728fc94e8f7b4b00858e58d, type: 3}
     animator: {fileID: 9100000, guid: b79fb121cdbfc154b8f881b24dd4e5d3, type: 2}
   shotSkinsList:
-  - id: 0
+  - id: 1
     sprite: {fileID: -732111445, guid: e1a65ed43a48a794f8e0969cbab16c06, type: 3}
     animator: {fileID: 9100000, guid: 571e1ddb080b42741b4ac41ffb76ab5b, type: 2}
-  propulsionSkinsList: []
+  propulsionSkinsList:
+  - id: 1
+    sprite: {fileID: 1413778663, guid: f4a9877385635e645bab66972ecb537c, type: 3}
+    animator: {fileID: 9100000, guid: 2a112431c4e0e1549a2e27a8bdafb970, type: 2}
   trailSkinsList: []

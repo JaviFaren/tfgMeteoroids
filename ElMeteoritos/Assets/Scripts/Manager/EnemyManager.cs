@@ -203,31 +203,27 @@ public class EnemyManager : MonoBehaviourPun
     #endregion
 
     #region Power Ups
-
     public void TrySpawnPowerUp(EnemyType enemyType, Vector3 position)
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
         var config = DatabaseManager.Instance.enemyPowerUpConfigDatabase.GetEnemyPowerUpConfig(enemyType);
-        if (config == null || config.allowedPowerUps == null || config.allowedPowerUps.Count == 0) return;
+        var powerUps = config?.allowedPowerUps;
 
-        if (Random.value <= powerUpSpawnChance)
-        {
-            var effect = config.allowedPowerUps[Random.Range(0, config.allowedPowerUps.Count)];
-            GameObject powerUpObject = PhotonNetwork.InstantiateRoomObject("PowerUp", position, Quaternion.identity);
-            powerUpObject.GetComponent<PowerUp>().Initialize(effect);
-        }
+        if (powerUps == null || powerUps.Count == 0) return;
+
+        if (Random.value > powerUpSpawnChance) return;
+
+        int effectIndex = Random.Range(0, powerUps.Count);
+        GameObject powerUpObject = PhotonNetwork.InstantiateRoomObject("PowerUp", position, Quaternion.identity);
+        powerUpObject.GetComponent<PhotonView>().RPC("RPC_Initialize", RpcTarget.AllBuffered, (int)enemyType, effectIndex);
     }
-
     #endregion
 
     #region Utilidades
-
     public Vector3 GetRandomSpawnPoint()
     {
         const float margin = 5f;
-        //Vector3 bottomLeft = GameManager.Instance.GetCameraBottomLeftBorder();
-        //Vector3 topRight = GameManager.Instance.GetCameraTopRightBorder();
         Vector3 bottomLeft = GameManager.Instance.cameraBounds.BottomLeft;
         Vector3 topRight = GameManager.Instance.cameraBounds.TopRight;
 
@@ -240,7 +236,6 @@ public class EnemyManager : MonoBehaviourPun
             _ => Vector3.zero
         };
     }
-
     #endregion
 }
 

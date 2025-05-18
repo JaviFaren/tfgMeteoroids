@@ -90,6 +90,8 @@ public class PlayerActions : MonoBehaviour
         {
             rb.AddForce(maxPropulsionSpeed * Time.fixedDeltaTime * transform.up, ForceMode.VelocityChange);
         }
+
+        playerManager.spaceship.SetPropulsion(rb.velocity.magnitude);
     }
 
     public void Stop()
@@ -97,6 +99,8 @@ public class PlayerActions : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         UIGameManager.Instance.speedSlider.value = 0;
+
+        playerManager.spaceship.SetPropulsion(rb.velocity.magnitude);
     }
     #endregion
 
@@ -183,6 +187,7 @@ public class PlayerActions : MonoBehaviour
     private void CreateShot(Vector3 position, Quaternion rotation, float force, float lag, bool piercing = false)
     {
         GameObject shot = Instantiate(playerManager.spaceship.shotPrefab, position, rotation);
+        playerManager.spaceship.SetCustomizationForShot(shot, UserSession.ShotColor, UserSession.ShotSkin);
         var shotScript = shot.GetComponent<PlayerShot>();
         shotScript.InitializeBullet(playerManager, force, piercing, Mathf.Abs(lag));
     }

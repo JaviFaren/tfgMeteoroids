@@ -15,5 +15,5 @@ MonoBehaviour:
   id: 1
   duration: 0
   lifetime: 4
-  icon: {fileID: -1582571668, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
+  icon: {fileID: -1489304855, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
   healAmount: 1
