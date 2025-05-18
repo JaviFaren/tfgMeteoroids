@@ -108,6 +108,7 @@ MonoBehaviour:
   - RPC_SyncUIReady
   - RPC_SyncVisual
   - RPC_Initialize
+  - RPC_PlayAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
@@ -58,7 +59,8 @@ public class ExplosiveMeteoroid : Enemy
 
     private IEnumerator Explosion(int playerID)
     {
-        anim.Play("Explosion");
+        //anim.Play("Explosion");
+        photonView.RPC(nameof(RPC_PlayAnimation), RpcTarget.All, "Explosion");
 
         int layerIndex = anim.GetLayerIndex("Actions Layer");
         yield return new WaitUntil(() =>
@@ -68,5 +70,11 @@ public class ExplosiveMeteoroid : Enemy
         });
 
         OnDeath(playerID);
+    }
+
+    [PunRPC]
+    void RPC_PlayAnimation(string animationName)
+    {
+        anim.Play(animationName);
     }
 }
