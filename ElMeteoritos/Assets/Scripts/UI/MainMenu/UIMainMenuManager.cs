@@ -29,6 +29,7 @@ public class UIMainMenuManager : MonoBehaviour
     public GameObject socialMenu;
     [HideInInspector] public UISocialMenuManager socialMenuManager;
     public GameObject settingsMenu;
+    [HideInInspector] public UISettingsMenuManager settingsMenuManager;
 
     [Header("Textos")]
     public TextMeshProUGUI connectionsStatusTMP;
@@ -54,6 +55,7 @@ public class UIMainMenuManager : MonoBehaviour
         }
     }
     public event Action<MainMenuState> OnStateChange;
+    private MainMenuState _previousState = MainMenuState.NO_MENU;
 
     private void OnEnable()
     {
@@ -80,15 +82,20 @@ public class UIMainMenuManager : MonoBehaviour
         customizationMenuManager = customizationMenu.GetComponent<UICustomizationMenuManager>();
         playMenuManager = playMenu.GetComponent<UIPlayMenuManager>();
         socialMenuManager = socialMenu.GetComponent<UISocialMenuManager>();
+        settingsMenuManager = settingsMenu.GetComponent<UISettingsMenuManager>();
 
         // Inicializar colores
         buttonColors = buttonColorSets?.ToDictionary(b => b.state, b => b) ?? new();
     }
 
-    // ---> Gestionar estado
+    #region State
     public void SetState(MainMenuState newState) => MainMenuState = newState;
     private void HandleStateChange(MainMenuState newState)
     {
+        if (_previousState == MainMenuState.SETTINGS && newState != MainMenuState.SETTINGS)
+        {
+            settingsMenuManager.SaveSettings();
+        }
         UpdateButtonColors(newState);
 
         switch (newState)
@@ -110,21 +117,26 @@ public class UIMainMenuManager : MonoBehaviour
                 break;
 
             case MainMenuState.SETTINGS:
+                settingsMenuManager.LoadSettings();
                 UpdateMenuState(false, false, false, true);
                 break;
         }
+
+        _previousState = newState;
     }
     private void UpdateMenuState(bool showCustomization, bool showPlay, bool showSocial, bool showSettings)
     {
         customizationMenu.SetActive(showCustomization);
         playMenu.SetActive(showPlay);
         socialMenu.SetActive(showSocial);
-        //settingsMenu.SetActive(showSettings);
+        settingsMenu.SetActive(showSettings);
     }
+
     private void ToggleMenuState(MainMenuState targetState)
     {
         SetState(MainMenuState == targetState ? MainMenuState.NO_MENU : targetState);
     }
+
     private IEnumerator ConnectAndOpenPlayMenu()
     {
         ConnectionManager.Instance.Connect();
@@ -136,8 +148,9 @@ public class UIMainMenuManager : MonoBehaviour
         SetConnectionStatusText();
         playMenuManager.SetState(PlayMenuState.ROOMS);
     }
+    #endregion
 
-    // ---> Actualizar colores de los botones de navegacion
+    #region Botones
     private void UpdateButtonColors(MainMenuState activeState)
     {
         var buttons = new Dictionary<Button, MainMenuState>
@@ -159,11 +172,12 @@ public class UIMainMenuManager : MonoBehaviour
         }
     }
 
-    // ---> Botones
-    public void OnCustomizationMenuButtonClick()
+    public void ChangeButtonColor(Button button, Color color)
     {
-        ToggleMenuState(MainMenuState.CUSTOMIZATION);
+        button.GetComponent<Image>().color = color;
     }
+
+    public void OnCustomizationMenuButtonClick() => ToggleMenuState(MainMenuState.CUSTOMIZATION);
     public void OnPlayMenuButtonClick() => ToggleMenuState(MainMenuState.PLAY);
     public void OnSocialMenuButtonClick() => ToggleMenuState(MainMenuState.SOCIAL);
     public void OnSettingsMenuButtonClick() => ToggleMenuState(MainMenuState.SETTINGS);
@@ -173,8 +187,9 @@ public class UIMainMenuManager : MonoBehaviour
         PHPManager.Instance.Logout();
     }
     public void OnExitButtonClick() => ConnectionManager.Instance.ExitGame();
+    #endregion
 
-    // ---> Textos
+    #region Texts
     public void SetConnectionStatusText()
     {
         switch (ConnectionManager.Instance.GetConnectionStatus())
@@ -190,12 +205,7 @@ public class UIMainMenuManager : MonoBehaviour
                 break;
         }
     }
-
-    // ---> Utilidades
-    public void ChangeButtonColor(Button button, Color color)
-    {
-        button.GetComponent<Image>().color = color;
-    }
+    #endregion
 }
 
 [System.Serializable]

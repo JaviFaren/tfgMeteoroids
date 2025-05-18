@@ -22,11 +22,8 @@ public class UserData
 }
 
 [Serializable]
-public class LoginResponse
+public class LoginResponse : BaseResponse
 {
-    public bool success;
-    public string message;
-    public string code;
     public UserData user;
 }
 #endregion
@@ -46,11 +43,8 @@ public class CustomizationData
 }
 
 [Serializable]
-public class CustomizationResponse
+public class CustomizationResponse : BaseResponse
 {
-    public bool success;
-    public string message;
-    public string code;
     public CustomizationData customization;
 }
 #endregion
@@ -77,5 +71,21 @@ public class MatchesResponse
     public string message;
     public string code;
     public List<MatchData> games;
+}
+#endregion
+
+#region Ajustes
+[Serializable]
+public class SettingsData
+{
+    public string sound_music;
+    public string sound_fx;
+    public string controls_size;
+}
+
+[Serializable]
+public class SettingsResponse : BaseResponse
+{
+    public SettingsData settings;
 }
 #endregion

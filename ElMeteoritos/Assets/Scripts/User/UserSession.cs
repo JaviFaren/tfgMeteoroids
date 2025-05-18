@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class UserSession
@@ -67,6 +68,21 @@ public static class UserSession
 
         await PHPManager.Instance.UpdateCustomizationFieldAsync(key, value.ToString());
     }
+    #endregion
+
+    #region Settings
+    public static string SoundMusic => PlayerPrefs.GetString("user_settings_sound_music", "Yes");
+    public static string SoundFX => PlayerPrefs.GetString("user_settings_sound_fx", "Yes");
+    public static string ControlsSize => PlayerPrefs.GetString("user_settings_controls_size", "Big");
+
+    public static void SetUserSettingsData(SettingsData userSettings)
+    {
+        PlayerPrefs.SetString("user_settings_sound_music", userSettings.sound_music);
+        PlayerPrefs.SetString("user_settings_sound_fx", userSettings.sound_fx);
+        PlayerPrefs.SetString("user_settings_controls_size", userSettings.controls_size);
+        PlayerPrefs.Save();
+    }
+    #endregion
 
     public static void Clear()
     {
@@ -84,9 +100,12 @@ public static class UserSession
         PlayerPrefs.DeleteKey("user_customization_propulsion_skin");
         PlayerPrefs.DeleteKey("user_customization_trail_color");
         PlayerPrefs.DeleteKey("user_customization_trail_skin");
+        // Ajustes
+        PlayerPrefs.DeleteKey("user_settings_sound_music");
+        PlayerPrefs.DeleteKey("user_settings_sound_fx");
+        PlayerPrefs.DeleteKey("user_settings_controls_size");
 
         PlayerPrefs.Save();
     }
-    #endregion
 }
 

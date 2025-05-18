@@ -79,4 +79,8 @@ public class ShotSkin : BaseSkin { }
 public class PropulsionSkin : BaseSkin { }
 
 [System.Serializable]
-public class TrailSkin : BaseSkin { }
+public class TrailSkin : BaseSkin 
+{
+    public List<Sprite> sprites = new();
+    public float startSize;
+}

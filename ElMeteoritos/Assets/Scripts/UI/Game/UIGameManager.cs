@@ -12,6 +12,7 @@ public class UIGameManager : MonoBehaviour
     public static UIGameManager Instance { get; private set; }
 
     [Header("Paneles")]
+    public GameObject background;
     public GameObject matchInfoPanel;
     public GameObject playersInfoPanel;
     public GameObject playerControlsPanel;

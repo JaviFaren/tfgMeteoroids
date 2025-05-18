@@ -176,6 +176,9 @@ public class PHPManager : MonoBehaviour
 
             CustomizationData customData = await GetCustomizationDataAsync();
             UserSession.SetUserCustomizationData(customData);
+
+            SettingsData settingsData = await GetSettingsDataAsync();
+            UserSession.SetUserSettingsData(settingsData);
         }
         else
         {
@@ -196,6 +199,9 @@ public class PHPManager : MonoBehaviour
 
             CustomizationData customData = await GetCustomizationDataAsync();
             UserSession.SetUserCustomizationData(customData);
+
+            SettingsData settingsData = await GetSettingsDataAsync();
+            UserSession.SetUserSettingsData(settingsData);
 
             UILoginManager.Instance.SetStatusText(response.message);
         }
@@ -229,7 +235,7 @@ public class PHPManager : MonoBehaviour
 
             if (response.success)
             {
-                Debug.Log("Personalizacion obtenida correctamente");
+                Debug.Log(response.message);
                 return response.customization;
             }
             else
@@ -343,6 +349,69 @@ public class PHPManager : MonoBehaviour
         {
             Debug.LogWarning("Respuesta vacia del servidor");
             return null;
+        }
+    }
+    #endregion
+
+    #region Ajustes
+    public async Task<SettingsData> GetSettingsDataAsync()
+    {
+        WWWForm form = new();
+        form.AddField("session_token", UserSession.SessionToken);
+
+        string json = await SendRequestAndGetString(URL + "get_settings.php", form);
+
+        if (!string.IsNullOrEmpty(json))
+        {
+            SettingsResponse response = JsonUtility.FromJson<SettingsResponse>(json);
+
+            if (response.success)
+            {
+                Debug.Log(response.message);
+                return response.settings;
+            }
+            else
+            {
+                Debug.LogWarning("Error al obtener ajustes: " + response.message);
+                return null;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Respuesta vacia del servidor");
+            return null;
+        }
+    }
+
+    public async Task<bool> UpdateSettingsAsync(SettingsData data)
+    {
+        WWWForm form = new();
+        form.AddField("session_token", UserSession.SessionToken);
+        form.AddField("sound_music", data.sound_music);
+        form.AddField("sound_fx", data.sound_fx);
+        form.AddField("controls_size", data.controls_size);
+
+        string json = await SendRequestAndGetString(URL + "update_settings.php", form);
+
+        if (!string.IsNullOrEmpty(json))
+        {
+            BaseResponse response = JsonUtility.FromJson<BaseResponse>(json);
+
+            if (response.success)
+            {
+                Debug.Log(response.message);
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning($"Error: {response.message}");
+                return false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Respuesta vacia del servidor.");
+            return false;
         }
     }
     #endregion

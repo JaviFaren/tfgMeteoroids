@@ -107,7 +107,9 @@ public enum SocialMenuState
 public enum UIIconType
 {
     PLAYER_LIFE,
-    PLAYER_DEAD
+    PLAYER_DEAD,
+    SETTINGS_TOGGLE_ON,
+    SETTINGS_TOGGLE_OFF
 }
 #endregion
 

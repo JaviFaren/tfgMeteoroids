@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class UISkinSelector : MonoBehaviour
 {
-    [SerializeField] private int skinID;
+    public int skinID;
 
     [SerializeField] private Image skinIMG;
     [SerializeField] private Image backgroundIMG;
-    
-    [SerializeField] private CustomizationField customizationField;
+
+    public CustomizationField customizationField;
 
     [SerializeField] private bool isSelected;
 
@@ -27,7 +27,6 @@ public class UISkinSelector : MonoBehaviour
     public void OnClick()
     {
         customizationManager.OnSkinSelected(this);
-        UserSession.SetUserCustomizationValue(customizationField, skinID);
     }
 
     public void SetSelected(bool selected)

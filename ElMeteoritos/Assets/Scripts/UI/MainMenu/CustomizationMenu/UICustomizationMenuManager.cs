@@ -161,6 +161,10 @@ public class UICustomizationMenuManager : MonoBehaviour
         {
             selector.SetSelected(selector == selected);
         }
+
+        UserSession.SetUserCustomizationValue(selected.customizationField, selected.skinID);
+
+        UpdatePlayerVisualizer();
     }
 
     private int GetCurrentSkinIDFromSession(CustomizationField field)
@@ -241,6 +245,11 @@ public class UICustomizationMenuManager : MonoBehaviour
         {
             playerVisualizer.sprite = skin.sprite;
         }
+    }
+
+    public void SetPlayerVisualizerSprite(Sprite sprite)
+    {
+        playerVisualizer.sprite = sprite;
     }
     #endregion
 }

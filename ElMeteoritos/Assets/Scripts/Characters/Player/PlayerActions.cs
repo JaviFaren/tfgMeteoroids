@@ -91,7 +91,9 @@ public class PlayerActions : MonoBehaviour
             rb.AddForce(maxPropulsionSpeed * Time.fixedDeltaTime * transform.up, ForceMode.VelocityChange);
         }
 
-        playerManager.spaceship.SetPropulsion(rb.velocity.magnitude);
+        var propulsionSpeed = rb.velocity.magnitude;
+        playerManager.spaceship.SetPropulsion(propulsionSpeed);
+        playerManager.spaceship.DisplayTrail(propulsionSpeed);
     }
 
     public void Stop()

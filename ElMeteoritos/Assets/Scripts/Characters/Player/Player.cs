@@ -115,7 +115,8 @@ public class Player : MonoBehaviour
         spaceship.Initialize();
         photonView.RPC(nameof(RPC_ApplyCustomization), RpcTarget.OthersBuffered,
                 UserSession.SpaceshipColor, UserSession.SpaceshipSkin,
-                UserSession.PropulsionColor, UserSession.PropulsionSkin
+                UserSession.PropulsionColor, UserSession.PropulsionSkin,
+                UserSession.TrailColor, UserSession.TrailSkin
         );
     }
 
@@ -131,11 +132,12 @@ public class Player : MonoBehaviour
 
     [PunRPC]
     public void RPC_ApplyCustomization(string spaceshipColor, int spaceshipSkinID,
-                                       string propulsionColor, int propulsionSkinID)
+                                       string propulsionColor, int propulsionSkinID,
+                                       string trailColor, int trailSkinID)
     {
         spaceship.SetCustomizationForSpaceship(spaceshipColor, spaceshipSkinID);
         spaceship.SetCustomizationForPropulsion(propulsionColor, propulsionSkinID);
-        //spaceship.SetCustomizationForShot(shotColor, shotSkinID);
+        spaceship.SetCustomizationForTrail(trailColor, trailSkinID);
     }
 
     private IEnumerator InitializeUI()

@@ -38,11 +38,13 @@ public class PlayerPowerUp : MonoBehaviour
             {
                 var existing = (ShootTypePowerUp)existingShootPowerUp.effect;
 
-                if (existing.shootType != newShootPowerUp.shootType)
-                {
-                    return false;
-                }
+                if (existing.shootType != newShootPowerUp.shootType) return false;
             }
+        }
+
+        if (effect is HealingPowerUp healingPowerUp)
+        {
+            if (playerManager.playerStats.CurrentLives == playerManager.playerStats.MaxLives) return false;
         }
 
         // Si ya esta aplicado el efecto, se reinicia

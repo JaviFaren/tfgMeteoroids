@@ -12,6 +12,9 @@ public class Spaceship : MonoBehaviour
     public SpriteRenderer propulsionSR;
     public Animator propulsionAnim;
 
+    [Header("Trail")]
+    public ParticleSystem trailPS;
+
     [Header("Disparo")]
     public GameObject shotPrefab;
     public Transform shotSpawn;
@@ -28,7 +31,7 @@ public class Spaceship : MonoBehaviour
     {
         SetCustomizationForSpaceship(UserSession.SpaceshipColor, UserSession.SpaceshipSkin);
         SetCustomizationForPropulsion(UserSession.PropulsionColor, UserSession.PropulsionSkin);
-        //SetCustomizationForShot(UserSession.ShotColor, UserSession.ShotSkin);
+        SetCustomizationForTrail(UserSession.TrailColor, UserSession.TrailSkin);
     }
 
     public void SetCustomizationForSpaceship(string colorHex, int skinID)
@@ -54,17 +57,31 @@ public class Spaceship : MonoBehaviour
         }
     }
 
-    public void SetCustomizationForTrail() // En funcion de como se haga el trail habra que cambiarlo
+    public void SetCustomizationForTrail(string colorHex, int skinID)
     {
         // Color
-        string trailColorHex = UserSession.TrailColor;
+        var main = trailPS.main;
+        main.startColor = ConvertColor(colorHex);
 
         // Skin
-        int trailSkinID = UserSession.TrailSkin;
-        var trailSkin = DatabaseManager.Instance.customizationDatabase
-            .GetTrailSkinById(trailSkinID);
+        var trailSkin = DatabaseManager.Instance.customizationDatabase.GetTrailSkinById(skinID);
+        if (trailSkin == null)
+        {
+            Debug.LogWarning("TrailSkin not found");
+            return;
+        }
 
-        // Animator
+        main.startSize = trailSkin.startSize;
+
+        var textureSheet = trailPS.textureSheetAnimation;
+        textureSheet.RemoveSprite(0);
+
+        foreach (var sprite in trailSkin.sprites)
+        {
+            textureSheet.AddSprite(sprite);
+        }
+
+        
     }
 
     public void SetCustomizationForShot(GameObject shot, string colorHex, int skinID)
@@ -120,6 +137,20 @@ public class Spaceship : MonoBehaviour
     public void SetPropulsion(float speed)
     {
         propulsionAnim.SetFloat("Speed", speed);
+    }
+    #endregion
+
+    #region TRAIL
+    public void DisplayTrail(float speed)
+    {
+        if (speed > 5 && !trailPS.isPlaying)
+        {
+            trailPS.Play();
+        }
+        else if (speed <= 5 && trailPS.isPlaying)
+        {
+            trailPS.Stop();
+        }
     }
     #endregion
 }
