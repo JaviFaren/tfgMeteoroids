@@ -1044,10 +1044,11 @@ GameObject:
   - component: {fileID: 7854089615391185621}
   - component: {fileID: 8920116331356919817}
   - component: {fileID: 8358302879519894519}
-  - component: {fileID: 7348065818013875848}
   - component: {fileID: 167004726853842308}
   - component: {fileID: 2461420562647469638}
   - component: {fileID: 8009385044203689526}
+  - component: {fileID: 7348065818013875848}
+  - component: {fileID: 7209150466223717616}
   m_Layer: 6
   m_Name: MeteoroidDivisible
   m_TagString: Enemy
@@ -1152,9 +1153,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 64
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!135 &8358302879519894519
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1176,38 +1177,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.710765
   m_Center: {x: 0.0029632025, y: -0.03852068, z: 0}
---- !u!114 &7348065818013875848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8974976726449557024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d989e5dae97e54d961cd553bef96e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  anim: {fileID: 0}
-  sr: {fileID: 0}
-  enemyCollider: {fileID: 0}
-  currentLives: 0
-  maxLives: 0
-  movementSpeed: 0
-  damage: 0
-  score: 0
-  enemyType: 1
-  hijos:
-  - {fileID: 8799658126710425738}
-  - {fileID: 5211993936113768192}
-  - {fileID: 7327958462269464045}
-  - {fileID: 6024339989835855600}
-  - {fileID: 4850776968009590160}
-  - {fileID: 6660458234176432295}
-  hijoSpeed: 0
-  agresor: {fileID: 0}
-  hijosRestantes: 0
 --- !u!114 &167004726853842308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1264,3 +1233,49 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &7348065818013875848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8974976726449557024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d989e5dae97e54d961cd553bef96e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  anim: {fileID: 0}
+  sr: {fileID: 0}
+  enemyCollider: {fileID: 0}
+  currentLives: 0
+  maxLives: 0
+  movementSpeed: 0
+  damage: 0
+  score: 0
+  enemyType: 1
+  hijos:
+  - {fileID: 8799658126710425738}
+  - {fileID: 5211993936113768192}
+  - {fileID: 7327958462269464045}
+  - {fileID: 6024339989835855600}
+  - {fileID: 4850776968009590160}
+  - {fileID: 6660458234176432295}
+  hijoSpeed: 0
+  agresor: {fileID: 0}
+  hijosRestantes: 0
+--- !u!114 &7209150466223717616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8974976726449557024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0c5635980575cf49a0799846c16185b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marginPercentage: 0.075
+  canRelocate: 1

@@ -266,8 +266,8 @@ public class GameManager : MonoBehaviourPun
             if (currentEnemyCount <= waveSettings.MaxEnemiesOnScreen &&
                 currentEnemyCount + currentWaveConfig.DefeatedEnemies < currentWaveConfig.TotalEnemies)
             {
-                //EnemyManager.Instance.SpawnEnemy(currentWaveConfig.GetNextEnemyType());
-                EnemyManager.Instance.SpawnEnemy(EnemyType.METEOROID_EXPLOSIVE);
+                EnemyManager.Instance.SpawnEnemy(currentWaveConfig.GetNextEnemyType());
+                //EnemyManager.Instance.SpawnEnemy(EnemyType.METEOROID_EXPLOSIVE);
                 yield return new WaitForSeconds(waveSettings.GetCurrentSpawnDelay());
             }
             else

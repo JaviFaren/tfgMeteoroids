@@ -183,12 +183,14 @@ public class Player : MonoBehaviour
         playerStats.ModifyLives(damage);
         photonView.RPC(nameof(OnHitBehavior), RpcTarget.All);
     }
+
     [PunRPC]
     public void OnHitBehavior()
     {
         playerActions.Stop();
         StartCoroutine(HandleHitEffect());
     }
+
     private IEnumerator HandleHitEffect()
     {
         spaceship.PlayTargetAnimation("Death");
@@ -217,12 +219,18 @@ public class Player : MonoBehaviour
             RespawnPlayer();
         }
     }
+
+    private void RPC_ManageGameObject(bool active)
+    {
+
+    }
     #endregion
 
     #region PLAYER RESPAWN
     private void RespawnPlayer()
     {
-        transform.position = Vector3.zero;
+        //transform.position = Vector3.zero;
+        photonView.RPC("Teleport", RpcTarget.All, Vector3.zero);
         spaceship.PlayTargetAnimation("Respawn");
     }
     #endregion

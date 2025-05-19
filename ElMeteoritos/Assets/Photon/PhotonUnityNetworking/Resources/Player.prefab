@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 5447901861859282260}
   - component: {fileID: 4463070976710297354}
   - component: {fileID: 8171124965151549145}
-  - component: {fileID: 124395737575150378}
+  - component: {fileID: -3887788560856209052}
   - component: {fileID: 4064572110334459475}
   - component: {fileID: 4095088751600420919}
   - component: {fileID: 4119471102066313833}
@@ -261,14 +261,14 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 124395737575150378}
+  - {fileID: -3887788560856209052}
   - {fileID: 4064572110334459475}
   - {fileID: 2043415738332558178}
   - {fileID: 602330179550289389}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &124395737575150378
+--- !u!114 &-3887788560856209052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
+  m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &4095088751600420919
@@ -346,7 +346,7 @@ MonoBehaviour:
   _score: 0
   _enemiesDefeated: 0
   _shotsFired: 0
-  _obtained_upgrades: 0
+  _obtainedUpgrades: 0
 --- !u!114 &2919302109964079642
 MonoBehaviour:
   m_ObjectHideFlags: 0

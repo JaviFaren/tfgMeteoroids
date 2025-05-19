@@ -18,7 +18,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int _score;
     [SerializeField] private int _enemiesDefeated;
     [SerializeField] private int _shotsFired;
-    [SerializeField] private int _obtained_upgrades;
+    [SerializeField] private int _obtainedUpgrades;
 
     // Propiedades publicas con encapsulamiento. Son solo de lectura
     public int MaxLives => _maxLives;
@@ -28,7 +28,7 @@ public class PlayerStats : MonoBehaviour
     public int Score => _score;
     public int EnemiesDefeated => _enemiesDefeated;
     public int ShotsFired => _shotsFired;
-    public int ObtainedUpgrades => _obtained_upgrades;
+    public int ObtainedUpgrades => _obtainedUpgrades;
 
     private void Awake()
     {
