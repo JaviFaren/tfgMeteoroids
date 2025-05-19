@@ -33,8 +33,7 @@ public class EnemyManager : MonoBehaviourPun
         Instance = this;
     }
 
-    #region Inicializar enemigos
-
+    #region Initialize
     public void InitializeEnemyPools()
     {
         foreach (var config in enemyPoolConfigs)
@@ -78,11 +77,25 @@ public class EnemyManager : MonoBehaviourPun
         enemy.transform.SetParent(enemyPools[type].Container, false);
         enemyPools[type].ReturnToPool(enemy);
     }
+    #endregion
 
+    #region Enemy List Management
+    private void AddEnemyToEnemiesList(Enemy enemy)
+    {
+        if (!ActiveEnemies.Contains(enemy)) ActiveEnemies.Add(enemy);
+    }
+
+    private void RemoveEnemyFromEnemiesList(Enemy enemy)
+    {
+        if (ActiveEnemies.Contains(enemy)) ActiveEnemies.Remove(enemy);
+    }
+
+    public IReadOnlyList<Enemy> GetActiveEnemies() => ActiveEnemies.AsReadOnly();
+
+    public int GetEnemiesCount() { return ActiveEnemies.Count; }
     #endregion
 
     #region Spawn
-
     public void SpawnEnemy(EnemyType type)
     {
         if (!PhotonNetwork.IsMasterClient) return;
@@ -127,10 +140,24 @@ public class EnemyManager : MonoBehaviourPun
         return enemyPools.TryGetValue(type, out EnemyPool pool) ? pool.GetInactiveEnemy() : null;
     }
 
+    public Vector3 GetRandomSpawnPoint()
+    {
+        const float margin = 5f;
+        Vector3 bottomLeft = GameManager.Instance.cameraBounds.BottomLeft;
+        Vector3 topRight = GameManager.Instance.cameraBounds.TopRight;
+
+        return Random.Range(0, 4) switch
+        {
+            0 => new Vector3(bottomLeft.x - margin, Random.Range(bottomLeft.y, topRight.y), 0),
+            1 => new Vector3(topRight.x + margin, Random.Range(bottomLeft.y, topRight.y), 0),
+            2 => new Vector3(Random.Range(bottomLeft.x, topRight.x), bottomLeft.y - margin, 0),
+            3 => new Vector3(Random.Range(bottomLeft.x, topRight.x), topRight.y + margin, 0),
+            _ => Vector3.zero
+        };
+    }
     #endregion
 
     #region Despawn
-
     public void DespawnEnemy(int viewID)
     {
         photonView.RPC(nameof(RPC_DespawnEnemy), RpcTarget.All, viewID);
@@ -151,26 +178,9 @@ public class EnemyManager : MonoBehaviourPun
             }
         }
     }
-
     #endregion
 
-    #region Lista de enemigos
-
-    private void AddEnemyToEnemiesList(Enemy enemy)
-    {
-        if (!ActiveEnemies.Contains(enemy)) ActiveEnemies.Add(enemy);
-    }
-    private void RemoveEnemyFromEnemiesList(Enemy enemy)
-    {
-        if (ActiveEnemies.Contains(enemy)) ActiveEnemies.Remove(enemy);
-    }
-    public IReadOnlyList<Enemy> GetActiveEnemies() => ActiveEnemies.AsReadOnly();
-    public int GetEnemiesCount() { return ActiveEnemies.Count; }
-
-    #endregion
-
-    #region Enemigos
-
+    #region Enemy Management
     public EnemyType GetRandomCommonEnemyType() => GetRandomWeightedEnemy(commonEnemyTypes);
 
     public EnemyType GetRandomSpecialEnemyType() => GetRandomWeightedEnemy(specialEnemyTypes);
@@ -199,7 +209,6 @@ public class EnemyManager : MonoBehaviourPun
 
         return list[Random.Range(0, list.Count)].type; // Fallback por seguridad
     }
-
     #endregion
 
     #region Power Ups
@@ -217,24 +226,6 @@ public class EnemyManager : MonoBehaviourPun
         int effectIndex = Random.Range(0, powerUps.Count);
         GameObject powerUpObject = PhotonNetwork.InstantiateRoomObject("PowerUp", position, Quaternion.identity);
         powerUpObject.GetComponent<PhotonView>().RPC("RPC_Initialize", RpcTarget.AllBuffered, (int)enemyType, effectIndex);
-    }
-    #endregion
-
-    #region Utilidades
-    public Vector3 GetRandomSpawnPoint()
-    {
-        const float margin = 5f;
-        Vector3 bottomLeft = GameManager.Instance.cameraBounds.BottomLeft;
-        Vector3 topRight = GameManager.Instance.cameraBounds.TopRight;
-
-        return Random.Range(0, 4) switch
-        {
-            0 => new Vector3(bottomLeft.x - margin, Random.Range(bottomLeft.y, topRight.y), 0),
-            1 => new Vector3(topRight.x + margin, Random.Range(bottomLeft.y, topRight.y), 0),
-            2 => new Vector3(Random.Range(bottomLeft.x, topRight.x), bottomLeft.y - margin, 0),
-            3 => new Vector3(Random.Range(bottomLeft.x, topRight.x), topRight.y + margin, 0),
-            _ => Vector3.zero
-        };
     }
     #endregion
 }

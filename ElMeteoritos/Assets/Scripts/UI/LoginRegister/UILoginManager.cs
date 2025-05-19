@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -89,24 +88,26 @@ public class UILoginManager : MonoBehaviour
         // Inicializar colores
         buttonColors = buttonColorSets?.ToDictionary(b => b.state, b => b) ?? new();
     }
-    private void Start() => SetVideoBackground();
+    private void Start() => SetupVideo();
 
-    // ---> Fondo
-    private void SetVideoBackground()
+    #region Background
+    private void SetupVideo()
     {
-        backgroundVP.url = Path.Combine(Application.streamingAssetsPath, videoFileName);
-        backgroundVP.isLooping = true;
+        string path = Path.Combine(Application.streamingAssetsPath, videoFileName);
+        backgroundVP.url = path;
+
+        backgroundVP.prepareCompleted += (vp) =>
+        {
+            vp.Play();
+        };
+
         backgroundVP.Prepare();
-        StartCoroutine(WaitForVideoPrepared());
     }
-    private IEnumerator WaitForVideoPrepared()
-    {
-        while (!backgroundVP.isPrepared) yield return null;
-        backgroundVP.Play();
-    }
+    #endregion
 
-    // ---> Gestionar estado
+    #region State
     public void SetState(LoginMenuState newState) => LoginMenuState = newState;
+
     private void HandleStateChange(LoginMenuState newState)
     {
         UpdateButtonColors(newState);
@@ -138,13 +139,47 @@ public class UILoginManager : MonoBehaviour
                 break;
         }
     }
+
     private void UpdateMenuState(bool showLogin, bool showRegister)
     {
         loginMenu.SetActive(showLogin);
         registerMenu.SetActive(showRegister);
     }
+    #endregion
 
-    // ---> Actualizar colores de los botones de navegacion
+    #region Buttons
+    public void OnLoginButtonClick() => SetState(LoginMenuState.LOGIN);
+
+    public void OnRegisterButtonClick() => SetState(LoginMenuState.REGISTER);
+
+    public void OnForgotPasswordButtonClick() { }
+
+    public async void OnProceedLoginButtonClick()
+    {
+        SetButtonsInteractable(false);
+        SetInputFieldsInteractable(false);
+
+        await PHPManager.Instance.Login(userNameEmailIF.text, userPasswordIF.text);
+
+        if (UserSession.Id != -1) SceneManager.LoadScene(1);
+
+        SetButtonsInteractable(true);
+        SetInputFieldsInteractable(true);
+    }
+
+    public async void OnProceedRegisterButtonClick()
+    {
+        SetButtonsInteractable(false);
+        SetInputFieldsInteractable(false);
+
+        await PHPManager.Instance.Register(newUserNameIF.text, newUserEmailIF.text, newUserConfirmPasswordIF.text);
+
+        if (UserSession.Id != -1) SceneManager.LoadScene(1);
+
+        SetButtonsInteractable(true);
+        SetInputFieldsInteractable(true);
+    }
+
     private void UpdateButtonColors(LoginMenuState activeState)
     {
         var buttons = new Dictionary<Button, LoginMenuState>
@@ -163,36 +198,90 @@ public class UILoginManager : MonoBehaviour
         }
     }
 
-    // ---> Botones
-    public void OnLoginButtonClick() => SetState(LoginMenuState.LOGIN);
-    public void OnRegisterButtonClick() => SetState(LoginMenuState.REGISTER);
-    public void OnForgotPasswordButtonClick() { }
-    public async void OnProceedLoginButtonClick()
+    public void ChangeButtonColor(Button button, Color color) => button.GetComponent<Image>().color = color;
+
+    public void SetButtonsInteractable(bool interactable)
     {
-        SetButtonsInteractable(false);
-        SetInputFieldsInteractable(false);
+        loginBTN.interactable = interactable;
+        registerBTN.interactable = interactable;
 
-        await PHPManager.Instance.Login(userNameEmailIF.text, userPasswordIF.text);
-
-        if (UserSession.Id != -1) SceneManager.LoadScene(1);
-
-        SetButtonsInteractable(true);
-        SetInputFieldsInteractable(true);
+        switch (LoginMenuState)
+        {
+            case LoginMenuState.LOGIN:
+                forgotPasswordBTN.interactable = interactable;
+                proceedLoginBTN.interactable = interactable;
+                break;
+            case LoginMenuState.REGISTER:
+                proceedRegisterBTN.interactable = interactable;
+                break;
+        }
     }
-    public async void OnProceedRegisterButtonClick()
+    #endregion
+
+    #region Texts
+    private void ClearTexts(params TextMeshProUGUI[] tmps)
     {
-        SetButtonsInteractable(false);
-        SetInputFieldsInteractable(false);
-
-        await PHPManager.Instance.Register(newUserNameIF.text, newUserEmailIF.text, newUserConfirmPasswordIF.text);
-
-        if (UserSession.Id != -1) SceneManager.LoadScene(1);
-
-        SetButtonsInteractable(true);
-        SetInputFieldsInteractable(true);
+        foreach (var tmp in tmps) tmp.text = string.Empty;
     }
 
-    // ---> Verificaciones
+    private void ClearInputFields(params TMP_InputField[] inputs)
+    {
+        foreach (var input in inputs) input.text = string.Empty;
+    }
+
+    private void ClearLoginMenuTexts()
+    {
+        ClearInputFields(userNameEmailIF, userPasswordIF);
+        ClearTexts(loginStatusTMP, userErrorTMP, passwordErrorTMP);
+    }
+
+    private void ClearRegisterMenuTexts()
+    {
+        ClearInputFields(newUserNameIF, newUserEmailIF, newUserPasswordlIF, newUserConfirmPasswordIF);
+        ClearTexts(registerStatusTMP, newUserNameErrorTMP, newUserEmailErrorTMP, newUserPasswordErrorTMP, newUserConfirmPasswordErrorTMP);
+    }
+
+    public void SetText(TextMeshProUGUI tmp, string text) => tmp.text = text;
+
+    public void SetStatusText(string text)
+    {
+        switch (LoginMenuState)
+        {
+            case LoginMenuState.LOGIN: SetText(loginStatusTMP, text); break;
+            case LoginMenuState.REGISTER: SetText(registerStatusTMP, text); break;
+        }
+    }
+    public void SetErrorText(string code, string text)
+    {
+        switch (code)
+        {
+            case "user_not_found": SetText(userErrorTMP, text); break;
+            case "wrong_password": SetText(passwordErrorTMP, text); break;
+            case "existing_name": SetText(newUserNameErrorTMP, text); break;
+            case "existing_email": SetText(newUserEmailErrorTMP, text); break;
+        }
+    }
+    public void SetInputFieldText(TMP_InputField inputField, string text) => inputField.text = text;
+
+    public void SetInputFieldsInteractable(bool interactable)
+    {
+        switch (LoginMenuState)
+        {
+            case LoginMenuState.LOGIN:
+                userNameEmailIF.interactable = interactable;
+                userPasswordIF.interactable = interactable;
+                break;
+            case LoginMenuState.REGISTER:
+                newUserNameIF.interactable = interactable;
+                newUserEmailIF.interactable = interactable;
+                newUserPasswordlIF.interactable = interactable;
+                newUserConfirmPasswordIF.interactable = interactable;
+                break;
+        }
+    }
+    #endregion
+
+    #region Checks
     public void CanLogin()
     {
         ClearTexts(userErrorTMP, passwordErrorTMP);
@@ -222,81 +311,7 @@ public class UILoginManager : MonoBehaviour
 
         proceedRegisterBTN.interactable = passwordsMatch && allFieldsFilled;
     }
-
-    // --- Limpieza de textos
-    private void ClearTexts(params TextMeshProUGUI[] tmps)
-    {
-        foreach (var tmp in tmps) tmp.text = string.Empty;
-    }
-    private void ClearInputFields(params TMP_InputField[] inputs)
-    {
-        foreach (var input in inputs) input.text = string.Empty;
-    }
-    private void ClearLoginMenuTexts()
-    {
-        ClearInputFields(userNameEmailIF, userPasswordIF);
-        ClearTexts(loginStatusTMP, userErrorTMP, passwordErrorTMP);
-    }
-    private void ClearRegisterMenuTexts()
-    {
-        ClearInputFields(newUserNameIF, newUserEmailIF, newUserPasswordlIF, newUserConfirmPasswordIF);
-        ClearTexts(registerStatusTMP, newUserNameErrorTMP, newUserEmailErrorTMP, newUserPasswordErrorTMP, newUserConfirmPasswordErrorTMP);
-    }
-
-    // ---> Utilidades
-    public void ChangeButtonColor(Button button, Color color) => button.GetComponent<Image>().color = color;
-    public void SetText(TextMeshProUGUI tmp, string text) => tmp.text = text;
-    public void SetStatusText(string text)
-    {
-        switch (LoginMenuState)
-        {
-            case LoginMenuState.LOGIN: SetText(loginStatusTMP, text); break;
-            case LoginMenuState.REGISTER: SetText(registerStatusTMP, text); break;
-        }
-    }
-    public void SetErrorText(string code, string text)
-    {
-        switch (code)
-        {
-            case "user_not_found": SetText(userErrorTMP, text); break;
-            case "wrong_password": SetText(passwordErrorTMP, text); break;
-            case "existing_name": SetText(newUserNameErrorTMP, text); break;
-            case "existing_email": SetText(newUserEmailErrorTMP, text); break;
-        }
-    }
-    public void SetInputFieldText(TMP_InputField inputField, string text) => inputField.text = text;
-    public void SetInputFieldsInteractable(bool interactable)
-    {
-        switch (LoginMenuState)
-        {
-            case LoginMenuState.LOGIN:
-                userNameEmailIF.interactable = interactable;
-                userPasswordIF.interactable = interactable;
-                break;
-            case LoginMenuState.REGISTER:
-                newUserNameIF.interactable = interactable;
-                newUserEmailIF.interactable = interactable;
-                newUserPasswordlIF.interactable = interactable;
-                newUserConfirmPasswordIF.interactable = interactable;
-                break;
-        }
-    }
-    public void SetButtonsInteractable(bool interactable)
-    {
-        loginBTN.interactable = interactable;
-        registerBTN.interactable = interactable;
-
-        switch (LoginMenuState)
-        {
-            case LoginMenuState.LOGIN:
-                forgotPasswordBTN.interactable = interactable;
-                proceedLoginBTN.interactable = interactable;
-                break;
-            case LoginMenuState.REGISTER:
-                proceedRegisterBTN.interactable = interactable;
-                break;
-        }
-    }
+    #endregion
 }
 
 [System.Serializable]

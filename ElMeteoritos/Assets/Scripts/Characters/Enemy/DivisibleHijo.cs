@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DivisibleHijo : MonoBehaviour
@@ -8,21 +6,9 @@ public class DivisibleHijo : MonoBehaviour
     public Animator animator;
     public Rigidbody rb;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "disparo")
+        if (other.tag == "disparo")
         {
             Destroy(other.gameObject);
             rb.velocity = Vector3.zero;

@@ -6,7 +6,8 @@ public abstract class Enemy : MonoBehaviour
 {
     [Header("Componentes")]
     [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public Animator animator;
+    [HideInInspector] public Animator anim;
+    [HideInInspector] public SpriteRenderer sr;
     [HideInInspector] public Collider enemyCollider;
     protected PhotonView photonView;
 
@@ -22,7 +23,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        animator = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<Collider>();
         photonView = GetComponent<PhotonView>();
@@ -52,22 +54,6 @@ public abstract class Enemy : MonoBehaviour
     public abstract void OnHitBehavior(int damage, int playerID);
     protected abstract void OnDeathBehavior();
 
-    // ---> Movimiento
-    protected virtual void SetRandomTargetAndMoveTowards(float lag)
-    {
-        Vector3 targetPosition = PlayerManager.Instance.GetRandomPlayerPosition();
-        Vector2 direction = (targetPosition - transform.position).normalized;
-        rb.velocity = direction * movementSpeed;
-        rb.position += rb.velocity * lag;
-
-        //GetComponent<ScreenPositionCheck>().enabled = true;
-    }
-    protected virtual void MoveInStraightLine()
-    {
-        float direction = transform.position.x < 0 ? 1 : -1;
-        rb.velocity = new Vector3(direction, 0, 0) * movementSpeed;
-    }
-
     // ---> Stats
     public void ModifyLives(int amount)
     {
@@ -87,5 +73,21 @@ public abstract class Enemy : MonoBehaviour
             EnemyManager.Instance.DespawnEnemy(GetComponent<PhotonView>().ViewID);
             PlayerManager.Instance.GetPlayerByID(playerID)?.playerStats.ModifyScore(score);
         }
+    }
+
+    // ---> Movimiento
+    protected virtual void SetRandomTargetAndMoveTowards(float lag)
+    {
+        Vector3 targetPosition = PlayerManager.Instance.GetRandomPlayerPosition();
+        Vector2 direction = (targetPosition - transform.position).normalized;
+        rb.velocity = direction * movementSpeed;
+        rb.position += rb.velocity * lag;
+
+        //GetComponent<ScreenPositionCheck>().enabled = true;
+    }
+    protected virtual void MoveInStraightLine()
+    {
+        float direction = transform.position.x < 0 ? 1 : -1;
+        rb.velocity = new Vector3(direction, 0, 0) * movementSpeed;
     }
 }

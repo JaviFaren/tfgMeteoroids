@@ -93,6 +93,12 @@ public class PlayerActions : MonoBehaviour
 
         var propulsionSpeed = rb.velocity.magnitude;
         playerManager.spaceship.SetPropulsion(propulsionSpeed);
+        playerManager.photonView.RPC(nameof(RPC_SyncTrail), RpcTarget.All, propulsionSpeed);
+    }
+
+    [PunRPC]
+    private void RPC_SyncTrail(float propulsionSpeed)
+    {
         playerManager.spaceship.DisplayTrail(propulsionSpeed);
     }
 

@@ -461,14 +461,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Login Register Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1436672685515500204, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436672685515500204, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2544510746314973352, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_VideoClip
+      value: 
+      objectReference: {fileID: 32900000, guid: 561a0719622b2e44f804dfc82721f8d1, type: 3}
+    - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_DataSource
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_AspectRatio
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
       propertyPath: m_TargetCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 2760847872237398024, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138309045958602590, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5844866226710369389, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -609,6 +645,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7110761656043318409, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7393393375878903633, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -628,6 +668,10 @@ PrefabInstance:
     - target: {fileID: 7393393375878903633, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305442378157075283, guid: cd6e3f16d0a5f244e9ecf40f72e5f74f, type: 3}
+      propertyPath: backgroundRIMG
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

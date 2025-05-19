@@ -6,14 +6,6 @@ using UnityEngine;
 // Las estadisticas como la vida o la velocidad se modifican en el prefab con el inspector de Unity
 public class ExplosiveMeteoroid : Enemy
 {
-    private Animator anim;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        anim = GetComponentInChildren<Animator>();
-    }
-
     protected override void OnTriggerEnter(Collider other)
     {
         if (!photonView.IsMine) return;
@@ -54,18 +46,16 @@ public class ExplosiveMeteoroid : Enemy
 
     protected override void OnDeathBehavior()
     {
-
+        photonView.RPC(nameof(RPC_ManageSpriteRenderer), RpcTarget.All, true);
     }
 
     private IEnumerator Explosion(int playerID)
     {
-        //anim.Play("Explosion");
         photonView.RPC(nameof(RPC_PlayAnimation), RpcTarget.All, "Explosion");
 
-        int layerIndex = anim.GetLayerIndex("Actions Layer");
         yield return new WaitUntil(() =>
         {
-            AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(layerIndex);
+            AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
             return stateInfo.IsName("Explosion") && stateInfo.normalizedTime >= 1f;
         });
 
@@ -76,5 +66,11 @@ public class ExplosiveMeteoroid : Enemy
     void RPC_PlayAnimation(string animationName)
     {
         anim.Play(animationName);
+    }
+
+    [PunRPC]
+    void RPC_ManageSpriteRenderer(bool active)
+    {
+        sr.enabled = active;
     }
 }

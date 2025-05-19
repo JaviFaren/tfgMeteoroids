@@ -156,7 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  animator: {fileID: 0}
+  anim: {fileID: 0}
+  sr: {fileID: 0}
   enemyCollider: {fileID: 0}
   currentLives: 0
   maxLives: 1

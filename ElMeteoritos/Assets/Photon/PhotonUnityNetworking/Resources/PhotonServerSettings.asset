@@ -109,6 +109,8 @@ MonoBehaviour:
   - RPC_SyncVisual
   - RPC_Initialize
   - RPC_PlayAnimation
+  - RPC_ManageSpriteRenderer
+  - RPC_SyncTrail
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
