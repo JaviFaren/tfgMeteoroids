@@ -113,7 +113,7 @@ public class EnemyManager : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void RPC_ActivateEnemy(int viewID, Vector3 position, PhotonMessageInfo info)
+    public void RPC_ActivateEnemy(int viewID, Vector3 position, PhotonMessageInfo info)
     {
         PhotonView view = PhotonView.Find(viewID);
         if (view == null)
@@ -135,7 +135,7 @@ public class EnemyManager : MonoBehaviourPun
         }
     }
 
-    private GameObject GetInactiveEnemy(EnemyType type)
+    public GameObject GetInactiveEnemy(EnemyType type)
     {
         return enemyPools.TryGetValue(type, out EnemyPool pool) ? pool.GetInactiveEnemy() : null;
     }

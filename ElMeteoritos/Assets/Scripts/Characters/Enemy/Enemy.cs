@@ -29,10 +29,6 @@ public abstract class Enemy : MonoBehaviour
         enemyCollider = GetComponent<Collider>();
         photonView = GetComponent<PhotonView>();
     }
-    protected virtual void Start()
-    {
-
-    }
     protected virtual void Update()
     {
 
