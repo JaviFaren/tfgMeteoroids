@@ -251,7 +251,7 @@ MonoBehaviour:
   damage: 1
   score: 50
   enemyType: 6
-  accelerationForce: 20
+  accelerationForce: 15
   decelerationDistance: 20
   closeEnoughDistance: 1.5
   delayBetweenTargets: 1.5

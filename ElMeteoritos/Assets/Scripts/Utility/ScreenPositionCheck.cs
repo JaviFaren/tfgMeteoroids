@@ -32,35 +32,36 @@ public class ScreenPositionCheck : MonoBehaviourPun
 
         if (GameManager.Instance == null) return false;
 
-        //Vector3 bottomLeft = GameManager.Instance.GetCameraBottomLeftBorder();
-        //Vector3 topRight = GameManager.Instance.GetCameraTopRightBorder();
         Vector3 bottomLeft = GameManager.Instance.cameraBounds.BottomLeft;
         Vector3 topRight = GameManager.Instance.cameraBounds.TopRight;
 
         float marginX = (topRight.x - bottomLeft.x) * marginPercentage;
         float marginY = (topRight.y - bottomLeft.y) * marginPercentage;
 
+        float spawnMarginX = marginX / 2;
+        float spawnMarginY = marginY / 2;
+
         bool changed = false;
 
         if (position.x > topRight.x + marginX)
         {
-            result.x = bottomLeft.x - marginX;
+            result.x = bottomLeft.x - spawnMarginX;
             changed = true;
         }
         else if (position.x < bottomLeft.x - marginX)
         {
-            result.x = topRight.x + marginX;
+            result.x = topRight.x + spawnMarginX;
             changed = true;
         }
 
         if (position.y > topRight.y + marginY)
         {
-            result.y = bottomLeft.y - marginY;
+            result.y = bottomLeft.y - spawnMarginY;
             changed = true;
         }
         else if (position.y < bottomLeft.y - marginY)
         {
-            result.y = topRight.y + marginY;
+            result.y = topRight.y + spawnMarginY;
             changed = true;
         }
 
@@ -73,8 +74,6 @@ public class ScreenPositionCheck : MonoBehaviourPun
 
         if (GameManager.Instance == null) return false;
 
-        //Vector3 bottomLeft = GameManager.Instance.GetCameraBottomLeftBorder();
-        //Vector3 topRight = GameManager.Instance.GetCameraTopRightBorder();
         Vector3 bottomLeft = GameManager.Instance.cameraBounds.BottomLeft;
         Vector3 topRight = GameManager.Instance.cameraBounds.TopRight;
 

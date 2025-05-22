@@ -66,7 +66,7 @@ public abstract class Enemy : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             EnemyManager.Instance.TrySpawnPowerUp(enemyType, transform.position);
-            EnemyManager.Instance.DespawnEnemy(GetComponent<PhotonView>().ViewID);
+            EnemyManager.Instance.DespawnEnemy(photonView.ViewID);
             PlayerManager.Instance.GetPlayerByID(playerID)?.playerStats.ModifyScore(score);
         }
     }

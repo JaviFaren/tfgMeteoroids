@@ -82,7 +82,7 @@ public class DivisibleMeteoroidChild : Enemy
 
         if (PhotonNetwork.IsMasterClient)
         {
-            EnemyManager.Instance.DespawnEnemy(GetComponent<PhotonView>().ViewID);
+            EnemyManager.Instance.DespawnEnemy(photonView.ViewID);
             PlayerManager.Instance.GetPlayerByID(playerID)?.playerStats.ModifyScore(score);
         }
     }

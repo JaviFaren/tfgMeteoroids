@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviourPun
     [SerializeField] private WaveType waveType;
     [SerializeField] private WaveConfig currentWaveConfig;
 
-    [Header("Spawn de enemigosg")]
+    [Header("Spawn de enemigos")]
     [SerializeField] private WaveSettings waveSettings;
 
     [Header("Camara")]
@@ -261,13 +261,12 @@ public class GameManager : MonoBehaviourPun
         while (!AllEnemiesDefeated && isWaveActive.Value)
         {
             int currentEnemyCount = EnemyManager.Instance.GetEnemiesCount();
-            int remainingEnemies = currentWaveConfig.TotalEnemies - currentWaveConfig.DefeatedEnemies;
 
             if (currentEnemyCount <= waveSettings.MaxEnemiesOnScreen &&
                 currentEnemyCount + currentWaveConfig.DefeatedEnemies < currentWaveConfig.TotalEnemies)
             {
-                //EnemyManager.Instance.SpawnEnemy(currentWaveConfig.GetNextEnemyType());
-                EnemyManager.Instance.SpawnEnemy(EnemyType.METEOROID_DIVISIBLE);
+                EnemyManager.Instance.SpawnEnemy(currentWaveConfig.GetNextEnemyType());
+                //EnemyManager.Instance.SpawnEnemy(EnemyType.OVNI);
                 yield return new WaitForSeconds(waveSettings.GetCurrentSpawnDelay());
             }
             else
@@ -410,7 +409,7 @@ public class GameManager : MonoBehaviourPun
             if (waveNumber > 2 && currentSpawnDelay > 2f)
             {
                 currentSpawnDelay = baseSpawnDelay * Mathf.Pow(1f - spawnDelayReduction, waveNumber - 2);
-                currentSpawnDelay = Mathf.Max(currentSpawnDelay, 0.5f);
+                currentSpawnDelay = Mathf.Max(currentSpawnDelay, 2f);
             }
             else
             {
