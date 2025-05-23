@@ -24,7 +24,9 @@ public class UICustomizationMenuManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI customizationCategoryTMP;
 
     [Header("Imagenes")]
-    [SerializeField] private Image playerVisualizer;
+    [SerializeField] private Image playerVisualizer_ship;
+    [SerializeField] private Image playerVisualizer_propulsor;
+    [SerializeField] private ParticleSystem playerVisualizer_trails;
 
     [Header("Prefabs y Referencias")]
     [SerializeField] private GameObject skinSelectorPrefab;
@@ -108,7 +110,7 @@ public class UICustomizationMenuManager : MonoBehaviour
     private void HandleStateChange(CustomizationMenuState newState)
     {
         customizationCategoryTMP.text = categoryNames.TryGetValue(newState, out var name) ? name : newState.ToString();
-        UpdatePlayerVisualizer();
+        UpdatePlayerVisualizer_ship((int)newState);
         OpenSkinPicker();
     }
     #endregion
@@ -164,7 +166,7 @@ public class UICustomizationMenuManager : MonoBehaviour
 
         UserSession.SetUserCustomizationValue(selected.customizationField, selected.skinID);
 
-        UpdatePlayerVisualizer();
+        UpdatePlayerVisualizer_ship((int)CustomizationMenuState);
     }
 
     private int GetCurrentSkinIDFromSession(CustomizationField field)
@@ -225,7 +227,7 @@ public class UICustomizationMenuManager : MonoBehaviour
     #endregion
 
     #region PLAYER VISUALIZER
-    private void UpdatePlayerVisualizer()
+    private void UpdatePlayerVisualizer_ship(int shipPart)
     {
         if (!colorFieldMap.TryGetValue(CustomizationMenuState, out var colorField) ||
         !skinFieldMap.TryGetValue(CustomizationMenuState, out var skinField))
@@ -234,7 +236,22 @@ public class UICustomizationMenuManager : MonoBehaviour
         // Color
         if (ColorUtility.TryParseHtmlString("#" + GetCurrentColorFromSession(colorField), out Color color))
         {
-            playerVisualizer.color = color;
+            switch (shipPart)
+            {
+                case 1:
+                    playerVisualizer_ship.color = color;
+                    break;
+                case 2:
+                    playerVisualizer_propulsor.color = color;
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
+            }
+            
         }
 
         // Sprite
@@ -243,13 +260,21 @@ public class UICustomizationMenuManager : MonoBehaviour
 
         if (skin != null)
         {
-            playerVisualizer.sprite = skin.sprite;
+            switch (shipPart)
+            {
+                case 1:
+                    playerVisualizer_ship.sprite = skin.sprite;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
+            }
         }
-    }
-
-    public void SetPlayerVisualizerSprite(Sprite sprite)
-    {
-        playerVisualizer.sprite = sprite;
     }
     #endregion
 }

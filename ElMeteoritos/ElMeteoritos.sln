@@ -17,7 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotonUnityNetworking.Utili
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotonUnityNetworking.Utilities", "PhotonUnityNetworking.Utilities.csproj", "{CDBA182D-FDB2-ECDB-66D1-0BDB06E1DE2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coffee.UIParticle", "Coffee.UIParticle.csproj", "{CBFDEF9C-F0AB-852E-83E6-69D1FF3CEB48}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{FE14131F-E0A6-7756-47E9-D3335C418008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coffee.UIParticle.Editor", "Coffee.UIParticle.Editor.csproj", "{E23C947B-F963-CF06-E22B-0F7C59A7B2C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PunDemos.DemoHubEditor", "PunDemos.DemoHubEditor.csproj", "{059A6BEE-45A5-DCDB-F563-B2AA20F64FD1}"
 EndProject
@@ -63,10 +67,18 @@ Global
 		{CDBA182D-FDB2-ECDB-66D1-0BDB06E1DE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDBA182D-FDB2-ECDB-66D1-0BDB06E1DE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDBA182D-FDB2-ECDB-66D1-0BDB06E1DE2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBFDEF9C-F0AB-852E-83E6-69D1FF3CEB48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBFDEF9C-F0AB-852E-83E6-69D1FF3CEB48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBFDEF9C-F0AB-852E-83E6-69D1FF3CEB48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBFDEF9C-F0AB-852E-83E6-69D1FF3CEB48}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE14131F-E0A6-7756-47E9-D3335C418008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE14131F-E0A6-7756-47E9-D3335C418008}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE14131F-E0A6-7756-47E9-D3335C418008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE14131F-E0A6-7756-47E9-D3335C418008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E23C947B-F963-CF06-E22B-0F7C59A7B2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E23C947B-F963-CF06-E22B-0F7C59A7B2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E23C947B-F963-CF06-E22B-0F7C59A7B2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E23C947B-F963-CF06-E22B-0F7C59A7B2C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{059A6BEE-45A5-DCDB-F563-B2AA20F64FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{059A6BEE-45A5-DCDB-F563-B2AA20F64FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{059A6BEE-45A5-DCDB-F563-B2AA20F64FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU

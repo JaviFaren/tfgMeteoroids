@@ -26,7 +26,15 @@ public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
 
     void UpdateColor(PointerEventData eventData)
     {
-        Vector3 pos = rectTransform.InverseTransformPoint(eventData.position);
+        Vector2 localPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            rectTransform,
+            eventData.position,
+            eventData.pressEventCamera,
+            out localPos
+        );
+
+        Vector3 pos = new Vector3(localPos.x, localPos.y, 0);
 
         float deltaX = rectTransform.rect.width * 0.5f;
         float deltaY = rectTransform.rect.height * 0.5f;

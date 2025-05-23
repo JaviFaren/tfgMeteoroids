@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8DB4C2F9-52A7-E8BE-FD1A-D89D3C8EB53F}</ProjectGuid>
+    <ProjectGuid>{CBFDEF9C-F0AB-852E-83E6-69D1FF3CEB48}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>PhotonRealtime</AssemblyName>
+    <AssemblyName>Coffee.UIParticle</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -60,30 +60,77 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.36f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\SystemConnectionSummary.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\SupportLogger.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Extensions.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Player.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\LoadBalancingClient.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\RegionHandler.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\ConnectionHandler.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\CustomTypesUnity.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\LoadBalancingPeer.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\PhotonPingClasses.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\WebRpc.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\FriendInfo.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Unity\Editor\AccountService.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Unity\PhotonAppSettings.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Unity\Editor\PhotonEditorUtils.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\AppSettings.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\PhotonPing.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\RoomInfo.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Region.cs" />
-    <Compile Include="Assets\Photon\PhotonRealtime\Code\Room.cs" />
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\UIParticleAttractor.cs">
+      <Link>Runtime\UIParticleAttractor.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\UIParticleUpdater.cs">
+      <Link>Runtime\UIParticleUpdater.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Extensions\CanvasExtensions.cs">
+      <Link>Runtime\Internal\Extensions\CanvasExtensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Extensions\ComponentExtensions.cs">
+      <Link>Runtime\Internal\Extensions\ComponentExtensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Utilities\ParticleSystemExtensions.cs">
+      <Link>Runtime\Utilities\ParticleSystemExtensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\UIParticleProjectSettings.cs">
+      <Link>Runtime\UIParticleProjectSettings.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Extensions\Color32Extensions.cs">
+      <Link>Runtime\Internal\Extensions\Color32Extensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\AnimatableProperty.cs">
+      <Link>Runtime\AnimatableProperty.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\FastAction.cs">
+      <Link>Runtime\Internal\Utilities\FastAction.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Extensions\SpriteExtensions.cs">
+      <Link>Runtime\Internal\Extensions\SpriteExtensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Extensions\Vector3Extensions.cs">
+      <Link>Runtime\Internal\Extensions\Vector3Extensions.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\UIParticle.cs">
+      <Link>Runtime\UIParticle.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\ProjectSettings\PreloadedProjectSettings.cs">
+      <Link>Runtime\Internal\ProjectSettings\PreloadedProjectSettings.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\MaterialRepository.cs">
+      <Link>Runtime\Internal\Utilities\MaterialRepository.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\UIParticleRenderer.cs">
+      <Link>Runtime\UIParticleRenderer.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\ObjectRepository.cs">
+      <Link>Runtime\Internal\Utilities\ObjectRepository.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\Misc.cs">
+      <Link>Runtime\Internal\Utilities\Misc.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\UIExtraCallbacks.cs">
+      <Link>Runtime\Internal\Utilities\UIExtraCallbacks.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\FrameCache.cs">
+      <Link>Runtime\Internal\Utilities\FrameCache.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\ObjectPool.cs">
+      <Link>Runtime\Internal\Utilities\ObjectPool.cs</Link>
+    </Compile>
+    <Compile Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Internal\Utilities\Logging.cs">
+      <Link>Runtime\Internal\Utilities\Logging.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Photon\PhotonRealtime\Code\changes-realtime.txt" />
-    <None Include="Assets\Photon\PhotonRealtime\Code\PhotonRealtime.asmdef" />
+    <None Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Coffee.UIParticle.asmdef">
+      <Link>Runtime\Coffee.UIParticle.asmdef</Link>
+    </None>
+    <None Include="C:\Users\super\Downloads\ParticleEffectForUGUI-main\ParticleEffectForUGUI-main\Runtime\Coffee.UIParticle.R.dll">
+      <Link>Runtime\Coffee.UIParticle.R.dll</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
