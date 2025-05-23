@@ -250,4 +250,38 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    [PunRPC]
+    public void ReportHitToMaster(int shotID, int playerID, int enemyViewID, int damage)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        PhotonView enemyView = PhotonView.Find(enemyViewID);
+        if (enemyView != null && enemyView.TryGetComponent(out Enemy enemy))
+        {
+            enemy.OnHitBehavior(damage, playerID);
+        }
+
+        var localShot = PlayerManager.Instance.GetShotByID(shotID);
+        if (localShot != null && !localShot.GetComponent<PlayerShot>().IsPiercing)
+        {
+            Destroy(localShot.gameObject);
+            photonView.RPC(nameof(DestroyShotRPC), RpcTarget.Others, shotID);
+        }
+    }
+
+    [PunRPC]
+    public void DestroyShotRPC(int shotID)
+    {
+        var shot = PlayerManager.Instance.GetShotByID(shotID);
+        if (shot != null)
+        {
+            Destroy(shot.gameObject);
+            Debug.Log($"[DestroyShotRPC] Shot {shotID} destroyed.");
+        }
+        else
+        {
+            Debug.LogWarning($"[DestroyShotRPC] Shot {shotID} not found.");
+        }
+    }
 }

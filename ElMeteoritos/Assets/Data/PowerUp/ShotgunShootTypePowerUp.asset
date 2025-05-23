@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: ShotgunShootTypePowerUp
   m_EditorClassIdentifier: 
   id: 2
-  duration: 5
-  lifetime: 4
+  duration: 10
+  lifetime: 6
   icon: {fileID: -1026150435, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
   shootType: 3
-  customHeatPerShot: -1
-  customDamage: -1
+  customHeatPerShot: 50
+  customDamage: 3
+  customCooldown: 1

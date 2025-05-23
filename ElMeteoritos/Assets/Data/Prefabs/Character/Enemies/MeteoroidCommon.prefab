@@ -160,7 +160,7 @@ MonoBehaviour:
   sr: {fileID: 0}
   enemyCollider: {fileID: 0}
   currentLives: 0
-  maxLives: 1
+  maxLives: 2
   movementSpeed: 15
   damage: 1
   score: 25

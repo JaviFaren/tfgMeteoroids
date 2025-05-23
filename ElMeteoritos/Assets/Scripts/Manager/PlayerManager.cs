@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviourPun
 {
     public static PlayerManager Instance { get; private set; }
 
@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Disparos")]
     [SerializeField] private GameObject shotsContainer;
+    public Dictionary<int, PlayerShot> activeShots = new();
+    private int currentShotID = 0;
 
     private void Awake()
     {
@@ -134,6 +136,34 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Disparo
+    public int GenerateShotID() => currentShotID++;
+
+    public void RegisterShot(int id, PlayerShot shot)
+    {
+        if (!activeShots.ContainsKey(id))
+        {
+            activeShots[id] = shot;
+            Debug.Log($"[RegisterShot] Shot {id} registered.");
+        }
+    }
+
+    public void UnregisterShot(int id)
+    {
+        if (activeShots.ContainsKey(id))
+        {
+            Debug.Log($"[UnregisterShot] Shot {id} unregistered.");
+            activeShots.Remove(id);
+        }
+    }
+
+    public PlayerShot GetShotByID(int id)
+    {
+        activeShots.TryGetValue(id, out var shot);
+        return shot;
+    }
     #endregion
 }
 

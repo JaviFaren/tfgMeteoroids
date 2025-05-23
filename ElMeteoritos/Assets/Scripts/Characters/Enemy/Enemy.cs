@@ -29,10 +29,6 @@ public abstract class Enemy : MonoBehaviour
         enemyCollider = GetComponent<Collider>();
         photonView = GetComponent<PhotonView>();
     }
-    protected virtual void Update()
-    {
-
-    }
 
     protected abstract void OnTriggerEnter(Collider other);
 
@@ -77,9 +73,8 @@ public abstract class Enemy : MonoBehaviour
         Vector3 targetPosition = PlayerManager.Instance.GetRandomPlayerPosition();
         Vector2 direction = (targetPosition - transform.position).normalized;
         rb.velocity = direction * movementSpeed;
-        rb.position += rb.velocity * lag;
 
-        //GetComponent<ScreenPositionCheck>().enabled = true;
+        rb.position += rb.velocity * lag;
     }
     protected virtual void MoveInStraightLine()
     {

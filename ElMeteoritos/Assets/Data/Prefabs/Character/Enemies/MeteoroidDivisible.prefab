@@ -244,9 +244,9 @@ MonoBehaviour:
   sr: {fileID: 0}
   enemyCollider: {fileID: 0}
   currentLives: 0
-  maxLives: 1
+  maxLives: 2
   movementSpeed: 10
-  damage: 1
+  damage: 2
   score: 15
   enemyType: 1
 --- !u!114 &7209150466223717616

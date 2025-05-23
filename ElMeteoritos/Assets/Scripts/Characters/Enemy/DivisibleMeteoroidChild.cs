@@ -17,13 +17,13 @@ public class DivisibleMeteoroidChild : Enemy
                 player.TakeDamage(-damage);
             }
         }
-        else if (other.CompareTag("PlayerShot"))
-        {
-            if (other.TryGetComponent<PlayerShot>(out var shot))
-            {
-                OnHitBehavior(-shot.damage, shot.ownerPlayerID);
-            }
-        }
+        //else if (other.CompareTag("PlayerShot"))
+        //{
+        //    if (other.TryGetComponent<PlayerShot>(out var shot))
+        //    {
+        //        OnHitBehavior(-shot.damage, shot.ownerPlayerID);
+        //    }
+        //}
     }    
 
     public override Vector3 GetSpawnPosition()
@@ -39,10 +39,6 @@ public class DivisibleMeteoroidChild : Enemy
     {
         Vector3 direction = Random.insideUnitCircle.normalized;
         rb.velocity = direction * movementSpeed;
-        //float fuerza = Random.Range(2f, 5f);
-
-        //rb.velocity = Vector3.zero;
-        //rb.AddForce(direction * fuerza, ForceMode.Impulse);
 
         rb.position += rb.velocity * lag;
     }

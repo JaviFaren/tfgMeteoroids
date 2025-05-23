@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PiercingShootTypePowerUp
   m_EditorClassIdentifier: 
   id: 4
-  duration: 5
-  lifetime: 4
+  duration: 10
+  lifetime: 6
   icon: {fileID: 2096858263, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
   shootType: 1
-  customHeatPerShot: -1
-  customDamage: -1
+  customHeatPerShot: 40
+  customDamage: 3
+  customCooldown: 0.7

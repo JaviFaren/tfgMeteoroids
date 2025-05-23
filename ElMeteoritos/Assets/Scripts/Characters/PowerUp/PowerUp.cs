@@ -12,7 +12,6 @@ public class PowerUp : MonoBehaviourPun
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        Debug.Log("[PowerUp] Awake called.");
     }
 
     [PunRPC]

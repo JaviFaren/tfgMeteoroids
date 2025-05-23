@@ -111,6 +111,11 @@ MonoBehaviour:
   - RPC_PlayAnimation
   - RPC_ManageSpriteRenderer
   - RPC_SyncTrail
+  - ProcessHitOnEnemy
+  - ReportHitToMaster
+  - CreateShot
+  - CreateShotRPC
+  - DestroyShotRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

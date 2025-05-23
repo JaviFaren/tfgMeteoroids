@@ -76,13 +76,13 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Disparo
-    public void ModifyShootProperties(ShootType newType, float customHeatPerShot, int customDamage)
+    public void ModifyShootProperties(ShootType newType, float customHeatPerShot, int customDamage, float customCooldown)
     {
-        playerManager.photonView.RPC(nameof(SyncShootProperties), RpcTarget.All, newType, customHeatPerShot, customDamage);
+        playerManager.photonView.RPC(nameof(SyncShootProperties), RpcTarget.All, newType, customHeatPerShot, customDamage, customCooldown);
     }
 
     [PunRPC]
-    private void SyncShootProperties(ShootType newType, float customHeatPerShot, int customDamage)
+    private void SyncShootProperties(ShootType newType, float customHeatPerShot, int customDamage, float customCooldown)
     {
         _shootType = newType;
 
@@ -95,6 +95,11 @@ public class PlayerStats : MonoBehaviour
             SetShootDamageOverride(customDamage);
         else
             ResetShootDamage();
+
+        if (customCooldown >= 0)
+            playerManager.playerActions.SetShotCooldownOverride(customCooldown);
+        else
+            playerManager.playerActions.ResetShotCooldownt();
     }
 
     public void SetShootDamageOverride(int value) => shootDamageOverride = value;

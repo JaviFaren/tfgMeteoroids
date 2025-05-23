@@ -17,13 +17,13 @@ public class ExplosiveMeteoroid : Enemy
                 player.TakeDamage(-damage);
             }
         }
-        else if (other.CompareTag("PlayerShot"))
-        {
-            if (other.TryGetComponent<PlayerShot>(out var shot))
-            {
-                OnHitBehavior(-shot.damage, shot.ownerPlayerID);
-            }
-        }
+        //else if (other.CompareTag("PlayerShot"))
+        //{
+        //    if (other.TryGetComponent<PlayerShot>(out var shot))
+        //    {
+        //        OnHitBehavior(-shot.damage, shot.ownerPlayerID);
+        //    }
+        //}
     }
 
     public override Vector3 GetSpawnPosition() => EnemyManager.Instance.GetRandomSpawnPoint();
