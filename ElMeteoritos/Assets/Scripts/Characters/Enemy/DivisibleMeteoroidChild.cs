@@ -4,27 +4,7 @@ using UnityEngine;
 
 public class DivisibleMeteoroidChild : Enemy
 {
-    private Vector3 spawnPos;
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        if (!photonView.IsMine) return;
-
-        if (other.CompareTag("Player"))
-        {
-            if (other.TryGetComponent<Player>(out var player))
-            {
-                player.TakeDamage(-damage);
-            }
-        }
-        //else if (other.CompareTag("PlayerShot"))
-        //{
-        //    if (other.TryGetComponent<PlayerShot>(out var shot))
-        //    {
-        //        OnHitBehavior(-shot.damage, shot.ownerPlayerID);
-        //    }
-        //}
-    }    
+    private Vector3 spawnPos;   
 
     public override Vector3 GetSpawnPosition()
     {
@@ -45,10 +25,18 @@ public class DivisibleMeteoroidChild : Enemy
 
     public override void OnHitBehavior(int damage, int playerID)
     {
+        if (processingHit) return;
+
+        processingHit = true;
+
         ModifyLives(damage);
         if (currentLives <= 0)
         {
             StartCoroutine(Death(playerID));
+        }
+        else
+        {
+            processingHit = false;
         }
     }
 

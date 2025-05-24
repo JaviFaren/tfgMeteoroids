@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +18,13 @@ public class UISettingsMenuManager : MonoBehaviour
         { "Mediano", "Medium" }
     };
 
+    private void OnEnable()
+    {
+        LoadSettings();
+
+        UIMainMenuManager.Instance.EnableNavigationButtons(true);
+    }
+
     public void LoadSettings()
     {
         musicTG.GetComponent<Toggle>().isOn = UserSession.SoundMusic == "Yes";
@@ -30,6 +36,8 @@ public class UISettingsMenuManager : MonoBehaviour
         string displayText = GetDisplayText(UserSession.ControlsSize);
         int index = controlsSizeDropdown.options.FindIndex(opt => opt.text == displayText);
         controlsSizeDropdown.value = Mathf.Max(index, 0);
+
+        UIMainMenuManager.Instance.EnableNavigationButtons(true);
     }
 
     public async void SaveSettings()

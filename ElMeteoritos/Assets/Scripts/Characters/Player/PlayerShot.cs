@@ -32,13 +32,6 @@ public class PlayerShot : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        //if (other.CompareTag("Enemy"))
-        //{
-        //    if (!isPiercing)
-        //    {
-        //        Destroy(gameObject);
-        //    }
-        //}
         if (hasHit && !IsPiercing) return;
 
         if (other.CompareTag("Enemy"))

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,9 +23,15 @@ public class UICustomizationMenuManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI customizationCategoryTMP;
 
     [Header("Imagenes")]
-    [SerializeField] private Image playerVisualizer_ship;
-    [SerializeField] private Image playerVisualizer_propulsor;
-    [SerializeField] private ParticleSystem playerVisualizer_trails;
+    [SerializeField] private GameObject playerVisualizer;
+    [SerializeField] private GameObject playerVisualizerIMG;
+
+    [SerializeField] private GameObject spaceshipVisualizer;
+    [SerializeField] private GameObject propulsionVisualizer;
+    private Animator propulsionVisualizerAnim;
+    [SerializeField] private GameObject trailVisualizer;
+    [SerializeField] private GameObject shotVisualizer;
+
 
     [Header("Prefabs y Referencias")]
     [SerializeField] private GameObject skinSelectorPrefab;
@@ -50,15 +55,27 @@ public class UICustomizationMenuManager : MonoBehaviour
     private Dictionary<CustomizationMenuState, CustomizationField> skinFieldMap;
     private Dictionary<CustomizationMenuState, CustomizationField> colorFieldMap;
 
+    public Camera skinCamera;
+
     private void OnEnable()
     {
         OnStateChange += HandleStateChange;
 
+        playerVisualizer.SetActive(true);
+        playerVisualizerIMG.SetActive(true);
+
+        UpdatePlayerVisualizer();
+
         SetState(CustomizationMenuState.SPACESHIP);
+
+        UIMainMenuManager.Instance.EnableNavigationButtons(true);
     }
     private void OnDisable()
     {
         OnStateChange -= HandleStateChange;
+
+        playerVisualizer.SetActive(false);
+        playerVisualizerIMG.SetActive(false);
 
         SetState(CustomizationMenuState.START);
     }
@@ -90,6 +107,8 @@ public class UICustomizationMenuManager : MonoBehaviour
             { CustomizationMenuState.PROPULSION, CustomizationField.PROPULSION_COLOR },
             { CustomizationMenuState.TRAIL, CustomizationField.TRAIL_COLOR }
         };
+
+        propulsionVisualizerAnim = propulsionVisualizer.GetComponent<Animator>();
     }
 
     #region STATE
@@ -110,8 +129,46 @@ public class UICustomizationMenuManager : MonoBehaviour
     private void HandleStateChange(CustomizationMenuState newState)
     {
         customizationCategoryTMP.text = categoryNames.TryGetValue(newState, out var name) ? name : newState.ToString();
-        UpdatePlayerVisualizer_ship((int)newState);
         OpenSkinPicker();
+
+        SetVisualizersActive(spaceship: false, propulsion: false, trail: false, shot: false);
+
+        colorPicker.SetChangeThisColor(GetVisualizerByState(newState));
+
+        switch (newState)
+        {
+            case CustomizationMenuState.SPACESHIP:
+            case CustomizationMenuState.PROPULSION:
+            case CustomizationMenuState.TRAIL:
+
+                SetVisualizersActive(spaceship: true, propulsion: true, trail: true, shot: false);
+                propulsionVisualizerAnim.SetFloat("Speed", 6f);
+
+                break;
+
+            case CustomizationMenuState.SHOT:
+
+                SetVisualizersActive(spaceship: false, propulsion: false, trail: false, shot: true);
+
+                break;
+        }
+    }
+
+    private GameObject GetVisualizerByState(CustomizationMenuState state) => state switch
+    {
+        CustomizationMenuState.SPACESHIP => spaceshipVisualizer,
+        CustomizationMenuState.PROPULSION => propulsionVisualizer,
+        CustomizationMenuState.TRAIL => trailVisualizer,
+        CustomizationMenuState.SHOT => shotVisualizer,
+        _ => spaceshipVisualizer,
+    };
+
+    private void SetVisualizersActive(bool spaceship, bool propulsion, bool trail, bool shot)
+    {
+        spaceshipVisualizer.SetActive(spaceship);
+        propulsionVisualizer.SetActive(propulsion);
+        trailVisualizer.SetActive(trail);
+        shotVisualizer.SetActive(shot);
     }
     #endregion
 
@@ -135,7 +192,6 @@ public class UICustomizationMenuManager : MonoBehaviour
         if (!skinFieldMap.TryGetValue(CustomizationMenuState, out var field)) return;
 
         var skins = DatabaseManager.Instance.customizationDatabase.GetSkinsByField(field);
-
         int currentSkinID = GetCurrentSkinIDFromSession(field);
 
         foreach (var skin in skins)
@@ -166,7 +222,7 @@ public class UICustomizationMenuManager : MonoBehaviour
 
         UserSession.SetUserCustomizationValue(selected.customizationField, selected.skinID);
 
-        UpdatePlayerVisualizer_ship((int)CustomizationMenuState);
+        UpdatePlayerVisualizer();
     }
 
     private int GetCurrentSkinIDFromSession(CustomizationField field)
@@ -198,9 +254,9 @@ public class UICustomizationMenuManager : MonoBehaviour
         {
             string colorHex = GetCurrentColorFromSession(field);
 
-            if (!string.IsNullOrEmpty(colorHex) && ColorUtility.TryParseHtmlString("#" + colorHex, out Color parsedColor))
+            if (!string.IsNullOrEmpty(colorHex))
             {
-                colorPicker.SetColor(parsedColor);
+                colorPicker.SetColor(ConvertColor(colorHex));
             }
 
             confirmCustomizationBTN.onClick.AddListener(() => SaveColor(field));
@@ -224,56 +280,97 @@ public class UICustomizationMenuManager : MonoBehaviour
             _ => ""
         };
     }
+
+    public Color ConvertColor(string hexColor)
+    {
+        if (ColorUtility.TryParseHtmlString("#" + hexColor, out Color color))
+            return color;
+
+        Debug.LogError("Color hexadecimal no valido: " + hexColor);
+        return Color.white;
+    }
     #endregion
 
     #region PLAYER VISUALIZER
-    private void UpdatePlayerVisualizer_ship(int shipPart)
+    private void UpdatePlayerVisualizer()
     {
-        if (!colorFieldMap.TryGetValue(CustomizationMenuState, out var colorField) ||
-        !skinFieldMap.TryGetValue(CustomizationMenuState, out var skinField))
-            return;
+        UpdateSpaceshipVisualizer();
+        UpdatePropulsionVisualizer();
+        UpdateTrailVisualizer();
+        UpdateShotVisualizer();
+    }
+
+    private void UpdateSpaceshipVisualizer()
+    {
+        if (!spaceshipVisualizer.TryGetComponent<SpriteRenderer>(out var sr)) return;
 
         // Color
-        if (ColorUtility.TryParseHtmlString("#" + GetCurrentColorFromSession(colorField), out Color color))
-        {
-            switch (shipPart)
-            {
-                case 1:
-                    playerVisualizer_ship.color = color;
-                    break;
-                case 2:
-                    playerVisualizer_propulsor.color = color;
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                default:
-                    break;
-            }
-            
-        }
+        sr.color = ConvertColor(UserSession.SpaceshipColor);
 
-        // Sprite
-        var skins = DatabaseManager.Instance.customizationDatabase.GetSkinsByField(skinField);
-        var skin = skins.FirstOrDefault(s => s.id == GetCurrentSkinIDFromSession(skinField));
+        // Skin
+        var skin = DatabaseManager.Instance.customizationDatabase.GetShipSkinById(UserSession.SpaceshipSkin);
+        if (skin != null) sr.sprite = skin.sprite;
+    }
 
+    private void UpdatePropulsionVisualizer()
+    {
+        if (!propulsionVisualizer.TryGetComponent<SpriteRenderer>(out var sr)) return;
+
+        // Color
+        sr.color = ConvertColor(UserSession.PropulsionColor);
+
+        // Skin
+        var skin = DatabaseManager.Instance.customizationDatabase.GetPropulsionSkinById(UserSession.PropulsionSkin);
         if (skin != null)
         {
-            switch (shipPart)
-            {
-                case 1:
-                    playerVisualizer_ship.sprite = skin.sprite;
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                default:
-                    break;
-            }
+            propulsionVisualizerAnim.runtimeAnimatorController = skin.animator;
+            propulsionVisualizerAnim.SetFloat("Speed", 6);
+        }
+    }
+    
+    private void UpdateTrailVisualizer()
+    {
+        if (!trailVisualizer.TryGetComponent<ParticleSystem>(out var ps)) return;
+
+        // Color
+        var main = ps.main;
+        main.startColor = ConvertColor(UserSession.TrailColor);
+
+        // Skin
+        var trailSkin = DatabaseManager.Instance.customizationDatabase.GetTrailSkinById(UserSession.TrailSkin);
+        if (trailSkin == null)
+        {
+            Debug.LogWarning("TrailSkin not found");
+            return;
+        }
+
+        var textureSheet = ps.textureSheetAnimation;
+        textureSheet.RemoveSprite(0);
+        while (textureSheet.spriteCount > 0)
+        {
+            textureSheet.RemoveSprite(0);
+        }
+
+        foreach (var sprite in trailSkin.sprites)
+        {
+            textureSheet.AddSprite(sprite);
+        }
+    }
+
+    private void UpdateShotVisualizer()
+    {
+        if (!shotVisualizer.TryGetComponent<SpriteRenderer>(out var sr)) return;
+        if (!shotVisualizer.TryGetComponent<Animator>(out var anim)) return;
+
+        // Color
+        sr.color = ConvertColor(UserSession.ShotColor);
+
+        // Skin
+        var skin = DatabaseManager.Instance.customizationDatabase.GetShotSkinById(UserSession.ShotSkin);
+        if (skin != null)
+        {
+            sr.sprite = skin.sprite;
+            anim.runtimeAnimatorController = skin.animator;
         }
     }
     #endregion

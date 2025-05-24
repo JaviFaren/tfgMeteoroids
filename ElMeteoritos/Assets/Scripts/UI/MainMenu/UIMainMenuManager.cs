@@ -96,11 +96,15 @@ public class UIMainMenuManager : MonoBehaviour
         {
             settingsMenuManager.SaveSettings();
         }
+
         UpdateButtonColors(newState);
+
+        EnableNavigationButtons(false);
 
         switch (newState)
         {
             case MainMenuState.NO_MENU:
+                EnableNavigationButtons(true);
                 UpdateMenuState(false, false, false, false);
                 break;
 
@@ -117,7 +121,6 @@ public class UIMainMenuManager : MonoBehaviour
                 break;
 
             case MainMenuState.SETTINGS:
-                settingsMenuManager.LoadSettings();
                 UpdateMenuState(false, false, false, true);
                 break;
         }
@@ -139,14 +142,17 @@ public class UIMainMenuManager : MonoBehaviour
 
     private IEnumerator ConnectAndOpenPlayMenu()
     {
-        ConnectionManager.Instance.Connect();
-        SetConnectionStatusText();
+        if (!PhotonNetwork.IsConnected)
+        {
+            ConnectionManager.Instance.Connect();
+            SetConnectionStatusText();
 
-        yield return new WaitUntil(() => PhotonNetwork.InLobby);
+            yield return new WaitUntil(() => PhotonNetwork.InLobby);
+
+            SetConnectionStatusText();
+        }
 
         UpdateMenuState(false, true, false, false);
-        SetConnectionStatusText();
-        playMenuManager.SetState(PlayMenuState.ROOMS);
     }
     #endregion
 
@@ -187,6 +193,14 @@ public class UIMainMenuManager : MonoBehaviour
         PHPManager.Instance.Logout();
     }
     public void OnExitButtonClick() => ConnectionManager.Instance.ExitGame();
+
+    public void EnableNavigationButtons(bool enabled)
+    {
+        customizationMenuBTN.interactable = enabled;
+        playMenuBTN.interactable = enabled;
+        socialMenuBTN.interactable = enabled;
+        settingsMenuBTN.interactable = enabled;
+    }
     #endregion
 
     #region Texts

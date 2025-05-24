@@ -16,6 +16,7 @@ public class UIPlayMenuManager : MonoBehaviour
     public Button joinRoomBTN;
     public Button startMatchBTN;
     public Button setRoomPrivacyBTN;
+    public Button leaveRoomBTN;
 
     [Header("Textos")]
     public TextMeshProUGUI roomNameTMP;
@@ -54,17 +55,28 @@ public class UIPlayMenuManager : MonoBehaviour
         }
     }
     public event Action<PlayMenuState> OnStateChange;
+    private PlayMenuState prevPlayMenuState = PlayMenuState.ROOMS;
 
-    private void OnEnable() => OnStateChange += HandleStateChange;
+    private void OnEnable()
+    {
+        OnStateChange += HandleStateChange;
+
+        SetState(prevPlayMenuState);
+
+        UIMainMenuManager.Instance.EnableNavigationButtons(true);
+    }
     private void OnDisable() => OnStateChange -= HandleStateChange;
 
     #region Gestionar estado
     public void SetState(PlayMenuState newState) => PlayMenuState = newState;
+
     private void HandleStateChange(PlayMenuState newState)
     {
         switch (newState)
         {
             case PlayMenuState.ROOMS:
+                // ---> Menus
+                UpdateMenuState(true, false);
                 // ---> Textos
                 ClearInputFields(roomNameIF);
                 UpdateMaxPlayersText();
@@ -73,8 +85,6 @@ public class UIPlayMenuManager : MonoBehaviour
                 // ---> Comprobaciones
                 CanJoinRoom();
                 CanCreateRoom();
-                // ---> Menus
-                UpdateMenuState(true, false);
                 break;
 
             case PlayMenuState.IN_ROOM:
@@ -82,7 +92,10 @@ public class UIPlayMenuManager : MonoBehaviour
                 UpdateMenuState(false, true);
                 break;
         }
+
+        prevPlayMenuState = newState;
     }
+
     private void UpdateMenuState(bool showRooms, bool showInRoom)
     {
         roomsMenu.SetActive(showRooms);
@@ -117,6 +130,12 @@ public class UIPlayMenuManager : MonoBehaviour
     public void OnJoinRoomButtonClick() => ConnectionManager.Instance.JoinRoom(selectedRoomName);
     public void OnStartMatchButtonClick() => ConnectionManager.Instance.StartMatch();
     public void OnSetRoomPrivacyButtonClick() => ToggleRoomPrivacy();
+
+    public void OnLeaveRoomButtonClick()
+    {
+        ConnectionManager.Instance.LeaveRoom();
+        SetState(PlayMenuState.ROOMS);
+    }
     #endregion
 
     #region Crear sala

@@ -90,18 +90,22 @@ public class ColorPickerControl : MonoBehaviour
         outputImage.texture = outputTexture;
     }
 
+    public void SetChangeThisColor(GameObject newTarget) => changeThisColor = newTarget;
+
     private void UpdateOutputImage()
     {
         currentColor = Color.HSVToRGB(currentHue, currentSat, currentVal);
 
-        //for (int i = 0; i < outputTexture.height; i++)
-        //{
-        //    outputTexture.SetPixel(0, i, currentColor);
-        //}
-
-        //outputTexture.Apply();
-
-        changeThisColor.GetComponent<Image>().color = currentColor;
+        if (changeThisColor.TryGetComponent<ParticleSystem>(out var PScomponent))
+        {
+            var main = PScomponent.main;
+            main.startColor = currentColor;
+        }
+        else if (changeThisColor.TryGetComponent<SpriteRenderer>(out var SRcomponent))
+        {
+            SRcomponent.color = currentColor;
+        }
+        //changeThisColor.GetComponent<Image>().color = currentColor;
     }
 
     public void SetSV(float S, float V)

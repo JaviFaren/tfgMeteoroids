@@ -51,6 +51,8 @@ public class UISocialMenuManager : MonoBehaviour
     {
         OnStateChange += HandleStateChange;
         SetState(SocialMenuState.MATCHES_LIST);
+
+        UIMainMenuManager.Instance.EnableNavigationButtons(true);
     }
     private void OnDisable()
     {

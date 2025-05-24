@@ -146,7 +146,7 @@ public class PlayerManager : MonoBehaviourPun
         if (!activeShots.ContainsKey(id))
         {
             activeShots[id] = shot;
-            Debug.Log($"[RegisterShot] Shot {id} registered.");
+            //Debug.Log($"[RegisterShot] Shot {id} registered.");
         }
     }
 
@@ -154,7 +154,7 @@ public class PlayerManager : MonoBehaviourPun
     {
         if (activeShots.ContainsKey(id))
         {
-            Debug.Log($"[UnregisterShot] Shot {id} unregistered.");
+            //Debug.Log($"[UnregisterShot] Shot {id} unregistered.");
             activeShots.Remove(id);
         }
     }

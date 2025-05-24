@@ -4,26 +4,6 @@ using UnityEngine;
 
 public class DivisibleMeteoroid : Enemy
 {
-    protected override void OnTriggerEnter(Collider other)
-    {
-        if (!photonView.IsMine) return;
-
-        if (other.CompareTag("Player"))
-        {
-            if (other.TryGetComponent<Player>(out var player))
-            {
-                player.TakeDamage(-damage);
-            }
-        }
-        //else if (other.CompareTag("PlayerShot"))
-        //{
-        //    if (other.TryGetComponent<PlayerShot>(out var shot))
-        //    {
-        //        OnHitBehavior(-shot.damage, shot.ownerPlayerID);
-        //    }
-        //}
-    }
-
     protected override void OnSpawnBehavior(float lag)
     {
         SetRandomTargetAndMoveTowards(lag);
@@ -33,12 +13,20 @@ public class DivisibleMeteoroid : Enemy
 
     public override void OnHitBehavior(int damage, int playerID)
     {
+        if (processingHit) return;
+
+        processingHit = true;
+
         ModifyLives(damage);
 
         if (currentLives <= 0)
         {
             rb.velocity = Vector3.zero;
             StartCoroutine(Divide(playerID));
+        }
+        else
+        {
+            processingHit = false;
         }
     }
 
@@ -74,7 +62,7 @@ public class DivisibleMeteoroid : Enemy
 
             var hijo = hijoGO.GetComponent<DivisibleMeteoroidChild>();
 
-            Vector3 posicionSpawn = transform.position + Random.insideUnitSphere * 1.5f;
+            Vector3 posicionSpawn = transform.position;
             hijo.SetCustomSpawnPosition(posicionSpawn);
 
             if (hijo.TryGetComponent<PhotonView>(out var pv))

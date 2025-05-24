@@ -21,6 +21,9 @@ public abstract class Enemy : MonoBehaviour
     [Header("Propiedades")]
     public EnemyType enemyType;
 
+    [Header("Flags")]
+    public bool processingHit = false;
+
     protected virtual void Awake()
     {
         anim = GetComponentInChildren<Animator>();
@@ -30,7 +33,18 @@ public abstract class Enemy : MonoBehaviour
         photonView = GetComponent<PhotonView>();
     }
 
-    protected abstract void OnTriggerEnter(Collider other);
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (!photonView.IsMine) return;
+
+        if (other.CompareTag("Player"))
+        {
+            if (other.TryGetComponent<Player>(out var player))
+            {
+                player.TakeDamage(-damage);
+            }
+        }
+    }
 
     public abstract Vector3 GetSpawnPosition();
 
@@ -38,6 +52,8 @@ public abstract class Enemy : MonoBehaviour
     {
         ModifyLives(maxLives);
         if (enemyCollider != null) enemyCollider.enabled = true;
+
+        processingHit = false;
 
         OnSpawnBehavior(lag);
     }

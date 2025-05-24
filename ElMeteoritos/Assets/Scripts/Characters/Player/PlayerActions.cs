@@ -127,7 +127,7 @@ public class PlayerActions : MonoBehaviour
     #region DISPARO
     private bool CanShoot => playerManager.CanShoot &&
                                !playerManager.IsOverheat &&
-                               Time.time >= lastShotTime + defaultShotCooldown;
+                               Time.time >= lastShotTime + CurrentShotCooldown;
 
     public void SetHeatPerShotOverride(float value) => heatPerShotOverride = value;
     public void ResetHeatPerShot() => heatPerShotOverride = null;
@@ -141,7 +141,9 @@ public class PlayerActions : MonoBehaviour
 
         playerManager.CanShoot = false;
 
-        playerManager.photonView.RPC(nameof(Shoot), RpcTarget.AllViaServer, rb.rotation);
+        string colorHex = UserSession.ShotColor;
+        int skinID = UserSession.ShotSkin;
+        playerManager.photonView.RPC(nameof(Shoot), RpcTarget.AllViaServer, rb.rotation, colorHex, skinID);
         lastShotTime = Time.time;
 
         audioSource.PlayOneShot(shootsound);
@@ -181,6 +183,124 @@ public class PlayerActions : MonoBehaviour
         UIGameManager.Instance.shootButtonFill.fillAmount = currentHeat / maxHeat;
     }
 
+    [PunRPC]
+    public void Shoot(Quaternion rotation, string colorHex, int skinID, PhotonMessageInfo info)
+    {
+        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
+        Transform spawn = playerManager.spaceship.shotSpawn;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            switch (playerManager.playerStats.ShootType)
+            {
+                case ShootType.DEFAULT:
+                    {
+                        int shotID = PlayerManager.Instance.GenerateShotID();
+                        playerManager.photonView.RPC(nameof(CreateShotRPC), RpcTarget.All,
+                            spawn.position,
+                            rotation * Quaternion.Euler(0, 0, 90),
+                            shotForce,
+                            lag,
+                            shotID,
+                            false,
+                            colorHex,
+                            skinID);
+                        break;
+                    }
+
+                case ShootType.PIERCING:
+                    {
+                        int shotID = PlayerManager.Instance.GenerateShotID();
+                        playerManager.photonView.RPC(nameof(CreateShotRPC), RpcTarget.All,
+                            spawn.position,
+                            rotation * Quaternion.Euler(0, 0, 90),
+                            shotForce,
+                            lag,
+                            shotID,
+                            true,
+                            colorHex,
+                            skinID);
+                        break;
+                    }
+
+                case ShootType.MACHINE_GUN:
+                    StartCoroutine(MachineGunBurst(rotation, lag, colorHex, skinID));
+                    break;
+
+                case ShootType.SHOTGUN:
+                    FireShotgun(spawn.position, rotation, lag, colorHex, skinID);
+                    break;
+            }
+        }
+
+        currentHeat += CurrentHeatPerShot;
+        playerManager.playerStats.IncrementShotsFired();
+    }
+
+    [PunRPC]
+    public void CreateShotRPC(Vector3 position, Quaternion rotation, float force, float lag, int shotID, bool piercing, string colorHex, int skinID)
+    {
+        CreateShot(position, rotation, force, lag, shotID, piercing, colorHex, skinID);
+    }
+
+    public void CreateShot(Vector3 position, Quaternion rotation, float force, float lag, int shotID, bool piercing, string colorHex, int skinID)
+    {
+        GameObject shot = Instantiate(playerManager.spaceship.shotPrefab, position, rotation);
+        var shotScript = shot.GetComponent<PlayerShot>();
+
+        shotScript.InitializeBullet(playerManager, force, piercing, Mathf.Abs(lag), shotID);
+        playerManager.spaceship.SetCustomizationForShot(shot, colorHex, skinID);
+    }
+
+    private IEnumerator MachineGunBurst(Quaternion rotation, float lag, string colorHex, int skinID)
+    {
+        Transform spawn = playerManager.spaceship.shotSpawn;
+        int burstCount = 3;
+        float interval = 0.05f;
+
+        for (int i = 0; i < burstCount; i++)
+        {
+            int shotID = PlayerManager.Instance.GenerateShotID();
+
+            playerManager.photonView.RPC(nameof(CreateShotRPC), RpcTarget.All,
+                spawn.position,
+                rotation * Quaternion.Euler(0, 0, 90),
+                shotForce * 0.8f,
+                lag,
+                shotID,
+                false,
+                colorHex,
+                skinID
+            );
+
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private void FireShotgun(Vector3 position, Quaternion rotation, float lag, string colorHex, int skinID)
+    {
+        int pellets = 3;
+        float spreadAngle = 15f;
+
+        for (int i = 0; i < pellets; i++)
+        {
+            float angleOffset = Random.Range(-spreadAngle, spreadAngle);
+            Quaternion spreadRot = rotation * Quaternion.Euler(0, 0, angleOffset + 90);
+            int shotID = PlayerManager.Instance.GenerateShotID();
+
+            playerManager.photonView.RPC(nameof(CreateShotRPC), RpcTarget.All,
+                position,
+                spreadRot,
+                shotForce * 0.9f,
+                lag,
+                shotID,
+                false,
+                colorHex,
+                skinID
+            );
+        }
+    }
+
     //[PunRPC]
     //public void Shoot(Quaternion rotation, PhotonMessageInfo info)
     //{
@@ -217,70 +337,6 @@ public class PlayerActions : MonoBehaviour
     //    var shotScript = shot.GetComponent<PlayerShot>();
     //    shotScript.InitializeBullet(playerManager, force, piercing, Mathf.Abs(lag));
     //}
-
-    [PunRPC]
-    public void Shoot(Quaternion rotation, PhotonMessageInfo info)
-    {
-        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
-        Transform spawn = playerManager.spaceship.shotSpawn;
-
-        int shotID = PhotonNetwork.IsMasterClient
-        ? PlayerManager.Instance.GenerateShotID()
-        : -1;
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            playerManager.photonView.RPC(nameof(CreateShotRPC), RpcTarget.All, 
-                spawn.position,
-                rotation * Quaternion.Euler(0, 0, 90), 
-                shotForce, 
-                lag, 
-                shotID,
-                false);
-        }
-
-        //switch (playerManager.playerStats.ShootType)
-        //{
-        //    case ShootType.DEFAULT:
-        //        CreateShot(spawn.position, 
-        //            rotation * Quaternion.Euler(0, 0, 90), 
-        //            shotForce, 
-        //            lag, 
-        //            shotID,
-        //            piercing: true);
-        //        break;
-
-        //    case ShootType.PIERCING:
-        //        CreateShot(spawn.position, rotation * Quaternion.Euler(0, 0, 90), shotForce, lag, piercing: true);
-        //        break;
-
-        //    case ShootType.MACHINE_GUN:
-        //        StartCoroutine(MachineGunBurst(rotation, lag));
-        //        break;
-
-        //    case ShootType.SHOTGUN:
-        //        FireShotgun(spawn.position, rotation, lag);
-        //        break;
-        //}
-
-        currentHeat += CurrentHeatPerShot;
-        playerManager.playerStats.IncrementShotsFired();
-    }
-
-    [PunRPC]
-    public void CreateShotRPC(Vector3 position, Quaternion rotation, float force, float lag, int shotID, bool piercing)
-    {
-        CreateShot(position, rotation, force, lag, shotID, piercing);
-    }
-
-    public void CreateShot(Vector3 position, Quaternion rotation, float force, float lag, int shotID, bool piercing)
-    {
-        GameObject shot = Instantiate(playerManager.spaceship.shotPrefab, position, rotation);
-        var shotScript = shot.GetComponent<PlayerShot>();
-
-        shotScript.InitializeBullet(playerManager, force, piercing, Mathf.Abs(lag), shotID);
-        playerManager.spaceship.SetCustomizationForShot(shot, UserSession.ShotColor, UserSession.ShotSkin);
-    }
 
     //private IEnumerator MachineGunBurst(Quaternion rotation, float lag)
     //{
