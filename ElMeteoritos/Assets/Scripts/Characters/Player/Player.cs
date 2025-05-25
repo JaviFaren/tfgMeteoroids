@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerActions playerActions;
     [HideInInspector] public PlayerPowerUp playerPowerUp;
     [HideInInspector] public Spaceship spaceship;
+    [HideInInspector] public PlayerSoundFX playerSoundFX;
+
     [HideInInspector] public PhotonView photonView;
 
     [Header("Propiedades")]
@@ -65,6 +68,7 @@ public class Player : MonoBehaviour
         playerActions = GetComponent<PlayerActions>();
         playerPowerUp = GetComponent<PlayerPowerUp>();
         spaceship = GetComponentInChildren<Spaceship>();
+        playerSoundFX = GetComponent<PlayerSoundFX>();
     }
     private void Start()
     {
@@ -193,6 +197,8 @@ public class Player : MonoBehaviour
 
     private IEnumerator HandleHitEffect()
     {
+        playerSoundFX.PlayFXSound(playerSoundFX.Death);
+
         spaceship.PlayTargetAnimation("Death");
 
         yield return new WaitUntil(() =>
@@ -296,5 +302,13 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning($"[DestroyShotRPC] Shot {shotID} not found.");
         }
+    }
+
+    [PunRPC]
+    public void LeaveMatch()
+    {
+        PlayerManager.Instance.RemovePlayerFromPlayersList(this);
+
+        UIGameManager.Instance.RemovePlayerPanel(playerID);
     }
 }

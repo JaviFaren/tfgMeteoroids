@@ -173,8 +173,18 @@ public class UICustomizationMenuManager : MonoBehaviour
     #endregion
 
     #region BUTTONS
-    public void OnNextCategoryButtonClick() => ChangeCategory(1);
-    public void OnPreviousCategoryButtonClick() => ChangeCategory(-1);
+    public void OnNextCategoryButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ChangeCategory(1); 
+    }
+    public void OnPreviousCategoryButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ChangeCategory(-1); 
+    }
     #endregion
 
     #region SKINS
@@ -265,6 +275,8 @@ public class UICustomizationMenuManager : MonoBehaviour
 
     private void SaveColor(CustomizationField field)
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         var colorHex = ColorUtility.ToHtmlStringRGB(colorPicker.currentColor);
         UserSession.SetUserCustomizationValue(field, colorHex);
 

@@ -63,6 +63,8 @@ public class PlayerPowerUp : MonoBehaviour
             activePowerUps[id] = new ActivePowerUp { coroutine = c, effect = effect };
         }
 
+        playerManager.playerSoundFX.PlayFXSound(playerManager.playerSoundFX.PowerUp);
+
         return true;
     }
 

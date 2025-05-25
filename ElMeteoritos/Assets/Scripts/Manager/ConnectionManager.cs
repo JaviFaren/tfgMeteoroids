@@ -164,12 +164,15 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
     #region Abandonar sala
     public void LeaveRoom()
     {
-        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveRoom(false);
     }
 
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         Debug.Log("Desconectado de la sala");
     }
     #endregion

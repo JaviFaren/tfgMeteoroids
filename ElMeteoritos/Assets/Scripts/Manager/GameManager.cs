@@ -110,6 +110,8 @@ public class GameManager : MonoBehaviourPun
     {
         UIGameManager.Instance.ManagePlayersPanel(false);
 
+        yield return UIGameManager.Instance.ChangeToRandomBackground();
+
         currentWaveConfig.Reset();
         wave++;
         waveType = SetWaveType();

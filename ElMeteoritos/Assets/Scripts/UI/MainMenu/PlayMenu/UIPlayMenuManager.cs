@@ -126,13 +126,35 @@ public class UIPlayMenuManager : MonoBehaviour
     #endregion
 
     #region Botones
-    public void OnCreateRoomButtonClick() => ConnectionManager.Instance.CreateRoom(roomNameIF.text, (int)maxPlayersInRoomSlider.value, isRoomPublic);
-    public void OnJoinRoomButtonClick() => ConnectionManager.Instance.JoinRoom(selectedRoomName);
-    public void OnStartMatchButtonClick() => ConnectionManager.Instance.StartMatch();
-    public void OnSetRoomPrivacyButtonClick() => ToggleRoomPrivacy();
+    public void OnCreateRoomButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ConnectionManager.Instance.CreateRoom(roomNameIF.text, (int)maxPlayersInRoomSlider.value, isRoomPublic);
+    }
+    public void OnJoinRoomButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ConnectionManager.Instance.JoinRoom(selectedRoomName); 
+    }
+    public void OnStartMatchButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ConnectionManager.Instance.StartMatch();
+    }
+    public void OnSetRoomPrivacyButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ToggleRoomPrivacy();
+    }
 
     public void OnLeaveRoomButtonClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         ConnectionManager.Instance.LeaveRoom();
         SetState(PlayMenuState.ROOMS);
     }

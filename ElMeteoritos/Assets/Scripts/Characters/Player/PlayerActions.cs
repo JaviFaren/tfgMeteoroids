@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Pun.Demo.Asteroids;
+using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using UnityEngine;
 
@@ -39,15 +40,10 @@ public class PlayerActions : MonoBehaviour
 
     [SerializeField] private float heatDecayRate;
 
-    [Header("Audios")]
-    public AudioClip shootsound;
-    [HideInInspector] public AudioSource audioSource;
-
     private void Awake()
     {
         playerManager = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -146,8 +142,6 @@ public class PlayerActions : MonoBehaviour
         playerManager.photonView.RPC(nameof(Shoot), RpcTarget.AllViaServer, rb.rotation, colorHex, skinID);
         lastShotTime = Time.time;
 
-        audioSource.PlayOneShot(shootsound);
-
         StartCoroutine(ResetShootCooldown());
     }
 
@@ -188,6 +182,9 @@ public class PlayerActions : MonoBehaviour
     {
         float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
         Transform spawn = playerManager.spaceship.shotSpawn;
+
+        var shotFX = playerManager.playerStats.ShootType == ShootType.SHOTGUN ? playerManager.playerSoundFX.Shotgun : playerManager.playerSoundFX.Shot;
+        playerManager.playerSoundFX.PlayFXSound(shotFX);
 
         if (PhotonNetwork.IsMasterClient)
         {

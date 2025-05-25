@@ -62,9 +62,13 @@ public class UIMainMenuManager : MonoBehaviour
         OnStateChange += HandleStateChange;
         SetState(MainMenuState.NO_MENU);
         SetConnectionStatusText();
+
+        SoundManager.Instance.StartMenuMusicLoop();
     }
     private void OnDisable()
     {
+        SoundManager.Instance.StopMenuMusicLoop();
+
         SetState(MainMenuState.NO_MENU);
         OnStateChange -= HandleStateChange;
     }
@@ -183,16 +187,44 @@ public class UIMainMenuManager : MonoBehaviour
         button.GetComponent<Image>().color = color;
     }
 
-    public void OnCustomizationMenuButtonClick() => ToggleMenuState(MainMenuState.CUSTOMIZATION);
-    public void OnPlayMenuButtonClick() => ToggleMenuState(MainMenuState.PLAY);
-    public void OnSocialMenuButtonClick() => ToggleMenuState(MainMenuState.SOCIAL);
-    public void OnSettingsMenuButtonClick() => ToggleMenuState(MainMenuState.SETTINGS);
+    public void OnCustomizationMenuButtonClick()
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ToggleMenuState(MainMenuState.CUSTOMIZATION);
+    }
+
+    public void OnPlayMenuButtonClick()
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ToggleMenuState(MainMenuState.PLAY);
+    }
+    public void OnSocialMenuButtonClick()
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ToggleMenuState(MainMenuState.SOCIAL);
+    }
+    public void OnSettingsMenuButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ToggleMenuState(MainMenuState.SETTINGS);
+    }
     public void OnDisconnectButtonClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         ConnectionManager.Instance.Disconnect();
         PHPManager.Instance.Logout();
     }
-    public void OnExitButtonClick() => ConnectionManager.Instance.ExitGame();
+    public void OnExitButtonClick() 
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        ConnectionManager.Instance.ExitGame();
+    }
 
     public void EnableNavigationButtons(bool enabled)
     {

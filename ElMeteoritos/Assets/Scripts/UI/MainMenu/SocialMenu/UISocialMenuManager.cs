@@ -140,6 +140,8 @@ public class UISocialMenuManager : MonoBehaviour
     #region Botones
     public void OnBackButtonClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         currentMatchData = null;
         SetState(SocialMenuState.MATCHES_LIST);
     }

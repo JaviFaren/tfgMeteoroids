@@ -117,6 +117,8 @@ MonoBehaviour:
   - CreateShotRPC
   - DestroyShotRPC
   - OnRevive
+  - RemovePlayerUI
+  - LeaveMatch
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

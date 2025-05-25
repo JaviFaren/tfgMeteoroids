@@ -92,11 +92,15 @@ public class UISettingsMenuManager : MonoBehaviour
 
     public void OnMusicToggleValueChanged()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         UpdateToggleIcon(musicTG);
     }
 
     public void OnFXToggleValueChanged()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         UpdateToggleIcon(fxTG);
     }
     #endregion

@@ -30,6 +30,8 @@ public class MatchPanel : MonoBehaviour
 
     public void OnMatchPanelClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         UIMainMenuManager.Instance.socialMenuManager.SetMatchData(MatchData);
         UIMainMenuManager.Instance.socialMenuManager.SetState(SocialMenuState.DETAILED_MATCH);
     }

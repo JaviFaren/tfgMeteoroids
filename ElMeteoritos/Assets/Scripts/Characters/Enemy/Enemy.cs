@@ -11,6 +11,8 @@ public abstract class Enemy : MonoBehaviour
     [HideInInspector] public Collider enemyCollider;
     protected PhotonView photonView;
 
+    [HideInInspector] public EnemySoundFX soundFX;
+
     [Header("Stats")]
     public int currentLives;
     public int maxLives;
@@ -31,6 +33,8 @@ public abstract class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<Collider>();
         photonView = GetComponent<PhotonView>();
+
+        soundFX = GetComponent<EnemySoundFX>();
     }
 
     protected virtual void OnTriggerEnter(Collider other)

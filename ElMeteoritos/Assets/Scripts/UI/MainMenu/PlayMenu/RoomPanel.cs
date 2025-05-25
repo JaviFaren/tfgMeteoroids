@@ -43,6 +43,8 @@ public class RoomPanel : MonoBehaviour
     // ---> Botones
     public void OnRoomClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         UIMainMenuManager.Instance.playMenuManager.SelectRoomToJoin(roomNameTMP.text);
     }
 }

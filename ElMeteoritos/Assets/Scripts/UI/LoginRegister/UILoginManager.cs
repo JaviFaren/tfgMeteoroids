@@ -148,14 +148,26 @@ public class UILoginManager : MonoBehaviour
     #endregion
 
     #region Buttons
-    public void OnLoginButtonClick() => SetState(LoginMenuState.LOGIN);
+    public void OnLoginButtonClick()
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
 
-    public void OnRegisterButtonClick() => SetState(LoginMenuState.REGISTER);
+        SetState(LoginMenuState.LOGIN);
+    }
+
+    public void OnRegisterButtonClick()
+    {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
+        SetState(LoginMenuState.REGISTER);
+    }
 
     public void OnForgotPasswordButtonClick() { }
 
     public async void OnProceedLoginButtonClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         SetButtonsInteractable(false);
         SetInputFieldsInteractable(false);
 
@@ -169,6 +181,8 @@ public class UILoginManager : MonoBehaviour
 
     public async void OnProceedRegisterButtonClick()
     {
+        SoundManager.Instance.PlayFXSound(SoundManager.Instance.ButtonClick);
+
         SetButtonsInteractable(false);
         SetInputFieldsInteractable(false);
 

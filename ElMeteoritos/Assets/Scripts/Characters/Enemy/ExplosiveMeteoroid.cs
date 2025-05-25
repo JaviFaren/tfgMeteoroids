@@ -19,6 +19,8 @@ public class ExplosiveMeteoroid : Enemy
 
         processingHit = true;
 
+        soundFX.PlayFXSound(soundFX.Hit);
+
         ModifyLives(damage);
 
         if (currentLives <= 0)

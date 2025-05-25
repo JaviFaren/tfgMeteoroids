@@ -17,6 +17,8 @@ public class DivisibleMeteoroid : Enemy
 
         processingHit = true;
 
+        soundFX.PlayFXSound(soundFX.Hit);
+
         ModifyLives(damage);
 
         if (currentLives <= 0)

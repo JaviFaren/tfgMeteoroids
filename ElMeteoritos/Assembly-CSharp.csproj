@@ -71,8 +71,10 @@
     <Compile Include="Assets\Scripts\Utility\ScreenPositionCheck.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChannelSelector.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu\CustomizationMenu\ColorSelector\ColorPickerControl.cs" />
+    <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
     <Compile Include="Assets\Scripts\User\UserSession.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu\PlayMenu\UIPlayMenuManager.cs" />
+    <Compile Include="Assets\Scripts\Characters\CharacterSoundFX.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\ExplosiveMeteoroid.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\DivisibleMeteoroid.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu\SocialMenu\UISocialMenuManager.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Assets\Scripts\Database\UIIconsDatabase.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenu\UIMainMenuManager.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\Player.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\PlayerSoundFX.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\CommonMeteoroid.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Assets\Scripts\UI\Game\UIGameManager.cs" />
     <Compile Include="Assets\Scripts\Database\EnemyPowerUpConfigDatabase.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\DivisibleMeteoroidChild.cs" />
+    <Compile Include="Assets\Scripts\Characters\Enemy\EnemySoundFX.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\AnimationFlags\MoveFlag.cs" />
     <Compile Include="Assets\Scripts\Characters\PowerUp\ShootTypePowerUp.cs" />

@@ -81,6 +81,8 @@ public static class UserSession
         PlayerPrefs.SetString("user_settings_sound_fx", userSettings.sound_fx);
         PlayerPrefs.SetString("user_settings_controls_size", userSettings.controls_size);
         PlayerPrefs.Save();
+
+        SoundManager.Instance.SetMusicAudioSourceEnable();
     }
     #endregion
 

@@ -15,9 +15,9 @@ public class CommonMeteoroid : Enemy
     {
         if (processingHit) return;
 
-        Debug.Log($"[OnHitBehavior] {gameObject.name} / {photonView.ViewID} -> Impacto");
-
         processingHit = true;
+
+        soundFX.PlayFXSound(soundFX.Hit);
 
         ModifyLives(damage);
 
