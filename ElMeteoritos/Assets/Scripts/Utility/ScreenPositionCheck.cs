@@ -5,6 +5,7 @@ public class ScreenPositionCheck : MonoBehaviourPun
 {
     [Header("Ajustes")]
     [SerializeField][Range(0.01f, 0.1f)] private float marginPercentage;
+    public float margin;
 
     [Header("Flags")]
     [SerializeField] private bool canRelocate;
@@ -35,33 +36,35 @@ public class ScreenPositionCheck : MonoBehaviourPun
         Vector3 bottomLeft = GameManager.Instance.cameraBounds.BottomLeft;
         Vector3 topRight = GameManager.Instance.cameraBounds.TopRight;
 
-        float marginX = (topRight.x - bottomLeft.x) * marginPercentage;
-        float marginY = (topRight.y - bottomLeft.y) * marginPercentage;
+        //float marginX = (topRight.x - bottomLeft.x) * marginPercentage;
+        //float marginY = (topRight.y - bottomLeft.y) * marginPercentage;
 
-        float spawnMarginX = marginX / 2;
-        float spawnMarginY = marginY / 2;
+        //float spawnMarginX = marginX / 2;
+        //float spawnMarginY = marginY / 2;
+
+        float spawnMargin = margin - margin / 2;
 
         bool changed = false;
 
-        if (position.x > topRight.x + marginX)
+        if (position.x > topRight.x + margin)
         {
-            result.x = bottomLeft.x - spawnMarginX;
+            result.x = bottomLeft.x - spawnMargin;
             changed = true;
         }
-        else if (position.x < bottomLeft.x - marginX)
+        else if (position.x < bottomLeft.x - margin)
         {
-            result.x = topRight.x + spawnMarginX;
+            result.x = topRight.x + spawnMargin;
             changed = true;
         }
 
-        if (position.y > topRight.y + marginY)
+        if (position.y > topRight.y + margin)
         {
-            result.y = bottomLeft.y - spawnMarginY;
+            result.y = bottomLeft.y - spawnMargin;
             changed = true;
         }
-        else if (position.y < bottomLeft.y - marginY)
+        else if (position.y < bottomLeft.y - margin)
         {
-            result.y = topRight.y + spawnMarginY;
+            result.y = topRight.y + spawnMargin;
             changed = true;
         }
 

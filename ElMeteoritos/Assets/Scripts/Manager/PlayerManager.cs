@@ -136,6 +136,17 @@ public class PlayerManager : MonoBehaviourPun
         }
     }
 
+    public void RevivePlayers()
+    {
+        foreach (var player in Players)
+        {
+            if (player.IsDead)
+            {
+                player.photonView.RPC(nameof(player.OnRevive), RpcTarget.All);  
+            }
+        }
+    }
+
     #endregion
 
     #region Disparo

@@ -19,3 +19,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 265d6d77b753b7745bc81cd8436efe8b, type: 2}
     - {fileID: 11400000, guid: c8edbc7ca708cac449fa2b820dcd646b, type: 2}
     - {fileID: 11400000, guid: 1c2631de1f00cb849b312ee878700a67, type: 2}
+  - enemyType: 6
+    allowedPowerUps:
+    - {fileID: 11400000, guid: d2c605ab86de8ce44a7981fb1e5e5f42, type: 2}
+  - enemyType: 4
+    allowedPowerUps:
+    - {fileID: 11400000, guid: 265d6d77b753b7745bc81cd8436efe8b, type: 2}
+    - {fileID: 11400000, guid: c8edbc7ca708cac449fa2b820dcd646b, type: 2}
+    - {fileID: 11400000, guid: 1c2631de1f00cb849b312ee878700a67, type: 2}

@@ -267,6 +267,8 @@ public class UICustomizationMenuManager : MonoBehaviour
     {
         var colorHex = ColorUtility.ToHtmlStringRGB(colorPicker.currentColor);
         UserSession.SetUserCustomizationValue(field, colorHex);
+
+        OpenSkinPicker();
     }
 
     private string GetCurrentColorFromSession(CustomizationField field)

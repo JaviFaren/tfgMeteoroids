@@ -4491,7 +4491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5272603309305729922, guid: d3d68946fdc35c3449e3d1477e78075d, type: 3}
       propertyPath: powerUpSpawnChance
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5272603309305729922, guid: d3d68946fdc35c3449e3d1477e78075d, type: 3}
       propertyPath: enemyConfigs.Array.size

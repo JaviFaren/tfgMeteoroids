@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1270521868848034402}
   - component: {fileID: 1646192847992671451}
   - component: {fileID: 7321918746540925485}
-  - component: {fileID: 2043415738332558178}
   - component: {fileID: 3122178016451905116}
   m_Layer: 0
   m_Name: Spaceship
@@ -109,24 +108,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2043415738332558178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086275832826314699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &3122178016451905116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +242,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: -3887788560856209052}
   - {fileID: 4064572110334459475}
-  - {fileID: 2043415738332558178}
   - {fileID: 602330179550289389}
   sceneViewId: 0
   InstantiationId: 0
@@ -295,8 +275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &4095088751600420919
 MonoBehaviour:
@@ -337,7 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  _maxLives: 5
+  _maxLives: 3
   _currentLives: 0
   _shootType: 0
   _defaultShootDamage: 2
@@ -369,7 +349,7 @@ MonoBehaviour:
   defaultShotCooldown: 0.5
   maxHeat: 100
   defaultHeatPerShot: 25
-  heatDecayRate: 33
+  heatDecayRate: 25
   shootsound: {fileID: 8300000, guid: a3d28ca56f1773149a329461f81c49e6, type: 3}
   audioSource: {fileID: 0}
 --- !u!114 &6311182021182278007
@@ -398,6 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marginPercentage: 0.05
+  margin: 2
   canRelocate: 1
 --- !u!82 &8076464482872468642
 AudioSource:

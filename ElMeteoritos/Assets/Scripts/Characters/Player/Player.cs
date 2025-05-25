@@ -212,6 +212,7 @@ public class Player : MonoBehaviour
         {
             IsDead = true;
             gameObject.SetActive(false);
+            //spaceship.transform.localScale = Vector3.one;
             GameManager.Instance.CheckForEndGame();
         }
         else
@@ -219,18 +220,30 @@ public class Player : MonoBehaviour
             RespawnPlayer();
         }
     }
-
-    private void RPC_ManageGameObject(bool active)
-    {
-
-    }
     #endregion
 
     #region PLAYER RESPAWN
-    private void RespawnPlayer()
+    [PunRPC]
+    public void OnRevive()
     {
-        //transform.position = Vector3.zero;
+        RespawnPlayer();
+    }
+
+    public void RespawnPlayer()
+    {
+        if (IsDead)
+        {
+            spaceship.transform.localScale = Vector3.one;
+
+            gameObject.SetActive(true);
+
+            IsDead = false;
+
+            playerStats.ModifyLives(1);
+        }
+
         photonView.RPC("Teleport", RpcTarget.All, Vector3.zero);
+
         spaceship.PlayTargetAnimation("Respawn");
     }
     #endregion

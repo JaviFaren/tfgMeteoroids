@@ -162,7 +162,11 @@ public class GameManager : MonoBehaviourPun
     private IEnumerator EndWavePhase()
     {
         Debug.Log(" --- OLEADA TERMINADA --- ");
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.35f);
+
+        if (PhotonNetwork.IsMasterClient) PlayerManager.Instance.RevivePlayers();
+
+        yield return new WaitForSeconds(0.35f);
         matchState = MatchState.START_WAVE;
     }
 

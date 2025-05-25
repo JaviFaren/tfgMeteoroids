@@ -86,16 +86,18 @@ public class PlayerPanel : MonoBehaviour
 
             if (i < lives)
             {
-                if (!icon.activeSelf)
-                {
-                    SetupIcon(icon, UIIconType.PLAYER_LIFE);
-                    icon.SetActive(true);
+                //if (!icon.activeSelf)
+                //{
+                //    SetupIcon(icon, UIIconType.PLAYER_LIFE);
+                //    icon.SetActive(true);
 
-                    if (icon.TryGetComponent(out Animator animator))
-                    {
-                        animator.Play("Idle", 0, 0);
-                    }
-                }
+                //    if (icon.TryGetComponent(out Animator animator))
+                //    {
+                //        animator.Play("Idle", 0, 0);
+                //    }
+                //}
+                SetupIcon(icon, UIIconType.PLAYER_LIFE);
+                icon.SetActive(true);
             }
             else
             {

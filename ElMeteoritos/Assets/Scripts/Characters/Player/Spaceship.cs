@@ -97,24 +97,6 @@ public class Spaceship : MonoBehaviour
             shotSR.sprite = skin.sprite;
             shotAnim.runtimeAnimatorController = skin.animator;
         }
-        //SpriteRenderer shotSR = shotPrefab.GetComponent<SpriteRenderer>();
-        //Animator shotAnim = shotPrefab.GetComponent<Animator>();
-
-        //// Color
-        //string shotColorHex = UserSession.ShotColor;
-        //shotSR.color = ConvertColor(shotColorHex);
-
-        //// Skin
-        //int shotSkinID = UserSession.ShotSkin;
-        //var shotSkin = DatabaseManager.Instance.customizationDatabase
-        //    .GetShotSkinById(shotSkinID);
-
-        //// Animator
-        //if (shotSkin != null)
-        //{
-        //    shotSR.sprite = shotSkin.sprite;
-        //    shotAnim.runtimeAnimatorController = shotSkin.animator;
-        //}
     }
 
     public Color ConvertColor(string hexColor)
@@ -130,7 +112,6 @@ public class Spaceship : MonoBehaviour
     #region ANIMATIONS
     public void PlayTargetAnimation(string targetAnimation)
     {
-        //animator.CrossFade(targetAnimation, 0.2f);
         spaceshipAnim.Play(targetAnimation);
     }
 

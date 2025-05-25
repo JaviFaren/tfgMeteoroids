@@ -251,6 +251,7 @@ MonoBehaviour:
   damage: 1
   score: 50
   enemyType: 6
+  processingHit: 0
   accelerationForce: 15
   decelerationDistance: 20
   closeEnoughDistance: 1.5
@@ -268,4 +269,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marginPercentage: 0.075
+  margin: 10
   canRelocate: 1

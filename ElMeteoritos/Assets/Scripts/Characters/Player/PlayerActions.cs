@@ -118,7 +118,7 @@ public class PlayerActions : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        UIGameManager.Instance.speedSlider.value = 0;
+        if (playerManager.photonView.IsMine) UIGameManager.Instance.speedSlider.value = 0;
 
         playerManager.spaceship.SetPropulsion(rb.velocity.magnitude);
     }
@@ -224,8 +224,20 @@ public class PlayerActions : MonoBehaviour
                     }
 
                 case ShootType.MACHINE_GUN:
-                    StartCoroutine(MachineGunBurst(rotation, lag, colorHex, skinID));
-                    break;
+                    //StartCoroutine(MachineGunBurst(rotation, lag, colorHex, skinID));
+                    {
+                        int shotID = PlayerManager.Instance.GenerateShotID();
+                        playerManager.photonView.RPC(nameof(CreateShotRPC), RpcTarget.All,
+                            spawn.position,
+                            rotation * Quaternion.Euler(0, 0, 90),
+                            shotForce,
+                            lag,
+                            shotID,
+                            true,
+                            colorHex,
+                            skinID);
+                        break;
+                    }
 
                 case ShootType.SHOTGUN:
                     FireShotgun(spawn.position, rotation, lag, colorHex, skinID);

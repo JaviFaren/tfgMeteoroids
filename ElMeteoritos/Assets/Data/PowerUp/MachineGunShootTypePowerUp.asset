@@ -17,6 +17,6 @@ MonoBehaviour:
   lifetime: 6
   icon: {fileID: 780648994, guid: 669b5a0eb0a6c7440a85e73a56b6167c, type: 3}
   shootType: 2
-  customHeatPerShot: 30
+  customHeatPerShot: 18
   customDamage: 1
-  customCooldown: 0.3
+  customCooldown: 0.2

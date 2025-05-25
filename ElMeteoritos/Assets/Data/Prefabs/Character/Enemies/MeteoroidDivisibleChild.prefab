@@ -271,6 +271,7 @@ MonoBehaviour:
   damage: 1
   score: 5
   enemyType: 2
+  processingHit: 0
 --- !u!114 &4446865214369926562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,4 +285,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marginPercentage: 0.075
+  margin: 10
   canRelocate: 1
